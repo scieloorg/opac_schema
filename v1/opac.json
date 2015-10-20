@@ -16,7 +16,7 @@
             "index": "not_analyzed"
           }
         },
-        collections:{
+        "collections":{
           "type": "string",
           "index": "not_analyzed"
         },
@@ -28,7 +28,7 @@
           "type": "string",
           "index": "not_analyzed"
         },
-        study_areas:{
+        "study_areas":{
           "type": "string",
           "index": "not_analyzed"
         },
@@ -71,7 +71,7 @@
           "type": "string",
           "index": "not_analyzed"
         },
-        "eletronic_issn"{
+        "eletronic_issn":{
           "type": "string",
           "index": "not_analyzed"
         },
