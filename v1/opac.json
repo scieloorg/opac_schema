@@ -1,19 +1,21 @@
 {
-    "iopac": {
-        "mappings": {
-            "journal": {
+    "mappings": {
+        "journal": {
+            "properties": {
                 "use_license": {
-                    "license_code": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "reference_url": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "disclaimer": {
-                        "type": "string",
-                        "index": "not_analyzed"
+                    "properties": {
+                        "license_code": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "reference_url": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "disclaimer": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
                     }
                 },
                 "collections": {
@@ -33,13 +35,15 @@
                     "index": "not_analyzed"
                 },
                 "social_networks": {
-                    "network": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "account": {
-                        "type": "string",
-                        "index": "not_analyzed"
+                    "properties": {
+                        "network": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "account": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
                     }
                 },
                 "title": {
@@ -123,13 +127,15 @@
                     "type": "string"
                 },
                 "other_titles": {
-                    "title": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "category": {
-                        "type": "string",
-                        "index": "not_analyzed"
+                    "properties": {
+                        "title": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "category": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
                     }
                 },
                 "publisher_name": {
@@ -161,18 +167,20 @@
                     "index": "not_analyzed"
                 },
                 "mission": {
-                    "description": {
-                        "type": "string",
-                        "index": "not_analyzed"
-                    },
-                    "language": {
-                        "type": "string",
-                        "index": "not_analyzed"
+                    "properties": {
+                        "description": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "language": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
                     }
                 }
-            },
-            "issue": {},
-            "article": {}
-        }
+            }
+        },
+        "issue": {},
+        "article": {}
     }
 }
