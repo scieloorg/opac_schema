@@ -130,7 +130,7 @@
           "category": {
             "type": "string",
             "index": "not_analyzed"
-          },
+          }
         },
         "publisher_name": {
           "type": "string",
