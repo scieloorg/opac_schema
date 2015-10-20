@@ -1,0 +1,178 @@
+{
+  "iopac":{
+    "mappings":{
+      "journal": {
+        "use_license": {
+          "license_code": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+          "reference_url":{
+            "type": "string",
+            "index": "not_analyzed"
+          },
+          "disclaimer": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        },
+        collections:{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "national_code":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "subject_categories":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        study_areas:{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "social_networks":{
+          "network": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+          "account": {
+            "type": "string",
+            "index": "not_analyzed"
+          }
+        },
+        "title":{
+          "type": "string"
+        },
+        "title_iso":{
+          "type": "string"
+        },
+        "short_title":{
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "updated": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "acronym": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "scielo_issn": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "print_issn":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "eletronic_issn"{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "subject_descriptors":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "init_year":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "init_vol":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "init_num":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "final_num":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "final_vol":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "final_year":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "copyrighter":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "online_submission_url":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "cover_url":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "logo_url":{
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "previous_journal_id":{
+          "type": "string"
+        },
+        "other_titles":{
+          "title": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+          "category": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+        },
+        "publisher_name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "publisher_country": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "publisher_state": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "publisher_city": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "publisher_address": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "publisher_telephone": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "current_status": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "mission": {
+          "description": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+          "language": {
+            "type": "string",
+            "index": "not_analyzed"
+          },
+        },
+      },
+      "issue": {},
+      "article": {}
+    }
+  }
+}
