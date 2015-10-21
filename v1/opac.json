@@ -18,6 +18,10 @@
                         }
                     }
                 },
+                "admission_date": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
                 "collections": {
                     "type": "string",
                     "index": "not_analyzed"
@@ -56,11 +60,11 @@
                     "type": "string"
                 },
                 "created": {
-                    "type": "string",
+                    "type": "date",
                     "index": "not_analyzed"
                 },
                 "updated": {
-                    "type": "string",
+                    "type": "date",
                     "index": "not_analyzed"
                 },
                 "acronym": {
@@ -84,27 +88,27 @@
                     "index": "not_analyzed"
                 },
                 "init_year": {
-                    "type": "string",
+                    "type": "integer",
                     "index": "not_analyzed"
                 },
                 "init_vol": {
-                    "type": "string",
+                    "type": "integer",
                     "index": "not_analyzed"
                 },
                 "init_num": {
-                    "type": "string",
+                    "type": "integer",
                     "index": "not_analyzed"
                 },
                 "final_num": {
-                    "type": "string",
+                    "type": "integer",
                     "index": "not_analyzed"
                 },
                 "final_vol": {
-                    "type": "string",
+                    "type": "integer",
                     "index": "not_analyzed"
                 },
                 "final_year": {
-                    "type": "string",
+                    "type": "integer",
                     "index": "not_analyzed"
                 },
                 "copyrighter": {
@@ -180,7 +184,93 @@
                 }
             }
         },
-        "issue": {},
+        "issue": {
+            "_parent":{
+                "type": "journal"
+            }
+            "properties": {
+                "sections":{
+                    "properties": {
+                        "order": {
+                            "type": "integer",
+                            "index": "not_analyzed"
+                        },
+                        "subjects": {
+                            "properties":{
+                                "name":{
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                },
+                                "language":{
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                },
+                            }
+                        }
+                    }  
+                },
+                "volume": {
+                    "type": "integer",
+                    "index": "not_analyzed"
+                }, 
+                "number": {
+                    "type": "integer",
+                    "index": "not_analyzed"
+                },
+                "created": {
+                    "type": "date",
+                    "index": "not_analyzed"
+                },
+                "updated": {
+                    "type": "date",
+                    "index": "not_analyzed"
+                },
+                "start_month": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "end_month": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "year": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "use_license": {
+                    "properties": {
+                        "license_code": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "reference_url": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "disclaimer": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "cover_url": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "label": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "order": {
+                    "type": "integer",
+                    "index": "not_analyzed"
+                },
+                "bibliographic_legend":{
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }   
+        },
         "article": {}
     }
 }
