@@ -2,6 +2,10 @@
     "mappings": {
         "journal": {
             "properties": {
+                "jid": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
                 "use_license": {
                     "properties": {
                         "license_code": {
@@ -189,6 +193,10 @@
                 "type": "journal"
             },
             "properties": {
+                "iid": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
                 "sections": {
                     "properties": {
                         "order": {
@@ -273,15 +281,36 @@
         },
         "article": {
             "_parent": {
-                "type": "journal"
-            },
-            "_parent": {
                 "type": "issue"
             },
             "properties": {
                 "aid": {
                     "type": "string",
                     "index": "not_analyzed"
+                },
+                "created": {
+                    "type": "date",
+                    "index": "not_analyzed"
+                },
+                "updated": {
+                    "type": "date",
+                    "index": "not_analyzed"
+                },
+                "domain_key": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "htmls": {
+                    "properties":{
+                        "language":{
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "source":{
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
                 }
             }
         }
