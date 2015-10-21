@@ -185,34 +185,34 @@
             }
         },
         "issue": {
-            "_parent":{
+            "_parent": {
                 "type": "journal"
             },
             "properties": {
-                "sections":{
+                "sections": {
                     "properties": {
                         "order": {
                             "type": "integer",
                             "index": "not_analyzed"
                         },
                         "subjects": {
-                            "properties":{
-                                "name":{
+                            "properties": {
+                                "name": {
                                     "type": "string",
                                     "index": "not_analyzed"
                                 },
-                                "language":{
+                                "language": {
                                     "type": "string",
                                     "index": "not_analyzed"
-                                },
+                                }
                             }
                         }
-                    }  
+                    }
                 },
                 "volume": {
                     "type": "integer",
                     "index": "not_analyzed"
-                }, 
+                },
                 "number": {
                     "type": "integer",
                     "index": "not_analyzed"
@@ -265,21 +265,18 @@
                     "type": "integer",
                     "index": "not_analyzed"
                 },
-                "bibliographic_legend":{
+                "bibliographic_legend": {
                     "type": "string",
                     "index": "not_analyzed"
                 }
-            }   
+            }
         },
         "article": {
-            "_parent":{
-                "type": "issue"
-            },
-            "_parent":{
+            "_parent": {
                 "type": "journal"
             },
             "properties": {
-                "aid":{
+                "aid": {
                     "type": "string",
                     "index": "not_analyzed"
                 }
