@@ -271,6 +271,19 @@
                 }
             }   
         },
-        "article": {}
+        "article": {
+            "_parent":{
+                "type": "issue"
+            },
+            "_parent":{
+                "type": "journal"
+            },
+            "properties": {
+                "aid":{
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
     }
 }
