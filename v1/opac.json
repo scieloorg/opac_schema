@@ -187,7 +187,7 @@
         "issue": {
             "_parent":{
                 "type": "journal"
-            }
+            },
             "properties": {
                 "sections":{
                     "properties": {
