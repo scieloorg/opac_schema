@@ -275,6 +275,9 @@
             "_parent": {
                 "type": "journal"
             },
+            "_parent": {
+                "type": "issue"
+            },
             "properties": {
                 "aid": {
                     "type": "string",
