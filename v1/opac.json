@@ -1,322 +1,330 @@
 {
-    "mappings": {
-        "journal": {
-            "properties": {
-                "jid": {
-                    "type": "string",
-                    "index": "not_analyzed"
+    "iopac": {
+        "mappings": {
+            "issue": {
+                "_parent": {
+                    "type": "journal"
                 },
-                "use_license": {
-                    "properties": {
-                        "license_code": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "reference_url": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "disclaimer": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        }
-                    }
+                "_routing": {
+                    "required": true
                 },
-                "admission_date": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "collections": {
-                    "properties": {
-                        "acronym": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "name": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        }
-                    }
-                },
-                "national_code": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "subject_categories": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "study_areas": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "social_networks": {
-                    "properties": {
-                        "network": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "account": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        }
-                    }
-                },
-                "title": {
-                    "type": "string"
-                },
-                "title_iso": {
-                    "type": "string"
-                },
-                "short_title": {
-                    "type": "string"
-                },
-                "created": {
-                    "type": "date",
-                    "index": "not_analyzed"
-                },
-                "updated": {
-                    "type": "date",
-                    "index": "not_analyzed"
-                },
-                "acronym": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "scielo_issn": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "print_issn": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "eletronic_issn": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "subject_descriptors": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "init_year": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "init_vol": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "init_num": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "final_num": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "final_vol": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "final_year": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "copyrighter": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "online_submission_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "cover_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "logo_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "previous_journal_id": {
-                    "type": "string"
-                },
-                "other_titles": {
-                    "properties": {
-                        "title": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "category": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        }
-                    }
-                },
-                "publisher_name": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "publisher_country": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "publisher_state": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "publisher_city": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "publisher_address": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "publisher_telephone": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "current_status": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "mission": {
-                    "properties": {
-                        "description": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "language": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        }
-                    }
-                }
-            }
-        },
-        "issue": {
-            "_parent": {
-                "type": "journal"
-            },
-            "properties": {
-                "iid": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "sections": {
-                    "properties": {
-                        "order": {
-                            "type": "integer",
-                            "index": "not_analyzed"
-                        },
-                        "subjects": {
-                            "properties": {
-                                "name": {
-                                    "type": "string",
-                                    "index": "not_analyzed"
-                                },
-                                "language": {
-                                    "type": "string",
-                                    "index": "not_analyzed"
+                "properties": {
+                    "bibliographic_legend": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "cover_url": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "created": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "end_month": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "iid": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "label": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "number": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "order": {
+                        "type": "integer"
+                    },
+                    "sections": {
+                        "type": "nested",
+                        "properties": {
+                            "order": {
+                                "type": "integer"
+                            },
+                            "subjects": {
+                                "type": "nested",
+                                "properties": {
+                                    "language": {
+                                        "type": "string",
+                                        "index": "not_analyzed"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "index": "not_analyzed"
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                "volume": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "number": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "created": {
-                    "type": "date",
-                    "index": "not_analyzed"
-                },
-                "updated": {
-                    "type": "date",
-                    "index": "not_analyzed"
-                },
-                "start_month": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "end_month": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "year": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "use_license": {
-                    "properties": {
-                        "license_code": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "reference_url": {
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "disclaimer": {
-                            "type": "string",
-                            "index": "not_analyzed"
+                    },
+                    "start_month": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "updated": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "use_licenses": {
+                        "type": "string",
+                        "fields": {
+                            "disclaimer": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "license_code": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "reference_url": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
                         }
+                    },
+                    "volume": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "year": {
+                        "type": "string",
+                        "index": "not_analyzed"
                     }
-                },
-                "cover_url": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "label": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "order": {
-                    "type": "integer",
-                    "index": "not_analyzed"
-                },
-                "bibliographic_legend": {
-                    "type": "string",
-                    "index": "not_analyzed"
                 }
-            }
-        },
-        "article": {
-            "_parent": {
-                "type": "issue"
             },
-            "properties": {
-                "aid": {
-                    "type": "string",
-                    "index": "not_analyzed"
+            "article": {
+                "_parent": {
+                    "type": "issue"
                 },
-                "created": {
-                    "type": "date",
-                    "index": "not_analyzed"
+                "_routing": {
+                    "required": true
                 },
-                "updated": {
-                    "type": "date",
-                    "index": "not_analyzed"
-                },
-                "domain_key": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "htmls": {
-                    "properties":{
-                        "language":{
-                            "type": "string",
-                            "index": "not_analyzed"
-                        },
-                        "source":{
-                            "type": "string",
-                            "index": "not_analyzed"
+                "properties": {
+                    "aid": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "created": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "domain_key": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "htmls": {
+                        "type": "nested",
+                        "properties": {
+                            "language": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "source": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "updated": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    }
+                }
+            },
+            "journal": {
+                "properties": {
+                    "acronym": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "admission_date": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "collections": {
+                        "type": "nested",
+                        "properties": {
+                            "acronym": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "name": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "copyrighter": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "cover_url": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "created": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "current_status": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "eletronic_issn": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "final_num": {
+                        "type": "integer"
+                    },
+                    "final_vol": {
+                        "type": "integer"
+                    },
+                    "final_year": {
+                        "type": "integer"
+                    },
+                    "init_num": {
+                        "type": "integer"
+                    },
+                    "init_vol": {
+                        "type": "integer"
+                    },
+                    "init_year": {
+                        "type": "integer"
+                    },
+                    "jid": {
+                        "type": "string"
+                    },
+                    "logo_url": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "mission": {
+                        "type": "nested",
+                        "properties": {
+                            "description": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "language": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "national_code": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "online_submission_url": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "other_titles": {
+                        "type": "nested",
+                        "properties": {
+                            "category": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "title": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "previous_journal_id": {
+                        "type": "string"
+                    },
+                    "print_issn": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "publisher_address": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "publisher_city": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "publisher_country": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "publisher_name": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "publisher_state": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "publisher_telephone": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "scielo_issn": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "short_title": {
+                        "type": "string"
+                    },
+                    "social_networks": {
+                        "type": "nested",
+                        "properties": {
+                            "account": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "network": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    },
+                    "study_areas": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "subject_categories": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "subject_descriptors": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "title_iso": {
+                        "type": "string"
+                    },
+                    "updated": {
+                        "type": "date",
+                        "format": "dateOptionalTime"
+                    },
+                    "use_licenses": {
+                        "type": "string",
+                        "fields": {
+                            "disclaimer": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "license_code": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            },
+                            "reference_url": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
                         }
                     }
                 }
