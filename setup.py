@@ -2,9 +2,9 @@
 import sys
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
-    from distutils.core import setup
+    from distutils.core import setup, find_packages
 
 setup(
     name="Opac Schema",
@@ -14,7 +14,7 @@ setup(
     author_email="scielo@scielo.org",
     license="BSD",
     url="https://github.com/scieloorg/opac_schema",
-    py_modules=['v1.models'],
+    packages=find_packages(),
     keywords='opac schema',
     maintainer_email='scielo@scielo.org',
     download_url='',
