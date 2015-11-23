@@ -14,7 +14,7 @@ setup(
     author_email="scielo@scielo.org",
     license="BSD",
     url="https://github.com/scieloorg/opac_schema",
-    py_modules=['opac_schema'],
+    py_modules=['v1'],
     keywords='opac schema',
     maintainer_email='scielo@scielo.org',
     download_url='',
