@@ -24,7 +24,7 @@ setup(
       'schemaprobe',
     ],
     dependency_links=[
-        'git+ssh://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe'
+        'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe'
     ],
     test_suite='tests'
 )
