@@ -1,79 +1,110 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "",
+  "id": "/",
   "type": "object",
   "properties": {
     "_id": {
-      "id": "/_id",
+      "id": "_id",
       "type": "string"
     },
     "iid": {
-      "id": "/iid",
+      "id": "iid",
       "type": "string"
     },
     "journal_jid": {
-      "id": "/journal_jid",
+      "id": "journal_jid",
       "type": "string"
     },
     "sections": {
-      "id": "/sections",
+      "id": "sections",
       "type": "array",
-      "items": []
+      "items": {
+        "id": "6",
+        "type": "object",
+        "properties": {
+          "subjects": {
+            "id": "subjects",
+            "type": "array",
+            "items": {
+              "id": "1",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "id": "name",
+                  "type": "string"
+                },
+                "language": {
+                  "id": "language",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "use_licenses": {
-      "id": "/use_licenses",
+      "id": "use_licenses",
       "type": "object",
       "properties": {
         "license_code": {
-          "id": "/use_licenses/license_code",
+          "id": "license_code",
           "type": "string"
         },
         "reference_url": {
-          "id": "/use_licenses/reference_url",
+          "id": "reference_url",
           "type": "string"
         },
         "disclaimer": {
-          "id": "/use_licenses/disclaimer",
+          "id": "disclaimer",
           "type": "string"
         }
       }
     },
     "volume": {
-      "id": "/volume",
+      "id": "volume",
       "type": "string"
     },
     "number": {
-      "id": "/number",
+      "id": "number",
       "type": "string"
     },
     "created": {
-      "id": "/created",
+      "id": "created",
       "type": "object",
       "properties": {}
     },
     "updated": {
-      "id": "/updated",
+      "id": "updated",
       "type": "object",
       "properties": {}
     },
     "type": {
-      "id": "/type",
+      "id": "type",
       "type": "string"
     },
+    "start_month": {
+      "id": "start_month",
+      "type": "integer"
+    },
+    "end_month": {
+      "id": "end_month",
+      "type": "integer"
+    },
     "year": {
-      "id": "/year",
+      "id": "year",
       "type": "integer"
     },
     "label": {
-      "id": "/label",
+      "id": "label",
       "type": "string"
     },
     "order": {
-      "id": "/order",
+      "id": "order",
       "type": "integer"
     },
     "bibliographic_legend": {
-      "id": "/bibliographic_legend",
+      "id": "bibliographic_legend",
       "type": "string"
     }
   },
@@ -88,6 +119,8 @@
     "created",
     "updated",
     "type",
+    "start_month",
+    "end_month",
     "year",
     "label",
     "order",

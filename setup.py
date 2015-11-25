@@ -20,5 +20,11 @@ setup(
     download_url='',
     classifiers=[],
     setup_requires=["mongoengine"],
+    tests_require=[
+      'schemaprobe',
+    ],
+    dependency_links=[
+        'git+ssh://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe'
+    ],
     test_suite='tests'
 )
