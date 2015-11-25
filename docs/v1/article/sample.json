@@ -1,0 +1,22 @@
+{
+    "_id": "111dee8528d0405fb9e6571a0a81c263",
+    "aid": "111dee8528d0405fb9e6571a0a81c263",
+    "issue_iid": "3af7fbe7924e4377a9dad41a65e5e4bf",
+    "journal_jid": "3aa91899e58a42648091ffc5b741c86e",
+    "title": "As Ci\\u00eancias Sociais e Humanas em Sa\\u00fade na ABRASCO: a\\n\\t\\t\\t\\t\\tconstru\\u00e7\\u00e3o de um pensamento social em sa\\u00fade",
+    "section": "Artigo",
+    "is_aop": false,
+    "created": {
+        "$date": 1435158217158
+    },
+    "updated": {
+        "$date": 1439920623798
+    },
+    "htmls": [
+        {
+            "language": "pt",
+            "source": "<!DOCTYPE html><html lang=\"pt\"><head><title>Cad Saude Publica - As Ci\\u00eancias Sociais e Humanas em Sa\\u00fade na ABRASCO: a\\n\\t\\t\\t\\t\\tconstru\\u00e7\\u00e3o de um pensamento social em sa\\u00fade</title></head><body></body></html>"
+        }
+    ],
+    "domain_key": "cadernos-de-saude-publica_30_11_2014_2298_none_2308_none_none"
+}

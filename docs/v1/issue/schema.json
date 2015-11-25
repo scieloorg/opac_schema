@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "",
+  "type": "object",
+  "properties": {
+    "_id": {
+      "id": "/_id",
+      "type": "string"
+    },
+    "iid": {
+      "id": "/iid",
+      "type": "string"
+    },
+    "journal_jid": {
+      "id": "/journal_jid",
+      "type": "string"
+    },
+    "sections": {
+      "id": "/sections",
+      "type": "array",
+      "items": []
+    },
+    "use_licenses": {
+      "id": "/use_licenses",
+      "type": "object",
+      "properties": {
+        "license_code": {
+          "id": "/use_licenses/license_code",
+          "type": "string"
+        },
+        "reference_url": {
+          "id": "/use_licenses/reference_url",
+          "type": "string"
+        },
+        "disclaimer": {
+          "id": "/use_licenses/disclaimer",
+          "type": "string"
+        }
+      }
+    },
+    "volume": {
+      "id": "/volume",
+      "type": "string"
+    },
+    "number": {
+      "id": "/number",
+      "type": "string"
+    },
+    "created": {
+      "id": "/created",
+      "type": "object",
+      "properties": {}
+    },
+    "updated": {
+      "id": "/updated",
+      "type": "object",
+      "properties": {}
+    },
+    "type": {
+      "id": "/type",
+      "type": "string"
+    },
+    "year": {
+      "id": "/year",
+      "type": "integer"
+    },
+    "label": {
+      "id": "/label",
+      "type": "string"
+    },
+    "order": {
+      "id": "/order",
+      "type": "integer"
+    },
+    "bibliographic_legend": {
+      "id": "/bibliographic_legend",
+      "type": "string"
+    }
+  },
+  "required": [
+    "_id",
+    "iid",
+    "journal_jid",
+    "sections",
+    "use_licenses",
+    "volume",
+    "number",
+    "created",
+    "updated",
+    "type",
+    "year",
+    "label",
+    "order",
+    "bibliographic_legend"
+  ]
+}

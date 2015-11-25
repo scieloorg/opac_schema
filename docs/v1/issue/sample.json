@@ -1,0 +1,24 @@
+{
+    "_id": "3af7fbe7924e4377a9dad41a65e5e4bf",
+    "iid": "3af7fbe7924e4377a9dad41a65e5e4bf",
+    "journal_jid": "3aa91899e58a42648091ffc5b741c86e",
+    "sections": [],
+    "use_licenses": {
+        "license_code": "BY-NC",
+        "reference_url": "",
+        "disclaimer": "<a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/3.0/\"><img alt=\"Creative Commons License\" style=\"border-width:0\" src=\"http://i.creativecommons.org/l/by-nc/3.0/80x15.png\" /></a> Todo el contenido de esta revista, excepto d\\u00f3nde est\\u00e1 identificado, est&#225; bajo una <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc/3.0/\">Licencia Creative Commons</a>"
+    },
+    "volume": "30",
+    "number": "11",
+    "created": {
+        "$date": 1432117835334
+    },
+    "updated": {
+        "$date": 1445876198890
+    },
+    "type": "regular",
+    "year": 2014,
+    "label": "30 (11)",
+    "order": 12,
+    "bibliographic_legend": "Cad. sa\\u00fade p\\u00fablica vol.30 n.11 Rio de Janeiro 2014"
+}
