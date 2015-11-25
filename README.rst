@@ -6,6 +6,9 @@ This is part of the SciELO Site Project define the schema of the index to provid
 
 This schema is based on MongoEngine Schema, more detail: http://mongoengine.org/
 
+.. image:: https://travis-ci.org/scieloorg/opac_schema.svg
+    :target: https://travis-ci.org/scieloorg/opac_schema
+
 ========================================
 Where is schema on the architecture?
 ========================================
