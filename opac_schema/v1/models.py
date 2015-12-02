@@ -161,7 +161,7 @@ class Journal(Document):
     online_submission_url = StringField()
     cover_url = StringField()
     logo_url = StringField()
-    previous_journal_id = IntField()
+    previous_journal_ref = StringField()
     other_titles = EmbeddedDocumentListField(OtherTitle)
     publisher_name = StringField()
     publisher_country = StringField()
@@ -189,7 +189,7 @@ class Issue(Document):
 
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     iid = StringField(max_length=32, required=True, unique=True)
-    journal_jid = ReferenceField(Journal, reverse_delete_rule=CASCADE)
+    journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
     sections = EmbeddedDocumentListField(Section)
     use_licenses = EmbeddedDocumentField(UseLicense)
@@ -223,8 +223,8 @@ class Article(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     aid = StringField(max_length=32, required=True, unique=True)
 
-    issue_iid = ReferenceField(Issue, reverse_delete_rule=CASCADE)
-    journal_jid = ReferenceField(Journal, reverse_delete_rule=CASCADE)
+    issue = ReferenceField(Issue, reverse_delete_rule=CASCADE)
+    journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
     title = StringField()
     section = StringField()
