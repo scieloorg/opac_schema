@@ -9,6 +9,9 @@ class Collection(EmbeddedDocument):
         'collection': 'collection'
     }
 
+    def __unicode__(self):
+        return self.name
+
 
 class UseLicense(EmbeddedDocument):
     license_code = StringField(required=True)
@@ -18,6 +21,9 @@ class UseLicense(EmbeddedDocument):
     meta = {
         'collection': 'use_license'
     }
+
+    def __unicode__(self):
+        return self.code
 
 
 class Timeline(EmbeddedDocument):
@@ -29,6 +35,9 @@ class Timeline(EmbeddedDocument):
         'collection': 'timeline'
     }
 
+    def __unicode__(self):
+        return '%s - %s' % (self.status, self.since)
+
 
 class SocialNetwork(EmbeddedDocument):
     account = StringField()
@@ -37,6 +46,9 @@ class SocialNetwork(EmbeddedDocument):
     meta = {
         'collection': 'social_network'
     }
+
+    def __unicode__(self):
+        return self.account
 
 
 class OtherTitle(EmbeddedDocument):
@@ -47,6 +59,9 @@ class OtherTitle(EmbeddedDocument):
         'collection': 'other_title'
     }
 
+    def __unicode__(self):
+        return self.title
+
 
 class Mission(EmbeddedDocument):
     language = StringField()
@@ -55,6 +70,9 @@ class Mission(EmbeddedDocument):
     meta = {
         'collection': 'mission'
     }
+
+    def __unicode__(self):
+        return '<Mission: %s>' % (self.language)
 
 
 class LastIssue(EmbeddedDocument):
@@ -73,6 +91,9 @@ class LastIssue(EmbeddedDocument):
         'collection': 'last_issue'
     }
 
+    def __unicode__(self):
+        return self.label
+
 
 class Subject(EmbeddedDocument):
     name = StringField()
@@ -81,6 +102,9 @@ class Subject(EmbeddedDocument):
     meta = {
         'collection': 'subjects'
     }
+
+    def __unicode__(self):
+        return self.name
 
 
 class Section(EmbeddedDocument):
@@ -91,6 +115,9 @@ class Section(EmbeddedDocument):
         'collection': 'sections'
     }
 
+    def __unicode__(self):
+        return '<Section: %s>' % self.order
+
 
 class ArticleHTML(EmbeddedDocument):
     language = StringField()
@@ -99,6 +126,9 @@ class ArticleHTML(EmbeddedDocument):
     meta = {
         'collection': 'article_html'
     }
+
+    def __unicode__(self):
+        return '<ArticleHTML: %s>' % self.language
 
 
 class Journal(Document):
@@ -151,6 +181,9 @@ class Journal(Document):
         'collection': 'journal'
     }
 
+    def __unicode__(self):
+        return self.acronym
+
 
 class Issue(Document):
 
@@ -182,6 +215,9 @@ class Issue(Document):
         'collection': 'issue'
     }
 
+    def __unicode__(self):
+        return self.label
+
 
 class Article(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
@@ -202,3 +238,6 @@ class Article(Document):
     meta = {
         'collection': 'article'
     }
+
+    def __unicode__(self):
+        return self.title
