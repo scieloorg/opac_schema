@@ -177,6 +177,8 @@ class Journal(Document):
     issue_count = IntField()
     last_issue = EmbeddedDocumentField(LastIssue)
 
+    is_public = BooleanField(required=True, default=True)
+
     meta = {
         'collection': 'journal'
     }
@@ -211,6 +213,8 @@ class Issue(Document):
     order = IntField()
     bibliographic_legend = StringField()
 
+    is_public = BooleanField(required=True, default=True)
+
     meta = {
         'collection': 'issue'
     }
@@ -234,6 +238,9 @@ class Article(Document):
     htmls = EmbeddedDocumentListField(ArticleHTML)
 
     domain_key = StringField()
+
+    xml = StringField()
+    is_public = BooleanField(required=True, default=True)
 
     meta = {
         'collection': 'article'
