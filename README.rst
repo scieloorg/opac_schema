@@ -59,4 +59,6 @@ Model and entities with special attributes:
 Instalation
 ===========
 
--e git+git@github.com:scieloorg/opac_schema.git#egg=opac_schema
+.. code-block::
+
+  pip install -e git+git@github.com:scieloorg/opac_schema.git#egg=opac_schema
