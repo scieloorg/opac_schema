@@ -67,5 +67,5 @@ ou com https:
 
 .. code-block::
 
-  pip install -e https://github.com/scieloorg/opac-schema#egg=opac_schema
+  pip install -e git+https://github.com/scieloorg/opac-schema#egg=opac_schema
 
