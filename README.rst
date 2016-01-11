@@ -62,3 +62,10 @@ Instalation
 .. code-block::
 
   pip install -e git+git@github.com:scieloorg/opac_schema.git#egg=opac_schema
+
+ou com https:
+
+.. code-block::
+
+  pip install -e https://github.com/scieloorg/opac-schema#egg=opac_schema
+
