@@ -19,12 +19,14 @@ setup(
     maintainer_email='scielo@scielo.org',
     download_url='',
     classifiers=[],
-    setup_requires=["mongoengine"],
+    setup_requires=[
+        "mongoengine",
+    ],
     tests_require=[
-      'schemaprobe',
+        "schemaprobe",
     ],
     dependency_links=[
-        'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe'
+        'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe',
     ],
-    test_suite='tests'
+    test_suite='tests.discover_suite'
 )

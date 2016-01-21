@@ -1,16 +1,6 @@
+# coding: utf-8
+
 from mongoengine import *
-
-
-class Collection(EmbeddedDocument):
-    acronym = StringField(max_length=50, required=True, unique=True)
-    name = StringField(max_length=100, required=True, unique_with='acronym')
-
-    meta = {
-        'collection': 'collection'
-    }
-
-    def __unicode__(self):
-        return self.name
 
 
 class UseLicense(EmbeddedDocument):
@@ -131,10 +121,40 @@ class ArticleHTML(EmbeddedDocument):
         return '<ArticleHTML: %s>' % self.language
 
 
+class Sponsor(Document):
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    name = StringField(max_length=256, required=True, unique=True)
+    url = StringField()
+    logo_url = StringField()
+
+    meta = {
+        'collection': 'sponsor'
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
+class Collection(Document):
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    acronym = StringField(max_length=50, required=True, unique=True)
+    name = StringField(max_length=100, required=True, unique_with='acronym')
+    logo_url = StringField()
+    license_code = StringField(max_length=10, required=True)
+    sponsors = ListField(ReferenceField(Sponsor, reverse_delete_rule=PULL))
+
+    meta = {
+        'collection': 'collection'
+    }
+
+    def __unicode__(self):
+        return self.acronym
+
+
 class Journal(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     jid = StringField(max_length=32, required=True, unique=True, )
-    collections = EmbeddedDocumentListField(Collection)
+    collection = ReferenceField(Collection, reverse_delete_rule=CASCADE)
     use_licenses = EmbeddedDocumentField(UseLicense)
     timeline = EmbeddedDocumentListField(Timeline)
     national_code = StringField()

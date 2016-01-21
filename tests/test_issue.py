@@ -22,9 +22,5 @@ class TestIssue(unittest.TestCase):
         validação do sample (docs/issue/sample.json)
         contra o schema (docs/issue/schema.json)
         '''
-        schema = self.schema.read()
-        probe = schemaprobe.JsonProbe(schema)
+        probe = schemaprobe.JsonProbe(self.schema.read())
         self.assertTrue(probe.validate(self.sample.read()))
-
-if __name__ == '__main__':
-    unittest.main()
