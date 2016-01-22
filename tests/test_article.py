@@ -24,6 +24,3 @@ class TestArticle(unittest.TestCase):
         '''
         probe = schemaprobe.JsonProbe(self.schema.read())
         self.assertTrue(probe.validate(self.sample.read()))
-
-if __name__ == '__main__':
-    unittest.main()
