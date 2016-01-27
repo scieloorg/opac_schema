@@ -198,6 +198,7 @@ class Journal(Document):
     last_issue = EmbeddedDocumentField(LastIssue)
 
     is_public = BooleanField(required=True, default=True)
+    unpublish_reason = StringField()
 
     meta = {
         'collection': 'journal'
@@ -234,6 +235,7 @@ class Issue(Document):
     bibliographic_legend = StringField()
 
     is_public = BooleanField(required=True, default=True)
+    unpublish_reason = StringField()
 
     meta = {
         'collection': 'issue'
@@ -261,6 +263,7 @@ class Article(Document):
 
     xml = StringField()
     is_public = BooleanField(required=True, default=True)
+    unpublish_reason = StringField()
 
     meta = {
         'collection': 'article'
