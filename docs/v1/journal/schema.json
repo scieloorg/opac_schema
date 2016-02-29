@@ -11,38 +11,18 @@
       "id": "mission",
       "type": "array",
       "items": {
-        "id": "2",
-        "type": "object",
-        "properties": {
-          "description": {
-            "id": "description",
-            "type": "string"
-          },
-          "language": {
-            "id": "language",
-            "type": "string"
-          }
-        }
+        "id": "auto-generated-schema-267"
       }
-    },
-    "national_code": {
-      "id": "national_code",
-      "type": "string"
     },
     "subject_categories": {
       "id": "subject_categories",
       "type": "array",
       "items": {
-        "id": "0",
-        "type": "string"
+        "id": "auto-generated-schema-654"
       }
     },
     "current_status": {
       "id": "current_status",
-      "type": "string"
-    },
-    "final_num": {
-      "id": "final_num",
       "type": "string"
     },
     "publisher_country": {
@@ -87,10 +67,6 @@
       "id": "publisher_city",
       "type": "string"
     },
-    "final_year": {
-      "id": "final_year",
-      "type": "string"
-    },
     "scielo_issn": {
       "id": "scielo_issn",
       "type": "string"
@@ -99,45 +75,15 @@
       "id": "collections",
       "type": "array",
       "items": {
-        "id": "0",
-        "type": "object",
-        "properties": {
-          "acronym": {
-            "id": "acronym",
-            "type": "string"
-          },
-          "name": {
-            "id": "name",
-            "type": "string"
-          }
-        }
+        "id": "auto-generated-schema-570"
       }
-    },
-    "init_year": {
-      "id": "init_year",
-      "type": "string"
     },
     "other_titles": {
       "id": "other_titles",
       "type": "array",
       "items": {
-        "id": "0",
-        "type": "object",
-        "properties": {
-          "category": {
-            "id": "category",
-            "type": "string"
-          },
-          "title": {
-            "id": "title",
-            "type": "string"
-          }
-        }
+        "id": "auto-generated-schema-861"
       }
-    },
-    "init_vol": {
-      "id": "init_vol",
-      "type": "string"
     },
     "updated": {
       "id": "updated",
@@ -152,23 +98,7 @@
       "id": "timeline",
       "type": "array",
       "items": {
-        "id": "0",
-        "type": "object",
-        "properties": {
-          "status": {
-            "id": "status",
-            "type": "string"
-          },
-          "reason": {
-            "id": "reason",
-            "type": "string"
-          },
-          "since": {
-            "id": "since",
-            "type": "object",
-            "properties": {}
-          }
-        }
+        "id": "auto-generated-schema-767"
       }
     },
     "issue_count": {
@@ -215,8 +145,7 @@
           "id": "sections",
           "type": "array",
           "items": {
-            "id": "8",
-            "type": "string"
+            "id": "auto-generated-schema-802"
           }
         }
       }
@@ -229,8 +158,7 @@
       "id": "sponsors",
       "type": "array",
       "items": {
-        "id": "0",
-        "type": "string"
+        "id": "auto-generated-schema-407"
       }
     },
     "online_submission_url": {
@@ -246,13 +174,8 @@
       "id": "study_areas",
       "type": "array",
       "items": {
-        "id": "0",
-        "type": "string"
+        "id": "auto-generated-schema-909"
       }
-    },
-    "init_num": {
-      "id": "init_num",
-      "type": "string"
     },
     "social_networks": {
       "id": "social_networks",
@@ -264,10 +187,6 @@
       "type": "object",
       "properties": {}
     },
-    "final_vol": {
-      "id": "final_vol",
-      "type": "string"
-    },
     "short_title": {
       "id": "short_title",
       "type": "string"
@@ -276,8 +195,7 @@
       "id": "subject_descriptors",
       "type": "array",
       "items": {
-        "id": "1",
-        "type": "string"
+        "id": "auto-generated-schema-41"
       }
     },
     "title_iso": {
@@ -296,10 +214,8 @@
   "required": [
     "copyrighter",
     "mission",
-    "national_code",
     "subject_categories",
     "current_status",
-    "final_num",
     "publisher_country",
     "publisher_name",
     "eletronic_issn",
@@ -307,12 +223,9 @@
     "jid",
     "title",
     "publisher_city",
-    "final_year",
     "scielo_issn",
     "collections",
-    "init_year",
     "other_titles",
-    "init_vol",
     "updated",
     "acronym",
     "timeline",
@@ -323,10 +236,8 @@
     "online_submission_url",
     "index_at",
     "study_areas",
-    "init_num",
     "social_networks",
     "created",
-    "final_vol",
     "short_title",
     "subject_descriptors",
     "title_iso",
