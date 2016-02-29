@@ -157,7 +157,6 @@ class Journal(Document):
     collection = ReferenceField(Collection, reverse_delete_rule=CASCADE)
     use_licenses = EmbeddedDocumentField(UseLicense)
     timeline = EmbeddedDocumentListField(Timeline)
-    national_code = StringField()
     subject_categories = ListField(field=StringField())
     study_areas = ListField(field=StringField())
     social_networks = EmbeddedDocumentListField(SocialNetwork)
@@ -205,7 +204,7 @@ class Journal(Document):
     }
 
     def __unicode__(self):
-        return self.acronym
+        return self.acronym or 'undefined acronym'
 
 
 class Issue(Document):
