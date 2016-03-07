@@ -72,7 +72,7 @@ class LastIssue(EmbeddedDocument):
     label = StringField()
     start_month = IntField()
     end_month = IntField()
-    sections = ListField(field=StringField())
+    sections = EmbeddedDocumentListField(Section)
     cover_url = StringField()
     iid = StringField()
     bibliographic_legend = StringField()
@@ -91,6 +91,18 @@ class Subject(EmbeddedDocument):
 
     meta = {
         'collection': 'subjects'
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
+class TranslatedTitle(EmbeddedDocument):
+    name = StringField()
+    language = StringField()
+
+    meta = {
+        'collection': 'translated_title'
     }
 
     def __unicode__(self):
@@ -207,21 +219,21 @@ class Issue(Document):
     iid = StringField(max_length=32, required=True, unique=True)
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
-    sections = EmbeddedDocumentListField(Section)
-    use_licenses = EmbeddedDocumentField(UseLicense)
-
     cover_url = StringField()
 
     volume = StringField()
     number = StringField()
+
     created = DateTimeField()
     updated = DateTimeField()
 
-    type = StringField()
-    suppl_text = StringField()
-    spe_text = StringField()
-    start_month = IntField()
-    end_month = IntField()
+    type = StringField()  # será removido
+    suppl_text = StringField()  # será removido
+    spe_text = StringField()  # será removido
+
+    start_month = IntField()  # será removido
+    end_month = IntField()   # será removido
+
     year = IntField()
     label = StringField()
     order = IntField()
@@ -246,15 +258,20 @@ class Article(Document):
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
     title = StringField()
-    section = StringField()
+    translated_titles = EmbeddedDocumentListField(TranslatedTitle)
+    sections = EmbeddedDocumentListField(Section)
     is_aop = BooleanField()
-    created = DateTimeField()
-    updated = DateTimeField()
+    order = IntField()
+    doi = StringField()
     htmls = EmbeddedDocumentListField(ArticleHTML)
 
     domain_key = StringField()
 
     xml = StringField()
+
+    created = DateTimeField()
+    updated = DateTimeField()
+
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
 
