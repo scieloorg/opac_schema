@@ -16,6 +16,18 @@ class UseLicense(EmbeddedDocument):
         return self.code
 
 
+class Section(EmbeddedDocument):
+    order = IntField()
+    subjects = EmbeddedDocumentListField(Subject)
+
+    meta = {
+        'collection': 'sections'
+    }
+
+    def __unicode__(self):
+        return '<Section: %s>' % self.order
+
+
 class Timeline(EmbeddedDocument):
     since = DateTimeField()
     reason = StringField()
@@ -107,18 +119,6 @@ class TranslatedTitle(EmbeddedDocument):
 
     def __unicode__(self):
         return self.name
-
-
-class Section(EmbeddedDocument):
-    order = IntField()
-    subjects = EmbeddedDocumentListField(Subject)
-
-    meta = {
-        'collection': 'sections'
-    }
-
-    def __unicode__(self):
-        return '<Section: %s>' % self.order
 
 
 class ArticleHTML(EmbeddedDocument):
