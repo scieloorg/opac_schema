@@ -18,7 +18,7 @@ class UseLicense(EmbeddedDocument):
 
 class Section(EmbeddedDocument):
     order = IntField()
-    subjects = EmbeddedDocumentListField(Subject)
+    subjects = EmbeddedDocumentListField('Subject')
 
     meta = {
         'collection': 'sections'
