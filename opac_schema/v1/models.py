@@ -259,6 +259,7 @@ class Article(Document):
 
     title = StringField()
     translated_titles = EmbeddedDocumentListField(TranslatedTitle)
+    section = StringField()
     sections = EmbeddedDocumentListField(Section)
     is_aop = BooleanField()
     order = IntField()
