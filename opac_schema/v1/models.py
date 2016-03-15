@@ -241,6 +241,7 @@ class Issue(Document):
 
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
+    pid = StringField()
 
     meta = {
         'collection': 'issue'
@@ -265,6 +266,7 @@ class Article(Document):
     order = IntField()
     doi = StringField()
     htmls = EmbeddedDocumentListField(ArticleHTML)
+    pid = StringField()
 
     domain_key = StringField()
 
