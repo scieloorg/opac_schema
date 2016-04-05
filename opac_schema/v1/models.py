@@ -12,6 +12,7 @@ from mongoengine import (
     EmbeddedDocumentListField,
     ReferenceField,
     BooleanField,
+    URLField,
     # reverse_delete_rule:
     PULL,
     CASCADE,
@@ -20,8 +21,10 @@ from mongoengine import (
 
 class Resource(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
-    url = StringField(required=True)
+    url = URLField(required=True)
+    type = StringField(required=True)
     language = StringField()
+    description = StringField()
 
     meta = {
         'collection': 'resource'
@@ -149,23 +152,11 @@ class TranslatedTitle(EmbeddedDocument):
         return self.name
 
 
-class ArticleHTML(EmbeddedDocument):
-    language = StringField()
-    source = StringField()
-
-    meta = {
-        'collection': 'article_html'
-    }
-
-    def __unicode__(self):
-        return '<ArticleHTML: %s>' % self.language
-
-
 class Sponsor(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(max_length=256, required=True, unique=True)
     url = StringField()
-    logo_url = StringField()
+    logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
 
     meta = {
         'collection': 'sponsor'
@@ -179,9 +170,19 @@ class Collection(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
-    logo_url = StringField()
-    license_code = StringField(max_length=10, required=True)
+
+    license = EmbeddedDocumentField(UseLicense, required=True)
+
     sponsors = ListField(ReferenceField(Sponsor, reverse_delete_rule=PULL))
+
+    # Address
+    address1 = StringField(max_length=128)
+    address2 = StringField(max_length=128)
+
+    # logos
+    logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
+    header_logo_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
+    footer_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
 
     meta = {
         'collection': 'collection'
@@ -212,7 +213,6 @@ class Journal(Document):
     subject_descriptors = ListField(field=StringField())
     copyrighter = StringField()
     online_submission_url = StringField()
-    cover_url = StringField()
     logo_url = StringField()
     previous_journal_ref = StringField()
     other_titles = EmbeddedDocumentListField(OtherTitle)
@@ -293,12 +293,15 @@ class Article(Document):
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
-    htmls = EmbeddedDocumentListField(ArticleHTML)
+    htmls = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
+    pdfs = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
     pid = StringField()
+    languages = ListField(field=StringField())
+    original_language = StringField()
 
     domain_key = StringField()
 
-    xml = StringField()
+    xml = URLField()
 
     created = DateTimeField()
     updated = DateTimeField()
