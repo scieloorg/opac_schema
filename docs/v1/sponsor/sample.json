@@ -1,1 +1,6 @@
-{"_id": "2", "name": "sponsor_2", "url": "http://sponsor_2.com", "logo_url": "http://sponsor_2.com/logo.img"}
+{
+    "_id": "2",
+    "name": "sponsor_2",
+    "url": "http://sponsor_2.com",
+    "logo_url": "http://sponsor_2.com/logo.img"
+}

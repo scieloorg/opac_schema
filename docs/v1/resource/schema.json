@@ -7,17 +7,18 @@
       "id": "_id",
       "type": "string"
     },
-    "name": {
-      "id": "name",
+    "language": {
+      "id": "language",
       "type": "string"
     },
     "url": {
       "id": "url",
       "type": "string"
-    },
-    "logo_url": {
-      "id": "logo_url",
-      "type": "string"
     }
-  }
+  },
+  "required": [
+    "_id",
+    "language",
+    "url"
+  ]
 }
