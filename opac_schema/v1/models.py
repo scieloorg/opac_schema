@@ -1,6 +1,34 @@
 # coding: utf-8
 
-from mongoengine import *
+from mongoengine import (
+    Document,
+    EmbeddedDocument,
+    # campos:
+    StringField,
+    IntField,
+    DateTimeField,
+    ListField,
+    EmbeddedDocumentField,
+    EmbeddedDocumentListField,
+    ReferenceField,
+    BooleanField,
+    # reverse_delete_rule:
+    PULL,
+    CASCADE,
+)
+
+
+class Resource(Document):
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    url = StringField(required=True)
+    language = StringField()
+
+    meta = {
+        'collection': 'resource'
+    }
+
+    def __unicode__(self):
+        return self.url
 
 
 class UseLicense(EmbeddedDocument):
