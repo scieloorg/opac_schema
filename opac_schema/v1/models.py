@@ -155,8 +155,8 @@ class TranslatedTitle(EmbeddedDocument):
 class Sponsor(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(max_length=256, required=True, unique=True)
-    url = StringField()
-    logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
+    url = URLField()
+    logo_url = URLField()
 
     meta = {
         'collection': 'sponsor'
