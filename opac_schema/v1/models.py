@@ -181,6 +181,7 @@ class Collection(Document):
 
     # logos
     logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
+    header_alter_logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
     header_logo_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
     footer_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
 
