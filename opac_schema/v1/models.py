@@ -171,7 +171,7 @@ class Collection(Document):
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
 
-    license = EmbeddedDocumentField(UseLicense, required=True)
+    license = StringField(max_length=20)
 
     sponsors = ListField(ReferenceField(Sponsor, reverse_delete_rule=PULL))
 
