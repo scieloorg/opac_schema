@@ -47,18 +47,6 @@ class UseLicense(EmbeddedDocument):
         return self.code
 
 
-class Section(EmbeddedDocument):
-    order = IntField()
-    subjects = EmbeddedDocumentListField('Subject')
-
-    meta = {
-        'collection': 'sections'
-    }
-
-    def __unicode__(self):
-        return '<Section: %s>' % self.order
-
-
 class Timeline(EmbeddedDocument):
     since = DateTimeField()
     reason = StringField()
@@ -115,7 +103,7 @@ class LastIssue(EmbeddedDocument):
     label = StringField()
     start_month = IntField()
     end_month = IntField()
-    sections = EmbeddedDocumentListField(Section)
+    sections = EmbeddedDocumentListField('TranslatedSection')
     cover_url = StringField()
     iid = StringField()
     bibliographic_legend = StringField()
@@ -128,12 +116,12 @@ class LastIssue(EmbeddedDocument):
         return self.label
 
 
-class Subject(EmbeddedDocument):
+class TranslatedSection(EmbeddedDocument):
     name = StringField()
     language = StringField()
 
     meta = {
-        'collection': 'subjects'
+        'collection': 'translated_section'
     }
 
     def __unicode__(self):
@@ -241,6 +229,15 @@ class Journal(Document):
     def __unicode__(self):
         return self.acronym or 'undefined acronym'
 
+    def get_mission_by_lang(self, lang):
+        """
+        Retorna a missão por idioma, caso não encontra retorna ``None``.
+        """
+
+        for mission in self.mission:
+            if mission.language == lang:
+                return mission.description
+
 
 class Issue(Document):
 
@@ -281,6 +278,7 @@ class Issue(Document):
 
 
 class Article(Document):
+
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     aid = StringField(max_length=32, required=True, unique=True)
 
@@ -290,7 +288,7 @@ class Article(Document):
     title = StringField()
     translated_titles = EmbeddedDocumentListField(TranslatedTitle)
     section = StringField()
-    sections = EmbeddedDocumentListField(Section)
+    sections = EmbeddedDocumentListField(TranslatedSection)
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
@@ -316,3 +314,30 @@ class Article(Document):
 
     def __unicode__(self):
         return self.title
+
+    def get_title_by_lang(self, lang):
+        """
+        Retorna o título do artigo por idioma, caso não encontre o idioma
+        retorna o título original, caso não tenha título original retorna ``None``.
+
+        O parâmetro ``lang`` é o acrônimo do idioma, ex.: en, es, pt.
+        """
+
+        for title in self.translated_titles:
+            if title.language == lang:
+                return title.name
+
+        return self.title
+
+    def get_section_by_lang(self, lang):
+        """
+        Retorna a seção por idioma, caso não encontre retorna o atributo:
+        ``article.section``, caso o artigo não tenha o atributo ``section``,
+        retorna ``None``.
+        """
+
+        for section in self.sections:
+            if section.language == lang:
+                return section.name
+
+        return self.section
