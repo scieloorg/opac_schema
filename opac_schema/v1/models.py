@@ -24,6 +24,7 @@ class News(Document):
     url = URLField(required=True)
     image_url = URLField(required=False)
     publication_date = DateTimeField(required=True)
+    title = StringField(max_length=256, required=True)
     description = StringField(required=True)
     language = StringField(max_length=5, required=True)
     is_public = BooleanField(required=True, default=True)
