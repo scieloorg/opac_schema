@@ -19,6 +19,16 @@ from mongoengine import (
 )
 
 
+class News(Document):
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    url = URLField(required=True)
+    image_url = URLField(required=False)
+    publication_date = DateTimeField(required=True)
+    description = StringField(required=True)
+    language = StringField(max_length=5, required=True)
+    is_public = BooleanField(required=True, default=True)
+
+
 class Resource(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     url = URLField(required=True)
