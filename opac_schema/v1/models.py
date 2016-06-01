@@ -300,6 +300,7 @@ class Article(Document):
     translated_titles = EmbeddedDocumentListField(TranslatedTitle)
     section = StringField()
     sections = EmbeddedDocumentListField(TranslatedSection)
+    authors = ListField(field=StringField())
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
