@@ -301,6 +301,7 @@ class Article(Document):
     section = StringField()
     sections = EmbeddedDocumentListField(TranslatedSection)
     authors = ListField(field=StringField())
+    abstract = StringField()  # O abstract é sempre em Inglês.
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
