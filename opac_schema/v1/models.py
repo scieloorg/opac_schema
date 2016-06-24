@@ -45,6 +45,22 @@ class Resource(Document):
         return self.url
 
 
+class Pages(Document):
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    name = StringField(required=True)
+    language = StringField(max_length=2048, required=True)
+    content = StringField(required=True)
+    journal = StringField()
+    description = StringField()
+
+    meta = {
+        'collection': 'pages'
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
 class UseLicense(EmbeddedDocument):
     license_code = StringField(required=True)
     reference_url = StringField()
@@ -173,6 +189,7 @@ class Collection(Document):
     license = StringField(max_length=20)
 
     sponsors = ListField(ReferenceField(Sponsor, reverse_delete_rule=PULL))
+    about = ListField(ReferenceField(Pages, reverse_delete_rule=PULL))
 
     # Address
     address1 = StringField(max_length=128)
@@ -354,3 +371,6 @@ class Article(Document):
                 return section.name
 
         return self.section
+
+
+
