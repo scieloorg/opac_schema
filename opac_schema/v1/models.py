@@ -186,8 +186,6 @@ class Collection(Document):
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
 
-    license = StringField(max_length=20)
-
     sponsors = ListField(ReferenceField(Sponsor, reverse_delete_rule=PULL))
     about = ListField(ReferenceField(Pages, reverse_delete_rule=PULL))
 
@@ -213,7 +211,6 @@ class Journal(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     jid = StringField(max_length=32, required=True, unique=True, )
     collection = ReferenceField(Collection, reverse_delete_rule=CASCADE)
-    use_licenses = EmbeddedDocumentField(UseLicense)
     timeline = EmbeddedDocumentListField(Timeline)
     subject_categories = ListField(field=StringField())
     study_areas = ListField(field=StringField())
@@ -371,6 +368,3 @@ class Article(Document):
                 return section.name
 
         return self.section
-
-
-
