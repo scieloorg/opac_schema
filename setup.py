@@ -8,7 +8,7 @@ except ImportError:
 
 setup(
     name="Opac Schema",
-    version='2.10',
+    version='2.11',
     description="Schema of SciELO OPAC",
     author="SciELO",
     author_email="scielo@scielo.org",
@@ -20,7 +20,9 @@ setup(
     download_url='',
     classifiers=[],
     setup_requires=[
+        "blinker",
         "mongoengine",
+        "python-slugify",
     ],
     tests_require=[
         "schemaprobe",

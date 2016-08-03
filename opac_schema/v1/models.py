@@ -16,7 +16,11 @@ from mongoengine import (
     # reverse_delete_rule:
     PULL,
     CASCADE,
+    # signals
+    signals,
 )
+
+from slugify import slugify
 
 
 class News(Document):
@@ -218,6 +222,7 @@ class Journal(Document):
     title = StringField()
     title_iso = StringField()
     short_title = StringField()
+    title_slug = StringField()
     created = DateTimeField()
     updated = DateTimeField()
     acronym = StringField()
@@ -262,6 +267,13 @@ class Journal(Document):
         for mission in self.mission:
             if mission.language == lang:
                 return mission.description
+
+
+def fill_title_slug(sender, document):
+    # SlugField cria o slug automaticamente usando o title
+    document.title_slug = slugify(document.title)
+
+signals.pre_save.connect(fill_title_slug)
 
 
 class Issue(Document):
