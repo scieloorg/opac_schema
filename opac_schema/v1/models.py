@@ -256,6 +256,10 @@ class Journal(Document):
         'collection': 'journal'
     }
 
+    @classmethod
+    def pre_save(cls, sender, document, **kwargs):
+        document.title_slug = slugify(document.title)
+
     def __unicode__(self):
         return self.acronym or 'undefined acronym'
 
@@ -268,12 +272,7 @@ class Journal(Document):
             if mission.language == lang:
                 return mission.description
 
-
-def fill_title_slug(sender, document):
-    # SlugField cria o slug automaticamente usando o title
-    document.title_slug = slugify(document.title)
-
-signals.pre_save.connect(fill_title_slug)
+signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 
 class Issue(Document):
