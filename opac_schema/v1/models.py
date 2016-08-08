@@ -334,6 +334,7 @@ class Article(Document):
     pdfs = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
     pid = StringField()
     languages = ListField(field=StringField())
+    abstract_languages = ListField(field=StringField())
     original_language = StringField()
 
     domain_key = StringField()
