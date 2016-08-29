@@ -1,10 +1,13 @@
 # coding: utf-8
 
+import uuid
+
 from mongoengine import (
     Document,
     EmbeddedDocument,
     # campos:
     StringField,
+    UUIDField,
     IntField,
     DateTimeField,
     ListField,
@@ -20,11 +23,12 @@ from mongoengine import (
     signals,
 )
 
+from legendarium import Legendarium
+
 from slugify import slugify
 
-
 class News(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     url = URLField(required=True)
     image_url = URLField(required=False)
     publication_date = DateTimeField(required=True)
@@ -35,7 +39,7 @@ class News(Document):
 
 
 class Resource(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     url = URLField(required=True)
     type = StringField(required=True)
     language = StringField()
@@ -50,7 +54,7 @@ class Resource(Document):
 
 
 class Pages(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     name = StringField(required=True)
     language = StringField(max_length=2048, required=True)
     content = StringField(required=True)
@@ -137,7 +141,6 @@ class LastIssue(EmbeddedDocument):
     sections = EmbeddedDocumentListField('TranslatedSection')
     cover_url = StringField()
     iid = StringField()
-    bibliographic_legend = StringField()
 
     meta = {
         'collection': 'last_issue'
@@ -172,7 +175,7 @@ class TranslatedTitle(EmbeddedDocument):
 
 
 class Sponsor(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     name = StringField(max_length=256, required=True, unique=True)
     url = URLField()
     logo_url = URLField()
@@ -186,7 +189,7 @@ class Sponsor(Document):
 
 
 class Collection(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
 
@@ -212,7 +215,7 @@ class Collection(Document):
 
 
 class Journal(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     jid = StringField(max_length=32, required=True, unique=True, )
     collection = ReferenceField(Collection, reverse_delete_rule=CASCADE)
     timeline = EmbeddedDocumentListField(Timeline)
@@ -256,6 +259,21 @@ class Journal(Document):
         'collection': 'journal'
     }
 
+    @property
+    def legend_last_issue(self):
+        leg_dict = {'acron_title': self.title_iso,
+                    'year_pub': self.last_issue.year,
+                    'volume': self.last_issue.volume,
+                    'number': self.last_issue.number}
+
+        return Legendarium(**leg_dict).stamp
+
+    @property
+    def legend(self):
+        leg_dict = {'acron_title': title_iso}
+
+        return Legendarium(**leg_dict).stamp
+
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         document.title_slug = slugify(document.title)
@@ -277,7 +295,7 @@ signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 class Issue(Document):
 
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     iid = StringField(max_length=32, required=True, unique=True)
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
@@ -299,7 +317,6 @@ class Issue(Document):
     year = IntField()
     label = StringField()
     order = IntField()
-    bibliographic_legend = StringField()
 
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
@@ -312,10 +329,16 @@ class Issue(Document):
     def __unicode__(self):
         return self.label
 
+    @property
+    def legend():
+        leg_dict = {'acron_title': journal.title_iso, 'year_pub': year,
+                    'volume': volume, 'number': number}
+
+        return Legendarium(**leg_dict).stamp
 
 class Article(Document):
 
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
     aid = StringField(max_length=32, required=True, unique=True)
 
     issue = ReferenceField(Issue, reverse_delete_rule=CASCADE)
@@ -346,6 +369,10 @@ class Article(Document):
 
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
+
+    elocation = StringField()
+    fpage = StringField()
+    lpage = StringField()
 
     meta = {
         'collection': 'article'
@@ -380,3 +407,13 @@ class Article(Document):
                 return section.name
 
         return self.section
+
+
+    @property
+    def legend():
+        leg_dict = {'acron_title': journal.title_iso, 'year_pub': issue.year,
+                    'volume': issue.volume, 'number': issue.number,
+                    'fpage': fpage, 'lpage': lpage, 'article_id': elocation}
+
+        return Legendarium(**leg_dict).stamp
+
