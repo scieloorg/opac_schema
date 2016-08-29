@@ -20,6 +20,8 @@ from mongoengine import (
     signals,
 )
 
+from legendarium import Legendarium
+
 from slugify import slugify
 
 
@@ -137,7 +139,6 @@ class LastIssue(EmbeddedDocument):
     sections = EmbeddedDocumentListField('TranslatedSection')
     cover_url = StringField()
     iid = StringField()
-    bibliographic_legend = StringField()
 
     meta = {
         'collection': 'last_issue'
@@ -256,6 +257,21 @@ class Journal(Document):
         'collection': 'journal'
     }
 
+    @property
+    def legend_last_issue(self):
+        leg_dict = {'acron_title': self.title_iso,
+                    'year_pub': self.last_issue.year,
+                    'volume': self.last_issue.volume,
+                    'number': self.last_issue.number}
+
+        return Legendarium(**leg_dict).stamp
+
+    @property
+    def legend(self):
+        leg_dict = {'acron_title': title_iso}
+
+        return Legendarium(**leg_dict).stamp
+
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         document.title_slug = slugify(document.title)
@@ -299,7 +315,6 @@ class Issue(Document):
     year = IntField()
     label = StringField()
     order = IntField()
-    bibliographic_legend = StringField()
 
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
@@ -312,6 +327,12 @@ class Issue(Document):
     def __unicode__(self):
         return self.label
 
+    @property
+    def legend():
+        leg_dict = {'acron_title': journal.title_iso, 'year_pub': year,
+                    'volume': volume, 'number': number}
+
+        return Legendarium(**leg_dict).stamp
 
 class Article(Document):
 
@@ -347,6 +368,10 @@ class Article(Document):
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
 
+    elocation = StringField()
+    fpage = StringField()
+    lpage = StringField()
+
     meta = {
         'collection': 'article'
     }
@@ -380,3 +405,13 @@ class Article(Document):
                 return section.name
 
         return self.section
+
+
+    @property
+    def legend():
+        leg_dict = {'acron_title': journal.title_iso, 'year_pub': issue.year,
+                    'volume': issue.volume, 'number': issue.number,
+                    'fpage': fpage, 'lpage': lpage, 'article_id': elocation}
+
+        return Legendarium(**leg_dict).stamp
+
