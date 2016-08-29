@@ -23,7 +23,7 @@ setup(
         "blinker",
         "mongoengine",
         "python-slugify",
-        "legendarium",
+        "legendarium-v1.0",
     ],
     tests_require=[
         "schemaprobe",
