@@ -1,13 +1,10 @@
 # coding: utf-8
 
-import uuid
-
 from mongoengine import (
     Document,
     EmbeddedDocument,
     # campos:
     StringField,
-    UUIDField,
     IntField,
     DateTimeField,
     ListField,
@@ -27,8 +24,9 @@ from legendarium import Legendarium
 
 from slugify import slugify
 
+
 class News(Document):
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     url = URLField(required=True)
     image_url = URLField(required=False)
     publication_date = DateTimeField(required=True)
@@ -39,7 +37,7 @@ class News(Document):
 
 
 class Resource(Document):
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     url = URLField(required=True)
     type = StringField(required=True)
     language = StringField()
@@ -54,7 +52,7 @@ class Resource(Document):
 
 
 class Pages(Document):
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(required=True)
     language = StringField(max_length=2048, required=True)
     content = StringField(required=True)
@@ -175,7 +173,7 @@ class TranslatedTitle(EmbeddedDocument):
 
 
 class Sponsor(Document):
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(max_length=256, required=True, unique=True)
     url = URLField()
     logo_url = URLField()
@@ -189,7 +187,7 @@ class Sponsor(Document):
 
 
 class Collection(Document):
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
 
@@ -215,7 +213,7 @@ class Collection(Document):
 
 
 class Journal(Document):
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     jid = StringField(max_length=32, required=True, unique=True, )
     collection = ReferenceField(Collection, reverse_delete_rule=CASCADE)
     timeline = EmbeddedDocumentListField(Timeline)
@@ -295,7 +293,7 @@ signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 class Issue(Document):
 
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     iid = StringField(max_length=32, required=True, unique=True)
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
@@ -338,7 +336,7 @@ class Issue(Document):
 
 class Article(Document):
 
-    _id = UUIDField(primary_key=True, required=True, default=uuid.uuid4)
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     aid = StringField(max_length=32, required=True, unique=True)
 
     issue = ReferenceField(Issue, reverse_delete_rule=CASCADE)
