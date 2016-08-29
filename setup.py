@@ -30,7 +30,7 @@ setup(
     ],
     dependency_links=[
         'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe',
-        'git+https://github.com/scieloorg/legendarium.git#egg=legendarium',
+        'git+https://git@github.com/scieloorg/legendarium.git#egg=legendarium',
     ],
     test_suite='tests.discover_suite'
 )
