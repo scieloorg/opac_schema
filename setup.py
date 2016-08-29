@@ -23,14 +23,14 @@ setup(
         "blinker",
         "mongoengine",
         "python-slugify",
-        "legendarium-v1.0",
+        "legendarium",
     ],
     tests_require=[
         "schemaprobe",
     ],
     dependency_links=[
         'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe',
-        'http://github.com/scieloorg/legendarium/tarball/v1.0#egg=legendarium-v1.0',
+        'http://github.com/scieloorg/legendarium/tarball/v1.0#egg=legendarium',
     ],
     test_suite='tests.discover_suite'
 )
