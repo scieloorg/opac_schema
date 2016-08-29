@@ -30,7 +30,7 @@ setup(
     ],
     dependency_links=[
         'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe',
-        'git+https://git@github.com/scieloorg/legendarium.git#egg=legendarium',
+        'http://github.com/scieloorg/legendarium/tarball/master#egg=legendarium',
     ],
     test_suite='tests.discover_suite'
 )
