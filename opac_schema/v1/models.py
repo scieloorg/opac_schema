@@ -329,10 +329,10 @@ class Issue(Document):
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        leg_dict = {'acron_title': self.journal.title_iso,
-                    'year_pub': self.year,
-                    'volume': self.volume,
-                    'number': self.number}
+        leg_dict = {'acron_title': document.journal.title_iso,
+                    'year_pub': document.year,
+                    'volume': document.volume,
+                    'number': document.number}
 
         document.label = Legendarium(**leg_dict).get_issue().strip(';')
 
@@ -423,13 +423,13 @@ class Article(Document):
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        leg_dict = {'acron_title': self.journal.title_iso,
-                    'year_pub': self.issue.year,
-                    'volume': self.issue.volume,
-                    'number': self.issue.number,
-                    'fpage': self.fpage,
-                    'lpage': self.lpage,
-                    'article_id': self.elocation}
+        leg_dict = {'acron_title': document.journal.title_iso,
+                    'year_pub': document.issue.year,
+                    'volume': document.issue.volume,
+                    'number': document.issue.number,
+                    'fpage': document.fpage,
+                    'lpage': document.lpage,
+                    'article_id': document.elocation}
 
         document.url_segment = Legendarium(**leg_dict).get_article().strip(':')
 
