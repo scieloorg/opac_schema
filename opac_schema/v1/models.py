@@ -328,7 +328,7 @@ class Issue(Document):
         return self.label
 
     @property
-    def legend():
+    def legend(self):
         leg_dict = {'acron_title': journal.title_iso, 'year_pub': year,
                     'volume': volume, 'number': number}
 
