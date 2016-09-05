@@ -268,7 +268,7 @@ class Journal(Document):
 
     @property
     def legend(self):
-        leg_dict = {'acron_title': title_iso}
+        leg_dict = {'acron_title': self.title_iso}
 
         return Legendarium(**leg_dict).stamp
 
@@ -328,9 +328,9 @@ class Issue(Document):
         return self.label
 
     @property
-    def legend():
-        leg_dict = {'acron_title': journal.title_iso, 'year_pub': year,
-                    'volume': volume, 'number': number}
+    def legend(self):
+        leg_dict = {'acron_title': self.journal.title_iso, 'year_pub': self.year,
+                    'volume': self.volume, 'number': self.number}
 
         return Legendarium(**leg_dict).stamp
 
@@ -408,10 +408,10 @@ class Article(Document):
 
 
     @property
-    def legend():
-        leg_dict = {'acron_title': journal.title_iso, 'year_pub': issue.year,
-                    'volume': issue.volume, 'number': issue.number,
-                    'fpage': fpage, 'lpage': lpage, 'article_id': elocation}
+    def legend(self):
+        leg_dict = {'acron_title': self.journal.title_iso, 'year_pub': self.issue.year,
+                    'volume': self.issue.volume, 'number': self.issue.number,
+                    'fpage': self.fpage, 'lpage': self.lpage, 'article_id': self.elocation}
 
         return Legendarium(**leg_dict).stamp
 
