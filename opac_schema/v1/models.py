@@ -372,7 +372,8 @@ class Article(Document):
     elocation = StringField()
     fpage = StringField()
     lpage = StringField()
-
+    url_segment = StringField() 
+    
     meta = {
         'collection': 'article'
     }
