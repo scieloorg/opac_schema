@@ -408,7 +408,7 @@ class Article(Document):
 
 
     @property
-    def legend():
+    def legend(self):
         leg_dict = {'acron_title': journal.title_iso, 'year_pub': issue.year,
                     'volume': issue.volume, 'number': issue.number,
                     'fpage': fpage, 'lpage': lpage, 'article_id': elocation}
