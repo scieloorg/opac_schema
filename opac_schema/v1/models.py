@@ -332,6 +332,7 @@ class Issue(Document):
         leg_dict = {'acron_title': self.journal.title_iso, 'year_pub': self.year,
                     'volume': self.volume, 'number': self.number}
 
+
         return Legendarium(**leg_dict).stamp
 
 class Article(Document):
@@ -413,5 +414,5 @@ class Article(Document):
                     'volume': self.issue.volume, 'number': self.issue.number,
                     'fpage': self.fpage, 'lpage': self.lpage, 'article_id': self.elocation}
 
-        return Legendarium(**leg_dict).stamp
 
+        return Legendarium(**leg_dict).stamp
