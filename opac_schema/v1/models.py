@@ -327,13 +327,26 @@ class Issue(Document):
     def __unicode__(self):
         return self.label
 
+    @classmethod
+    def pre_save(cls, sender, document, **kwargs):
+        leg_dict = {'acron_title': self.journal.title_iso,
+                    'year_pub': self.year,
+                    'volume': self.volume,
+                    'number': self.number}
+
+        document.label = Legendarium(**leg_dict).get_issue().strip(';')
+
     @property
     def legend(self):
-        leg_dict = {'acron_title': self.journal.title_iso, 'year_pub': self.year,
-                    'volume': self.volume, 'number': self.number}
-
+        leg_dict = {'acron_title': self.journal.title_iso,
+                    'year_pub': self.year,
+                    'volume': self.volume,
+                    'number': self.number}
 
         return Legendarium(**leg_dict).stamp
+
+signals.pre_save.connect(Issue.pre_save, sender=Issue)
+
 
 class Article(Document):
 
@@ -372,8 +385,8 @@ class Article(Document):
     elocation = StringField()
     fpage = StringField()
     lpage = StringField()
-    url_segment = StringField() 
-    
+    url_segment = StringField()
+
     meta = {
         'collection': 'article'
     }
@@ -408,12 +421,29 @@ class Article(Document):
 
         return self.section
 
+    @classmethod
+    def pre_save(cls, sender, document, **kwargs):
+        leg_dict = {'acron_title': self.journal.title_iso,
+                    'year_pub': self.issue.year,
+                    'volume': self.issue.volume,
+                    'number': self.issue.number,
+                    'fpage': self.fpage,
+                    'lpage': self.lpage,
+                    'article_id': self.elocation}
+
+        document.url_segment = Legendarium(**leg_dict).get_article().strip(':')
+
 
     @property
     def legend(self):
-        leg_dict = {'acron_title': self.journal.title_iso, 'year_pub': self.issue.year,
-                    'volume': self.issue.volume, 'number': self.issue.number,
-                    'fpage': self.fpage, 'lpage': self.lpage, 'article_id': self.elocation}
-
+        leg_dict = {'acron_title': self.journal.title_iso,
+                    'year_pub': self.issue.year,
+                    'volume': self.issue.volume,
+                    'number': self.issue.number,
+                    'fpage': self.fpage,
+                    'lpage': self.lpage,
+                    'article_id': self.elocation}
 
         return Legendarium(**leg_dict).stamp
+
+signals.pre_save.connect(Article.pre_save, sender=Article)
