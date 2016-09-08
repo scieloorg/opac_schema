@@ -20,7 +20,8 @@ from mongoengine import (
     signals,
 )
 
-from legendarium import Legendarium
+from legendarium.legendarium import Legendarium
+from legendarium.urlegendarium import URLegendarium
 
 from slugify import slugify
 
@@ -139,6 +140,7 @@ class LastIssue(EmbeddedDocument):
     sections = EmbeddedDocumentListField('TranslatedSection')
     cover_url = StringField()
     iid = StringField()
+    url_segment = StringField()
 
     meta = {
         'collection': 'last_issue'
@@ -252,6 +254,7 @@ class Journal(Document):
 
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
+    url_segment = StringField()
 
     meta = {
         'collection': 'journal'
@@ -275,6 +278,9 @@ class Journal(Document):
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         document.title_slug = slugify(document.title)
+
+        leg_dict = {'acron': document.acronym}
+        document.url_segment = URLegendarium(**leg_dict).get_journal_seg()
 
     def __unicode__(self):
         return self.acronym or 'undefined acronym'
@@ -319,6 +325,7 @@ class Issue(Document):
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
     pid = StringField()
+    url_segment = StringField()
 
     meta = {
         'collection': 'issue'
@@ -329,12 +336,11 @@ class Issue(Document):
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        leg_dict = {'acron_title': document.journal.title_iso,
-                    'year_pub': document.year,
+        leg_dict = {'year_pub': document.year,
                     'volume': document.volume,
                     'number': document.number}
 
-        document.label = Legendarium(**leg_dict).get_issue().strip(';')
+        document.url_segment = URLegendarium(**leg_dict).get_issue_seg()
 
     @property
     def legend(self):
@@ -423,7 +429,7 @@ class Article(Document):
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        leg_dict = {'acron_title': document.journal.title_iso,
+        leg_dict = {'acron': document.journal.title_iso,
                     'year_pub': document.issue.year,
                     'volume': document.issue.volume,
                     'number': document.issue.number,
@@ -431,7 +437,7 @@ class Article(Document):
                     'lpage': document.lpage,
                     'article_id': document.elocation}
 
-        document.url_segment = Legendarium(**leg_dict).get_article().strip(':')
+        document.url_segment = URLegendarium(**leg_dict).get_article_seg()
 
 
     @property
