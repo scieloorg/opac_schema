@@ -55,7 +55,7 @@ class Resource(Document):
 class Pages(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(required=True)
-    language = StringField(max_length=2048, required=True)
+    language = StringField(max_length=5, required=True)
     content = StringField(required=True)
     journal = StringField()
     description = StringField()
@@ -283,7 +283,7 @@ class Journal(Document):
         document.url_segment = URLegendarium(**leg_dict).get_journal_seg()
 
     def __unicode__(self):
-        return self.acronym or 'undefined acronym'
+        return self.title or 'undefined acronym'
 
     def get_mission_by_lang(self, lang):
         """
@@ -332,7 +332,7 @@ class Issue(Document):
     }
 
     def __unicode__(self):
-        return self.label
+        return self.label or 'Issue: %s' % self._id
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
@@ -398,7 +398,7 @@ class Article(Document):
     }
 
     def __unicode__(self):
-        return self.title
+        return self.title or 'Article: %s' % self._id
 
     def get_title_by_lang(self, lang):
         """
@@ -453,3 +453,28 @@ class Article(Document):
         return Legendarium(**leg_dict).stamp
 
 signals.pre_save.connect(Article.pre_save, sender=Article)
+
+
+class PressRelease(Document):
+
+    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
+    issue = ReferenceField(Issue, reverse_delete_rule=CASCADE)
+    article = ReferenceField(Article, reverse_delete_rule=CASCADE)
+
+    title = StringField(max_length=512, required=True)
+    language = StringField(max_length=5, required=True)
+    content = StringField(required=True)
+    doi = StringField(max_length=256)
+
+    publication_date = DateTimeField(required=True)
+
+    created = DateTimeField()
+    updated = DateTimeField()
+
+    meta = {
+        'collection': 'pressrelease'
+    }
+
+    def __unicode__(self):
+        return self.title or 'PressRelease: %s' % self._id
