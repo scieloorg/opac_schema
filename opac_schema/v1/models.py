@@ -1,4 +1,4 @@
-# coding: utf-8
+    # coding: utf-8
 
 from mongoengine import (
     Document,
@@ -283,7 +283,7 @@ class Journal(Document):
         document.url_segment = URLegendarium(**leg_dict).get_journal_seg()
 
     def __unicode__(self):
-        return self.title or 'undefined acronym'
+        return self.title or 'Journal: %s' % self._id
 
     def get_mission_by_lang(self, lang):
         """
