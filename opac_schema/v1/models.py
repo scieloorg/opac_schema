@@ -283,7 +283,7 @@ class Journal(Document):
         document.url_segment = URLegendarium(**leg_dict).get_journal_seg()
 
     def __unicode__(self):
-        return self.title or 'Journal: %s' % self._id
+        return self.legend or 'Journal: %s' % self._id
 
     def get_mission_by_lang(self, lang):
         """
@@ -332,7 +332,10 @@ class Issue(Document):
     }
 
     def __unicode__(self):
-        return self.label or 'Issue: %s' % self._id
+        if self.journal:
+            return self.legend or 'Issue: %s' % self._id
+        else:
+            return 'Issue: %s' % self._id
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
@@ -398,7 +401,10 @@ class Article(Document):
     }
 
     def __unicode__(self):
-        return self.title or 'Article: %s' % self._id
+        if self.issue and self.journal:
+            return '%s - %s' % (self.legend, self.title)
+        else:
+            return 'Article: %s' % self._id
 
     def get_title_by_lang(self, lang):
         """
