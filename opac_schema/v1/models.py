@@ -294,6 +294,15 @@ class Journal(Document):
             if mission.language == lang:
                 return mission.description
 
+    @property
+    def url(self):
+        leg_dict = {
+                'acron': self.journal.acronym,
+                'year_pub': self.year
+        }
+
+        return URLegendarium(**leg_dict).url_journal
+
 signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 
@@ -339,9 +348,11 @@ class Issue(Document):
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        leg_dict = {'year_pub': document.year,
-                    'volume': document.volume,
-                    'number': document.number}
+        leg_dict = {
+                'year_pub': document.year,
+                'volume': document.volume,
+                'number': document.number
+        }
 
         document.url_segment = URLegendarium(**leg_dict).get_issue_seg()
 
@@ -353,6 +364,17 @@ class Issue(Document):
                     'number': self.number}
 
         return Legendarium(**leg_dict).stamp
+
+    @property
+    def url(self):
+        leg_dict = {
+                'acron': self.journal.acronym,
+                'year_pub': self.year,
+                'volume': self.volume,
+                'number': self.number
+        }
+
+        return URLegendarium(**leg_dict).url_issue
 
 signals.pre_save.connect(Issue.pre_save, sender=Issue)
 
@@ -435,28 +457,47 @@ class Article(Document):
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        leg_dict = {'acron': document.journal.title_iso,
-                    'year_pub': document.issue.year,
-                    'volume': document.issue.volume,
-                    'number': document.issue.number,
-                    'fpage': document.fpage,
-                    'lpage': document.lpage,
-                    'article_id': document.elocation}
+        leg_dict = {
+                'acron': document.journal.acronym,
+                'year_pub': document.issue.year,
+                'volume': document.issue.volume,
+                'number': document.issue.number,
+                'fpage': document.fpage,
+                'lpage': document.lpage,
+                'article_id': document.elocation
+        }
 
         document.url_segment = URLegendarium(**leg_dict).get_article_seg()
 
 
     @property
     def legend(self):
-        leg_dict = {'acron_title': self.journal.title_iso,
-                    'year_pub': self.issue.year,
-                    'volume': self.issue.volume,
-                    'number': self.issue.number,
-                    'fpage': self.fpage,
-                    'lpage': self.lpage,
-                    'article_id': self.elocation}
+        leg_dict = {
+                'acron_title': self.journal.title_iso,
+                'year_pub': self.issue.year,
+                'volume': self.issue.volume,
+                'number': self.issue.number,
+                'fpage': self.fpage,
+                'lpage': self.lpage,
+                'article_id': self.elocation
+        }
 
         return Legendarium(**leg_dict).stamp
+
+
+    @property
+    def url(self):
+        leg_dict = {
+                'acron': self.journal.acronym,
+                'year_pub': self.issue.year,
+                'volume': self.issue.volume,
+                'number': self.issue.number,
+                'fpage': self.fpage,
+                'lpage': self.lpage,
+                'article_id': self.elocation
+        }
+
+        return URLegendarium(**leg_dict).url_article
 
 signals.pre_save.connect(Article.pre_save, sender=Article)
 
