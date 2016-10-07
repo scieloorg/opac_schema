@@ -270,6 +270,15 @@ class Journal(Document):
         return Legendarium(**leg_dict).stamp
 
     @property
+    def url_last_issue(self):
+        leg_dict = {'acron': self.acronym,
+                    'year_pub': self.last_issue.year,
+                    'volume': self.last_issue.volume,
+                    'number': self.last_issue.number}
+
+        return URLegendarium(**leg_dict).url_issue
+
+    @property
     def legend(self):
         leg_dict = {'acron_title': self.title_iso}
 
