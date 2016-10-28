@@ -174,18 +174,23 @@ class TranslatedTitle(EmbeddedDocument):
         return self.name
 
 
-class Analytics(EmbeddedDocument):
-    total_journal = StringField()
-    total_issue = StringField()
-    total_article = StringField()
-    total_citation = StringField()
-
-    total_h5_index = StringField()
-    total_h5_median = StringField()
+class CollectionMetrics(EmbeddedDocument):
+    total_journal = IntField(default=0)
+    total_issue = IntField(default=0)
+    total_article = IntField(default=0)
+    total_citation = IntField(default=0)
 
     def __unicode__(self):
         return '%s - %s - %s - %s' % (self.total_journal, self.total_issue,
                                       self.total_article, self.total_citation)
+
+
+class JounalMetrics(EmbeddedDocument):
+    total_h5_index = IntField(default=0)
+    total_h5_median = IntField(default=0)
+
+    def __unicode__(self):
+        return '%s - %s' % (self.total_h5_index, self.total_h5_median)
 
 
 class Sponsor(Document):
@@ -220,7 +225,7 @@ class Collection(Document):
     header_logo_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
     footer_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
 
-    analytics = EmbeddedDocumentField(Analytics)
+    metrics = EmbeddedDocumentField(CollectionMetrics)
 
     meta = {
         'collection': 'collection'
@@ -271,6 +276,8 @@ class Journal(Document):
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
     url_segment = StringField()
+
+    metrics = EmbeddedDocumentField(JounalMetrics)
 
     meta = {
         'collection': 'journal'
