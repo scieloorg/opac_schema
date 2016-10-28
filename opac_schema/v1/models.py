@@ -174,6 +174,20 @@ class TranslatedTitle(EmbeddedDocument):
         return self.name
 
 
+class Analytics(EmbeddedDocument):
+    total_journal = StringField()
+    total_issue = StringField()
+    total_article = StringField()
+    total_citation = StringField()
+
+    total_h5_index = StringField()
+    total_h5_median = StringField()
+
+    def __unicode__(self):
+        return '%s - %s - %s - %s' % (self.total_journal, self.total_issue,
+                                      self.total_article, self.total_citation)
+
+
 class Sponsor(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(max_length=256, required=True, unique=True)
@@ -205,6 +219,8 @@ class Collection(Document):
     header_alter_logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
     header_logo_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
     footer_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
+
+    analytics = EmbeddedDocumentField(Analytics)
 
     meta = {
         'collection': 'collection'
