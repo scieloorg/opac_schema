@@ -37,21 +37,6 @@ class News(Document):
     is_public = BooleanField(required=True, default=True)
 
 
-class Resource(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
-    url = URLField(required=True)
-    type = StringField(required=True)
-    language = StringField()
-    description = StringField()
-
-    meta = {
-        'collection': 'resource'
-    }
-
-    def __unicode__(self):
-        return self.url
-
-
 class Pages(Document):
     _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
     name = StringField(required=True)
@@ -219,11 +204,26 @@ class Collection(Document):
     address1 = StringField(max_length=128)
     address2 = StringField(max_length=128)
 
-    # logos
-    logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
-    header_alter_logo_resource = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
-    header_logo_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
-    footer_resource = ReferenceField(Resource, reverse_delete_rule=PULL)
+    # Logo da home da coleção nos 3 idiomas
+    home_logo_pt = URLField()
+    home_logo_es = URLField()
+    home_logo_en = URLField()
+
+    # Logo do cabeçalho da página do periódico, grade, toc, articulo
+    header_logo_pt = URLField()
+    header_logo_es = URLField()
+    header_logo_en = URLField()
+
+    # Logo sem tradução do menu suspenso
+    logo_drop_menu = URLField()
+
+    # Logo do menu superior "hamburger" no canto esquerdo
+    menu_logo_pt = URLField()
+    menu_logo_es = URLField()
+    menu_logo_en = URLField()
+
+    # Logo do footer no canto inferiror esquerdo
+    logo_footer = URLField()
 
     metrics = EmbeddedDocumentField(CollectionMetrics)
 
@@ -428,8 +428,6 @@ class Article(Document):
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
-    htmls = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
-    pdfs = ListField(ReferenceField(Resource, reverse_delete_rule=PULL))
     pid = StringField()
     languages = ListField(field=StringField())
     abstract_languages = ListField(field=StringField())
