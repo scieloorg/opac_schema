@@ -8,7 +8,7 @@ except ImportError:
 
 setup(
     name="Opac Schema",
-    version='2.21',
+    version='2.22',
     description="Schema of SciELO OPAC",
     author="SciELO",
     author_email="scielo@scielo.org",

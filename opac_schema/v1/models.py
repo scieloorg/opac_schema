@@ -27,7 +27,7 @@ from slugify import slugify
 
 
 class News(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     url = URLField(required=True)
     image_url = URLField(required=False)
     publication_date = DateTimeField(required=True)
@@ -38,7 +38,7 @@ class News(Document):
 
 
 class Pages(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     name = StringField(required=True)
     language = StringField(max_length=5, required=True)
     content = StringField(required=True)
@@ -179,7 +179,7 @@ class JounalMetrics(EmbeddedDocument):
 
 
 class Sponsor(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     name = StringField(max_length=256, required=True, unique=True)
     url = URLField()
     logo_url = URLField()
@@ -193,7 +193,7 @@ class Sponsor(Document):
 
 
 class Collection(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
 
@@ -236,7 +236,7 @@ class Collection(Document):
 
 
 class Journal(Document):
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     jid = StringField(max_length=32, required=True, unique=True, )
     collection = ReferenceField(Collection, reverse_delete_rule=CASCADE)
     timeline = EmbeddedDocumentListField(Timeline)
@@ -340,7 +340,7 @@ signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 class Issue(Document):
 
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     iid = StringField(max_length=32, required=True, unique=True)
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
 
@@ -413,7 +413,7 @@ signals.pre_save.connect(Issue.pre_save, sender=Issue)
 
 class Article(Document):
 
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     aid = StringField(max_length=32, required=True, unique=True)
 
     issue = ReferenceField(Issue, reverse_delete_rule=CASCADE)
@@ -534,7 +534,7 @@ signals.pre_save.connect(Article.pre_save, sender=Article)
 
 class PressRelease(Document):
 
-    _id = StringField(max_length=32, primary_key=True, required=True, unique=True)
+    _id = StringField(max_length=32, primary_key=True, required=True)
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE)
     issue = ReferenceField(Issue, reverse_delete_rule=CASCADE)
     article = ReferenceField(Article, reverse_delete_rule=CASCADE)
