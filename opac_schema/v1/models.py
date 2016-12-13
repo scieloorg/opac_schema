@@ -435,7 +435,10 @@ class Article(Document):
 
     domain_key = StringField()
 
-    xml = URLField()
+    xml = StringField()
+
+    htmls = ListField(field=DictField())
+    pdfs = ListField(field=DictField())
 
     created = DateTimeField()
     updated = DateTimeField()
