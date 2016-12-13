@@ -13,6 +13,7 @@ from mongoengine import (
     ReferenceField,
     BooleanField,
     URLField,
+    DictField,
     # reverse_delete_rule:
     PULL,
     CASCADE,
