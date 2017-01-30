@@ -547,6 +547,7 @@ class PressRelease(Document):
     language = StringField(max_length=5, required=True)
     content = StringField(required=True)
     doi = StringField(max_length=256)
+    url = URLField(required=True)
 
     publication_date = DateTimeField(required=True)
 
