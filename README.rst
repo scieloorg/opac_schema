@@ -9,6 +9,19 @@ This schema is based on MongoEngine Schema, more detail: http://mongoengine.org/
 .. image:: https://travis-ci.org/scieloorg/opac_schema.svg
     :target: https://travis-ci.org/scieloorg/opac_schema
 
+.. image:: https://landscape.io/github/scieloorg/opac_schema/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/scieloorg/opac_schema/master
+   :alt: Code Health
+   
+.. image:: https://pyup.io/repos/github/scieloorg/opac_schema/shield.svg
+     :target: https://pyup.io/repos/github/scieloorg/opac_schema/
+     :alt: Updates
+     
+.. image:: https://pyup.io/repos/github/scieloorg/opac_schema/python-3-shield.svg
+     :target: https://pyup.io/repos/github/scieloorg/opac_schema/
+     :alt: Python 3
+
+
 ===========
 Instalation
 ===========
