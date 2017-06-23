@@ -296,7 +296,7 @@ class Journal(Document):
                     'year_pub': self.last_issue.year,
                     'volume': self.last_issue.volume,
                     'number': self.last_issue.number,
-                    'suppl_number': self.last_issue.suppl_number}
+                    'suppl_number': self.last_issue.suppl_text}
 
         return Legendarium(**leg_dict).stamp
 
@@ -306,7 +306,7 @@ class Journal(Document):
                     'year_pub': self.last_issue.year,
                     'volume': self.last_issue.volume,
                     'number': self.last_issue.number,
-                    'suppl_number': self.last_issue.suppl_number}
+                    'suppl_number': self.last_issue.suppl_text}
 
         return URLegendarium(**leg_dict).url_issue
 
@@ -508,7 +508,7 @@ class Article(Document):
                 'year_pub': document.issue.year,
                 'volume': document.issue.volume,
                 'number': document.issue.number,
-                'suppl_number': document.issue.suppl_number,
+                'suppl_number': document.issue.suppl_text,
                 'fpage': document.fpage,
                 'lpage': document.lpage,
                 'article_id': document.elocation
@@ -523,7 +523,7 @@ class Article(Document):
                 'year_pub': self.issue.year,
                 'volume': self.issue.volume,
                 'number': self.issue.number,
-                'suppl_number': self.issue.suppl_number,
+                'suppl_number': self.issue.suppl_text,
                 'fpage': self.fpage,
                 'lpage': self.lpage,
                 'article_id': self.elocation
@@ -538,7 +538,7 @@ class Article(Document):
                 'year_pub': self.issue.year,
                 'volume': self.issue.volume,
                 'number': self.issue.number,
-                'suppl_number': self.issue.suppl_number,
+                'suppl_number': self.issue.suppl_text,
                 'fpage': self.fpage,
                 'lpage': self.lpage,
                 'article_id': self.elocation
