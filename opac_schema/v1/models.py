@@ -121,6 +121,8 @@ class LastIssue(EmbeddedDocument):
     number = StringField()
     year = IntField()
     label = StringField()
+    type = StringField()
+    suppl_text = StringField()
     start_month = IntField()
     end_month = IntField()
     sections = EmbeddedDocumentListField('TranslatedSection')
@@ -197,6 +199,10 @@ class Collection(Document):
     _id = StringField(max_length=32, primary_key=True, required=True)
     acronym = StringField(max_length=50, required=True, unique=True)
     name = StringField(max_length=100, required=True, unique_with='acronym')
+
+    name_pt = StringField(max_length=100, default='')
+    name_es = StringField(max_length=100, default='')
+    name_en = StringField(max_length=100, default='')
 
     sponsors = ListField(ReferenceField(Sponsor, reverse_delete_rule=PULL))
     about = ListField(ReferenceField(Pages, reverse_delete_rule=PULL))
@@ -289,7 +295,8 @@ class Journal(Document):
         leg_dict = {'acron_title': self.title_iso,
                     'year_pub': self.last_issue.year,
                     'volume': self.last_issue.volume,
-                    'number': self.last_issue.number}
+                    'number': self.last_issue.number,
+                    'suppl_number': self.last_issue.suppl_number}
 
         return Legendarium(**leg_dict).stamp
 
@@ -298,7 +305,8 @@ class Journal(Document):
         leg_dict = {'acron': self.acronym,
                     'year_pub': self.last_issue.year,
                     'volume': self.last_issue.volume,
-                    'number': self.last_issue.number}
+                    'number': self.last_issue.number,
+                    'suppl_number': self.last_issue.suppl_number}
 
         return URLegendarium(**leg_dict).url_issue
 
@@ -353,8 +361,8 @@ class Issue(Document):
     created = DateTimeField()
     updated = DateTimeField()
 
-    type = StringField()  # será removido
-    suppl_text = StringField()  # será removido
+    type = StringField()
+    suppl_text = StringField()
     spe_text = StringField()  # será removido
 
     start_month = IntField()  # será removido
@@ -384,7 +392,8 @@ class Issue(Document):
         leg_dict = {
                 'year_pub': document.year,
                 'volume': document.volume,
-                'number': document.number
+                'number': document.number,
+                'suppl_number': document.suppl_text
         }
 
         document.url_segment = URLegendarium(**leg_dict).get_issue_seg()
@@ -394,7 +403,9 @@ class Issue(Document):
         leg_dict = {'acron_title': self.journal.title_iso,
                     'year_pub': self.year,
                     'volume': self.volume,
-                    'number': self.number}
+                    'number': self.number,
+                    'suppl_number': self.suppl_text
+                    }
 
         return Legendarium(**leg_dict).stamp
 
@@ -404,7 +415,8 @@ class Issue(Document):
                 'acron': self.journal.acronym,
                 'year_pub': self.year,
                 'volume': self.volume,
-                'number': self.number
+                'number': self.number,
+                'suppl_number': self.suppl_text
         }
 
         return URLegendarium(**leg_dict).url_issue
@@ -496,13 +508,13 @@ class Article(Document):
                 'year_pub': document.issue.year,
                 'volume': document.issue.volume,
                 'number': document.issue.number,
+                'suppl_number': document.issue.suppl_number,
                 'fpage': document.fpage,
                 'lpage': document.lpage,
                 'article_id': document.elocation
         }
 
         document.url_segment = URLegendarium(**leg_dict).get_article_seg()
-
 
     @property
     def legend(self):
@@ -511,13 +523,13 @@ class Article(Document):
                 'year_pub': self.issue.year,
                 'volume': self.issue.volume,
                 'number': self.issue.number,
+                'suppl_number': self.issue.suppl_number,
                 'fpage': self.fpage,
                 'lpage': self.lpage,
                 'article_id': self.elocation
         }
 
         return Legendarium(**leg_dict).stamp
-
 
     @property
     def url(self):
@@ -526,6 +538,7 @@ class Article(Document):
                 'year_pub': self.issue.year,
                 'volume': self.issue.volume,
                 'number': self.issue.number,
+                'suppl_number': self.issue.suppl_number,
                 'fpage': self.fpage,
                 'lpage': self.lpage,
                 'article_id': self.elocation
