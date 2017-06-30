@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import sys
 
 try:
     from setuptools import setup, find_packages
@@ -8,7 +7,7 @@ except ImportError:
 
 setup(
     name="Opac Schema",
-    version='2.27',
+    version='2.28',
     description="Schema of SciELO OPAC",
     author="SciELO",
     author_email="scielo@scielo.org",

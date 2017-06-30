@@ -176,6 +176,7 @@ class CollectionMetrics(EmbeddedDocument):
 class JounalMetrics(EmbeddedDocument):
     total_h5_index = IntField(default=0)
     total_h5_median = IntField(default=0)
+    h5_metric_year = IntField(default='')
 
     def __unicode__(self):
         return '%s - %s' % (self.total_h5_index, self.total_h5_median)
