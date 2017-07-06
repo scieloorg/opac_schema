@@ -1,4 +1,4 @@
-    # coding: utf-8
+# coding: utf-8
 
 from mongoengine import (
     Document,
@@ -21,7 +21,7 @@ from mongoengine import (
     signals,
 )
 
-from legendarium.legendarium import Legendarium
+from legendarium.formatter import short_format
 from legendarium.urlegendarium import URLegendarium
 
 from slugify import slugify
@@ -176,10 +176,10 @@ class CollectionMetrics(EmbeddedDocument):
 class JounalMetrics(EmbeddedDocument):
     total_h5_index = IntField(default=0)
     total_h5_median = IntField(default=0)
-    h5_metric_year = IntField(default='')
+    h5_metric_year = IntField(default=0)
 
     def __unicode__(self):
-        return '%s - %s' % (self.total_h5_index, self.total_h5_median)
+        return '(%s) %s - %s' % (self.h5_metric_year, self.total_h5_index, self.total_h5_median)
 
 
 class Sponsor(Document):
@@ -293,13 +293,16 @@ class Journal(Document):
 
     @property
     def legend_last_issue(self):
-        leg_dict = {'acron_title': self.title_iso,
-                    'year_pub': self.last_issue.year,
-                    'volume': self.last_issue.volume,
-                    'number': self.last_issue.number,
-                    'suppl_number': self.last_issue.suppl_text}
+        leg_dict = {
+            'title': self.title,
+            'pubdate': self.last_issue.year,
+            'short_title': self.short_title,
+            'volume': self.last_issue.volume,
+            'number': self.last_issue.number,
+            'suppl': self.last_issue.suppl_text
+        }
 
-        return Legendarium(**leg_dict).stamp
+        return short_format(**leg_dict)
 
     @property
     def url_last_issue(self):
@@ -313,14 +316,11 @@ class Journal(Document):
 
     @property
     def legend(self):
-        leg_dict = {'acron_title': self.title_iso}
-
-        return Legendarium(**leg_dict).stamp
+        return self.title_iso
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         document.title_slug = slugify(document.title)
-
         leg_dict = {'acron': document.acronym}
         document.url_segment = URLegendarium(**leg_dict).get_journal_seg()
 
@@ -339,8 +339,8 @@ class Journal(Document):
     @property
     def url(self):
         leg_dict = {
-                'acron': self.journal.acronym,
-                'year_pub': self.year
+            'acron': self.journal.acronym,
+            'year_pub': self.year
         }
 
         return URLegendarium(**leg_dict).url_journal
@@ -396,19 +396,19 @@ class Issue(Document):
                 'number': document.number,
                 'suppl_number': document.suppl_text
         }
-
         document.url_segment = URLegendarium(**leg_dict).get_issue_seg()
 
     @property
     def legend(self):
-        leg_dict = {'acron_title': self.journal.title_iso,
-                    'year_pub': self.year,
-                    'volume': self.volume,
-                    'number': self.number,
-                    'suppl_number': self.suppl_text
-                    }
-
-        return Legendarium(**leg_dict).stamp
+        leg_dict = {
+            'title': self.journal.title,
+            'pubdate': self.year,
+            'short_title': self.journal.short_title,
+            'volume': self.volume,
+            'number': self.number,
+            'suppl': self.suppl_text
+        }
+        return short_format(**leg_dict)
 
     @property
     def url(self):
@@ -520,17 +520,17 @@ class Article(Document):
     @property
     def legend(self):
         leg_dict = {
-                'acron_title': self.journal.title_iso,
-                'year_pub': self.issue.year,
-                'volume': self.issue.volume,
-                'number': self.issue.number,
-                'suppl_number': self.issue.suppl_text,
-                'fpage': self.fpage,
-                'lpage': self.lpage,
-                'article_id': self.elocation
+            'title': self.journal.title,
+            'short_title': self.journal.short_title,
+            'pubdate': self.issue.year,
+            'volume': self.issue.volume,
+            'number': self.issue.number,
+            'fpage': self.fpage,
+            'lpage': self.lpage,
+            'elocation': self.elocation,
+            'suppl': self.issue.suppl_text
         }
-
-        return Legendarium(**leg_dict).stamp
+        return short_format(**leg_dict)
 
     @property
     def url(self):
