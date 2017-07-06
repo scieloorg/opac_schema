@@ -295,7 +295,7 @@ class Journal(Document):
     def legend_last_issue(self):
         leg_dict = {
             'title': self.title,
-            'pubdate': self.last_issue.year,
+            'pubdate': str(self.last_issue.year),
             'short_title': self.short_title,
             'volume': self.last_issue.volume,
             'number': self.last_issue.number,
@@ -402,7 +402,7 @@ class Issue(Document):
     def legend(self):
         leg_dict = {
             'title': self.journal.title,
-            'pubdate': self.year,
+            'pubdate': str(self.year),
             'short_title': self.journal.short_title,
             'volume': self.volume,
             'number': self.number,
@@ -522,7 +522,7 @@ class Article(Document):
         leg_dict = {
             'title': self.journal.title,
             'short_title': self.journal.short_title,
-            'pubdate': self.issue.year,
+            'pubdate': str(self.issue.year),
             'volume': self.issue.volume,
             'number': self.issue.number,
             'fpage': self.fpage,
