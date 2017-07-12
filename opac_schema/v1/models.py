@@ -329,12 +329,39 @@ class Journal(Document):
 
     def get_mission_by_lang(self, lang):
         """
-        Retorna a missão por idioma, caso não encontra retorna ``None``.
+        Retorna a missão por idioma do param lang, caso não exista damos
+        preferência para o Inglês.
+
+        Caso não exista o Inglês devemos retornar a missão em qualquer idioma.
+
+        Caso não exista nenhuma missão cadastrada retornamos None.
+
+        "mission" : [
+            {
+                "language" : "en",
+                "description" : "To publish original articles..."
+            },
+            {
+                "language" : "pt",
+                "description" : "Publicar artigos originais..."
+            },
+            {
+                "language" : "es",
+                "description" : "Publicar artículos originales..."
+            }
+        ]
         """
 
-        for mission in self.mission:
-            if mission.language == lang:
-                return mission.description
+        dict_mission = {m['language']: m['description'] for m in self.mission}
+
+        try:
+            return dict_mission[lang]
+        except KeyError:
+            try:
+                return dict_mission['en']
+            except KeyError:
+                if len(dict_mission) > 0:
+                    return next(dict_mission.values())
 
     @property
     def url(self):
