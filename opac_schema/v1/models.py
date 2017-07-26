@@ -541,7 +541,9 @@ class Article(Document):
                 'suppl_number': document.issue.suppl_text,
                 'fpage': document.fpage,
                 'lpage': document.lpage,
-                'article_id': document.elocation
+                'article_id': document.elocation,
+                'doi': document.doi,
+                'order': str(document.order)
         }
 
         document.url_segment = URLegendarium(**leg_dict).get_article_seg()
@@ -563,18 +565,7 @@ class Article(Document):
 
     @property
     def url(self):
-        leg_dict = {
-                'acron': self.journal.acronym,
-                'year_pub': self.issue.year,
-                'volume': self.issue.volume,
-                'number': self.issue.number,
-                'suppl_number': self.issue.suppl_text,
-                'fpage': self.fpage,
-                'lpage': self.lpage,
-                'article_id': self.elocation
-        }
-
-        return URLegendarium(**leg_dict).url_article
+        return self.url_segment
 
 signals.pre_save.connect(Article.pre_save, sender=Article)
 
