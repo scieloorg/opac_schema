@@ -405,6 +405,8 @@ class Issue(Document):
     pid = StringField()
     url_segment = StringField()
 
+    assets_code = StringField()
+
     meta = {
         'collection': 'issue'
     }
