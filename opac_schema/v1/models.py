@@ -476,6 +476,10 @@ class Article(Document):
     abstract_languages = ListField(field=StringField())
     original_language = StringField()
 
+    publication_date = StringField()
+    type = StringField()
+    keywords = ListField(field=StringField())
+
     domain_key = StringField()
 
     xml = StringField()
