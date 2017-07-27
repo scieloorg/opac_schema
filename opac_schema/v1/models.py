@@ -116,6 +116,18 @@ class Mission(EmbeddedDocument):
         return '<Mission: %s>' % (self.language)
 
 
+class ArticleKeyword(EmbeddedDocument):
+    language = StringField()
+    keywords = ListField(field=StringField())
+
+    meta = {
+        'collection': 'ArticleKeyword'
+    }
+
+    def __unicode__(self):
+        return '<Keywords: %s: %s>' % (self.language, self.keywords)
+
+
 class LastIssue(EmbeddedDocument):
     volume = StringField()
     number = StringField()
@@ -478,7 +490,7 @@ class Article(Document):
 
     publication_date = StringField()
     type = StringField()
-    keywords = ListField(field=StringField())
+    keywords = EmbeddedDocumentListField(ArticleKeyword)
 
     domain_key = StringField()
 
