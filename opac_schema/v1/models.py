@@ -37,6 +37,15 @@ class News(Document):
     language = StringField(max_length=5, required=True)
     is_public = BooleanField(required=True, default=True)
 
+    meta = {
+        'collection': 'news',
+        'indexes': [
+            'url',
+            'image_url',
+            'title',
+            'is_public'
+        ]
+    }
 
 class Pages(Document):
     _id = StringField(max_length=32, primary_key=True, required=True)
@@ -48,6 +57,10 @@ class Pages(Document):
 
     meta = {
         'collection': 'pages'
+        'indexes': [
+            'name',
+            'journal'
+        ]
     }
 
     def __unicode__(self):
@@ -143,7 +156,7 @@ class LastIssue(EmbeddedDocument):
     url_segment = StringField()
 
     meta = {
-        'collection': 'last_issue'
+        'collection': 'last_issue',
     }
 
     def __unicode__(self):
@@ -202,6 +215,11 @@ class Sponsor(Document):
 
     meta = {
         'collection': 'sponsor'
+        'indexes': [
+            'name',
+            'url',
+            'logo_url',
+        ]
     }
 
     def __unicode__(self):
@@ -248,7 +266,8 @@ class Collection(Document):
     metrics = EmbeddedDocumentField(CollectionMetrics)
 
     meta = {
-        'collection': 'collection'
+        'collection': 'collection',
+        'indexes': ['acronym', 'name']
     }
 
     def __unicode__(self):
@@ -300,7 +319,17 @@ class Journal(Document):
     metrics = EmbeddedDocumentField(JounalMetrics)
 
     meta = {
-        'collection': 'journal'
+        'collection': 'journal',
+        'indexes': [
+            'jid',
+            'title',
+            'title_slug',
+            'acronym',
+            'is_public',
+            'url_segment',
+            'issue_count',
+            'current_status',
+        ]
     }
 
     @property
@@ -420,7 +449,18 @@ class Issue(Document):
     assets_code = StringField()
 
     meta = {
-        'collection': 'issue'
+        'collection': 'issue',
+        'indexes': [
+            'iid',
+            'pid',
+            'journal',
+            'volume',
+            'number',
+            'year',
+            'type',
+            'is_public',
+            'url_segment',
+        ]
     }
 
     def __unicode__(self):
@@ -511,7 +551,21 @@ class Article(Document):
     url_segment = StringField()
 
     meta = {
-        'collection': 'article'
+        'collection': 'article',
+        'indexes': [
+            'aid',
+            'journal',
+            'issue',
+            'type',
+            'title',
+            'order',
+            'doi',
+            'is_public',
+            'fpage',
+            'lpage',
+            'url_segment',
+            'elocation',
+        ]
     }
 
     def __unicode__(self):
@@ -605,7 +659,12 @@ class PressRelease(Document):
     updated = DateTimeField()
 
     meta = {
-        'collection': 'pressrelease'
+        'collection': 'pressrelease',
+        'indexes': [
+            'journal',
+            'issue',
+            'article',
+        ]
     }
 
     def __unicode__(self):
