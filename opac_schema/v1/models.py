@@ -56,7 +56,7 @@ class Pages(Document):
     description = StringField()
 
     meta = {
-        'collection': 'pages'
+        'collection': 'pages',
         'indexes': [
             'name',
             'journal'
@@ -214,7 +214,7 @@ class Sponsor(Document):
     logo_url = URLField()
 
     meta = {
-        'collection': 'sponsor'
+        'collection': 'sponsor',
         'indexes': [
             'name',
             'url',
