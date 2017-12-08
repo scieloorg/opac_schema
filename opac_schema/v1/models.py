@@ -619,9 +619,9 @@ class Article(Document):
         """
         Retorna a resumo por idioma do param lang.
 
-        Caso não exista nenhuma abstract cadastrada retornamos None.
+        Caso não exista nenhum resumo cadastrado retornamos None.
 
-        "mission" : [
+        "abstract" : [
             {
                 "language" : "en",
                 "text" : "Original articles..."
