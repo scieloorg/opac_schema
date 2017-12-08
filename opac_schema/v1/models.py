@@ -47,6 +47,7 @@ class News(Document):
         ]
     }
 
+
 class Pages(Document):
     _id = StringField(max_length=32, primary_key=True, required=True)
     name = StringField(required=True)
@@ -126,7 +127,19 @@ class Mission(EmbeddedDocument):
     }
 
     def __unicode__(self):
-        return '<Mission: %s>' % (self.language)
+        return '%s: %s' % (self.language, self.description)
+
+
+class Abstract(EmbeddedDocument):
+    language = StringField()
+    text = StringField()
+
+    meta = {
+        'collection': 'abstract'
+    }
+
+    def __unicode__(self):
+        return '%s: %s' % (self.language, self.text)
 
 
 class ArticleKeyword(EmbeddedDocument):
@@ -519,7 +532,8 @@ class Article(Document):
     section = StringField()
     sections = EmbeddedDocumentListField(TranslatedSection)
     authors = ListField(field=StringField())
-    abstract = StringField()  # O abstract é sempre em Inglês.
+    abstract = StringField()
+    abstracts = EmbeddedDocumentListField(Abstract)
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
@@ -600,6 +614,35 @@ class Article(Document):
                 return section.name
 
         return self.section
+
+    def get_abstract_by_lang(self, lang):
+        """
+        Retorna a resumo por idioma do param lang.
+
+        Caso não exista nenhum resumo cadastrado retornamos None.
+
+        "abstract" : [
+            {
+                "language" : "en",
+                "text" : "Original articles..."
+            },
+            {
+                "language" : "pt",
+                "text" : "Artigos originais..."
+            },
+            {
+                "language" : "es",
+                "text" : "Artículos originales..."
+            }
+        ]
+        """
+
+        dict_abstract = {m['language']: m['text'] for m in self.abstracts}
+
+        try:
+            return dict_abstract[lang]
+        except KeyError:
+            return None
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
