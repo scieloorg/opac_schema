@@ -1,26 +1,23 @@
 # coding: utf-8
-from os import path, curdir
-import unittest
-import schemaprobe
 
-DOCS_DIR = path.join(path.abspath(path.dirname(__file__)), '../docs/v1')
-SPONSOR_DOCS = path.abspath(path.join(DOCS_DIR, 'sponsor'))
+from opac_schema.v1.models import Sponsor
+from base import BaseTestCase
 
 
-class TestSponsor(unittest.TestCase):
+class TestSponsorModel(BaseTestCase):
+    model_class_to_delete = [Sponsor]
 
-    def setUp(self):
-        self.sample = open(path.join(SPONSOR_DOCS, 'sample.json'), 'r')
-        self.schema = open(path.join(SPONSOR_DOCS, 'schema.json'), 'r')
+    def test_create_only_required_fields_success(self):
+        # given
+        _id = self.generate_uuid_32_string()
+        sponsor_data = {
+            '_id': _id,
+            'name': 'foo sponsor',
+        }
+        # when
+        sponsor_doc = Sponsor(**sponsor_data)
+        sponsor_doc.save()
 
-    def tearDown(self):
-        self.sample.close()
-        self.schema.close()
-
-    def test_sponsor_sample_is_valid(self):
-        '''
-        validação do sample (docs/sponsor/sample.json)
-        contra o schema (docs/sponsor/schema.json)
-        '''
-        probe = schemaprobe.JsonProbe(self.schema.read())
-        self.assertTrue(probe.validate(self.sample.read()))
+        # then
+        self.assertEqual(_id, sponsor_doc._id)
+        self.assertEqual(1, Sponsor.objects.all().count())

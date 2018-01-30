@@ -1,26 +1,67 @@
 # coding: utf-8
-from os import path, curdir
-import unittest
-import schemaprobe
-
-DOCS_DIR = path.join(path.abspath(path.dirname(__file__)), '../docs/v1')
-ARTICLE_DOCS = path.abspath(path.join(DOCS_DIR, 'article'))
+from opac_schema.v1.models import Article, Journal, Issue
+from base import BaseTestCase
 
 
-class TestArticle(unittest.TestCase):
+class TestIssueModel(BaseTestCase):
+    model_class_to_delete = [Article, Journal]
 
-    def setUp(self):
-        self.sample = open(path.join(ARTICLE_DOCS, 'sample.json'), 'r')
-        self.schema = open(path.join(ARTICLE_DOCS, 'schema.json'), 'r')
+    def _create_dummy_journal(self):
+        journal_id = self.generate_uuid_32_string()
+        journal_jid = self.generate_uuid_32_string()
+        journal_data = {
+            '_id': journal_id,
+            'jid': journal_jid,
+            'title': 'The Dummy Journal',
+            'acronym': 'dj',
+            'is_public': True
+        }
 
-    def tearDown(self):
-        self.sample.close()
-        self.schema.close()
+        journal_doc = Journal(**journal_data)
+        journal_doc.save()
+        return journal_doc
 
-    def test_article_sample_is_valid(self):
-        '''
-        validação do sample (docs/article/sample.json)
-        contra o schema (docs/article/schema.json)
-        '''
-        probe = schemaprobe.JsonProbe(self.schema.read())
-        self.assertTrue(probe.validate(self.sample.read()))
+    def _create_dummy_issue(self, journal=None):
+        if journal is None:
+            journal = self._create_dummy_journal()
+
+        issue_id = self.generate_uuid_32_string()
+        issue_iid = self.generate_uuid_32_string()
+        issue_data = {
+            '_id': issue_id,
+            'iid': issue_iid,
+            'is_public': True,
+            'volume': '123',
+            'journal': journal
+        }
+
+        issue_doc = Issue(**issue_data)
+        issue_doc.save()
+        return issue_doc
+
+    def test_create_only_required_fields_with_valid_journal_success(self):
+        # given
+        # create ajournal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+        }
+
+        # when
+        article_data = Article(**article_data)
+        article_data.save()
+
+        # then
+        articles_count = Article.objects.all().count()
+        self.assertEqual(_id, article_data._id)
+        self.assertEqual(aid, article_data.aid)
+        self.assertEqual(1, articles_count)

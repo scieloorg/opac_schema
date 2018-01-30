@@ -1,26 +1,28 @@
 # coding: utf-8
-from os import path, curdir
-import unittest
-import schemaprobe
-
-DOCS_DIR = path.join(path.abspath(path.dirname(__file__)), '../docs/v1')
-JOURNAL_DOCS = path.abspath(path.join(DOCS_DIR, 'journal'))
+from opac_schema.v1.models import Journal
+from base import BaseTestCase
 
 
-class TestJournal(unittest.TestCase):
+class TestJournalModel(BaseTestCase):
+    model_class_to_delete = [Journal]
 
-    def setUp(self):
-        self.sample = open(path.join(JOURNAL_DOCS, 'sample.json'), 'r')
-        self.schema = open(path.join(JOURNAL_DOCS, 'schema.json'), 'r')
+    def test_create_only_required_fields_success(self):
+        # given
+        _id = self.generate_uuid_32_string()
+        jid = self.generate_uuid_32_string()
+        journal_data = {
+            '_id': _id,
+            'jid': jid,
+            'title': 'The Dummy Journal',
+            'acronym': 'dj',
+            'is_public': True
+        }
 
-    def tearDown(self):
-        self.sample.close()
-        self.schema.close()
+        # when
+        journal_doc = Journal(**journal_data)
+        journal_doc.save()
 
-    def test_journal_sample_is_valid(self):
-        '''
-        validação do sample (docs/journal/sample.json)
-        contra o schema (docs/journal/schema.json)
-        '''
-        probe = schemaprobe.JsonProbe(self.schema.read())
-        self.assertTrue(probe.validate(self.sample.read()))
+        # then
+        self.assertEqual(_id, journal_doc._id)
+        self.assertEqual(jid, journal_doc.jid)
+        self.assertEqual(1, Journal.objects.all().count())

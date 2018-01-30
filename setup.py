@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name="Opac Schema",
-    version='2.38',
+    version='2.39',
     description="Schema of SciELO OPAC",
     author="SciELO",
     author_email="scielo@scielo.org",
@@ -25,10 +25,8 @@ setup(
         "legendarium>=2.0.2",
     ],
     tests_require=[
-        "schemaprobe",
+        "mongomock"
     ],
-    dependency_links=[
-        'git+https://git@github.com/picleslivre/schemaprobe.git#egg=schemaprobe',
-    ],
+    dependency_links=[],
     test_suite='tests.discover_suite'
 )

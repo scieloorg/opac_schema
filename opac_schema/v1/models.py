@@ -1,5 +1,5 @@
 # coding: utf-8
-
+from datetime import datetime
 from mongoengine import (
     Document,
     EmbeddedDocument,
@@ -55,6 +55,9 @@ class Pages(Document):
     content = StringField(required=True)
     journal = StringField()
     description = StringField()
+    # campos de controle:
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
 
     meta = {
         'collection': 'pages',
@@ -66,6 +69,12 @@ class Pages(Document):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+        return super(Pages, self).save(*args, **kwargs)
 
 
 class UseLicense(EmbeddedDocument):
@@ -426,6 +435,7 @@ class Journal(Document):
 
         return URLegendarium(**leg_dict).url_journal
 
+
 signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 
@@ -485,10 +495,10 @@ class Issue(Document):
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         leg_dict = {
-                'year_pub': document.year,
-                'volume': document.volume,
-                'number': document.number,
-                'suppl_number': document.suppl_text
+            'year_pub': document.year,
+            'volume': document.volume,
+            'number': document.number,
+            'suppl_number': document.suppl_text
         }
         document.url_segment = URLegendarium(**leg_dict).get_issue_seg()
 
@@ -507,14 +517,15 @@ class Issue(Document):
     @property
     def url(self):
         leg_dict = {
-                'acron': self.journal.acronym,
-                'year_pub': self.year,
-                'volume': self.volume,
-                'number': self.number,
-                'suppl_number': self.suppl_text
+            'acron': self.journal.acronym,
+            'year_pub': self.year,
+            'volume': self.volume,
+            'number': self.number,
+            'suppl_number': self.suppl_text
         }
 
         return URLegendarium(**leg_dict).url_issue
+
 
 signals.pre_save.connect(Issue.pre_save, sender=Issue)
 
@@ -647,16 +658,16 @@ class Article(Document):
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         leg_dict = {
-                'acron': document.journal.acronym,
-                'year_pub': document.issue.year,
-                'volume': document.issue.volume,
-                'number': document.issue.number,
-                'suppl_number': document.issue.suppl_text,
-                'fpage': document.fpage,
-                'lpage': document.lpage,
-                'article_id': document.elocation,
-                'doi': document.doi,
-                'order': str(document.order)
+            'acron': document.journal.acronym,
+            'year_pub': document.issue.year,
+            'volume': document.issue.volume,
+            'number': document.issue.number,
+            'suppl_number': document.issue.suppl_text,
+            'fpage': document.fpage,
+            'lpage': document.lpage,
+            'article_id': document.elocation,
+            'doi': document.doi,
+            'order': str(document.order)
         }
 
         document.url_segment = URLegendarium(**leg_dict).get_article_seg()
@@ -679,6 +690,7 @@ class Article(Document):
     @property
     def url(self):
         return self.url_segment
+
 
 signals.pre_save.connect(Article.pre_save, sender=Article)
 
