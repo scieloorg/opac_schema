@@ -1,26 +1,23 @@
 # coding: utf-8
-from os import path, curdir
-import unittest
-import schemaprobe
-
-DOCS_DIR = path.join(path.abspath(path.dirname(__file__)), '../docs/v1')
-COLLECTION_DOCS = path.abspath(path.join(DOCS_DIR, 'collection'))
+from opac_schema.v1.models import Collection
+from base import BaseTestCase
 
 
-class TestCollection(unittest.TestCase):
+class TestCollectionModels(BaseTestCase):
+    model_class_to_delete = [Collection]
 
-    def setUp(self):
-        self.sample = open(path.join(COLLECTION_DOCS, 'sample.json'), 'r')
-        self.schema = open(path.join(COLLECTION_DOCS, 'schema.json'), 'r')
+    def test_create_only_required_fields_success(self):
+        # given
+        _id = self.generate_uuid_32_string()
+        collection_data = {
+            '_id': _id,
+            'name': 'Dummy Collection',
+            'acronym': 'dummy',
+        }
+        # when
+        collection_doc = Collection(**collection_data)
+        collection_doc.save()
 
-    def tearDown(self):
-        self.sample.close()
-        self.schema.close()
-
-    def test_collection_sample_is_valid(self):
-        '''
-        validação do sample (docs/collection/sample.json)
-        contra o schema (docs/collection/schema.json)
-        '''
-        probe = schemaprobe.JsonProbe(self.schema.read())
-        self.assertTrue(probe.validate(self.sample.read()))
+        # then
+        self.assertEqual(_id, collection_doc._id)
+        self.assertEqual(1, Collection.objects.all().count())
