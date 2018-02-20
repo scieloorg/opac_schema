@@ -724,3 +724,46 @@ class PressRelease(Document):
 
     def __unicode__(self):
         return self.title or 'PressRelease: %s' % self._id
+
+
+class AuditLogEntry(Document):
+    action_choices = {
+        'ADD': 'Add',
+        'UPD': 'Update',
+        'DEL': 'Delete',
+    }
+
+    _id = StringField(max_length=32, primary_key=True, required=True)
+    user = StringField(max_length=256)
+    action = StringField(max_length=3, choices=action_choices.keys())
+    created_at = DateTimeField()
+    object_class_name = StringField(max_length=128)
+    object_pk = StringField(max_length=32)
+    description = StringField()
+    fields_data = DictField()
+
+    meta = {
+        'collection': 'auditlog_entry',
+        'indexes': [
+            'user',
+            'action',
+            'created_at',
+            'object_class_name',
+            'object_pk'
+        ]
+    }
+
+    @property
+    def get_action_value(self):
+        if self.action:
+            return self.action_choices[self.action]
+        else:
+            'No action'
+
+    def __unicode__(self):
+        return '<AuditLogEntry: %s>' % self._id
+
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = datetime.now()
+        return super(AuditLogEntry, self).save(*args, **kwargs)
