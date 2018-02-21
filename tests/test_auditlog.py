@@ -91,7 +91,7 @@ class AuditLogEntryModel(BaseTestCase):
 
         the_exception = save_model_exc.exception
         expected_error_msg = "Value must be one of ['ADD', 'DEL', 'UPD']: ['action']"
-        self.assertIn(expected_error_msg, the_exception.message)
+        self.assertIn(expected_error_msg, str(the_exception))
         self.assertEqual(0, AuditLogEntry.objects.all().count())
 
     def test_create_entry_with_an_email_as_user_info(self):
@@ -148,7 +148,7 @@ class AuditLogEntryModel(BaseTestCase):
         # then
         the_exception = save_model_exc.exception
         expected_error_msg = "String value is too long: ['object_pk']"
-        self.assertIn(expected_error_msg, the_exception.message)
+        self.assertIn(expected_error_msg, str(the_exception))
         self.assertEqual(0, AuditLogEntry.objects.all().count())
 
     def test_create_entry_with_random_fields_data_success(self):
