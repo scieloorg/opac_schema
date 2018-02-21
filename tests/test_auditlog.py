@@ -96,7 +96,7 @@ class AuditLogEntryModel(BaseTestCase):
         # py3 has an extra word: "dict_keys(...)"
         expected_error_msg_part_1 = "Value must be one of "
         self.assertIn(expected_error_msg_part_1, str(the_exception))
-        expected_error_msg_part_2 = "['ADD', 'DEL', 'UPD']: ['action']"
+        expected_error_msg_part_2 = "['ADD', 'DEL', 'UPD']"
         self.assertIn(expected_error_msg_part_2, str(the_exception))
         self.assertEqual(0, AuditLogEntry.objects.all().count())
 
