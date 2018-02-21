@@ -680,9 +680,6 @@ class Article(Document):
             'pubdate': str(self.issue.year),
             'volume': self.issue.volume,
             'number': self.issue.number,
-            'fpage': self.fpage,
-            'lpage': self.lpage,
-            'elocation': self.elocation,
             'suppl': self.issue.suppl_text
         }
         return short_format(**leg_dict)

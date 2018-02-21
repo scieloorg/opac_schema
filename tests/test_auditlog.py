@@ -1,7 +1,7 @@
 # coding: utf-8
 from datetime import datetime
 from mongoengine import ValidationError
-from base import BaseTestCase
+from .base import BaseTestCase
 from opac_schema.v1.models import AuditLogEntry
 
 

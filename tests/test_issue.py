@@ -1,6 +1,6 @@
 # coding: utf-8
 from opac_schema.v1.models import Issue
-from base import BaseTestCase
+from .base import BaseTestCase
 from datetime import datetime
 
 
