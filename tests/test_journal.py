@@ -1,6 +1,6 @@
 # coding: utf-8
 from opac_schema.v1.models import Journal
-from base import BaseTestCase
+from .base import BaseTestCase
 
 
 class TestJournalModel(BaseTestCase):

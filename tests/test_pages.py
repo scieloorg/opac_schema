@@ -1,7 +1,7 @@
 # coding: utf-8
 from time import sleep
 from opac_schema.v1.models import Pages
-from base import BaseTestCase
+from .base import BaseTestCase
 
 
 class TestPagesModel(BaseTestCase):

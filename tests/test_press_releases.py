@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from opac_schema.v1.models import PressRelease
-from base import BaseTestCase
+from .base import BaseTestCase
 
 
 class TestPressReleaseModel(BaseTestCase):

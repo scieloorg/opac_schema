@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from opac_schema.v1.models import Sponsor
-from base import BaseTestCase
+from .base import BaseTestCase
 
 
 class TestSponsorModel(BaseTestCase):

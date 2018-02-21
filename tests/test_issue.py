@@ -1,6 +1,6 @@
 # coding: utf-8
 from opac_schema.v1.models import Issue
-from base import BaseTestCase
+from .base import BaseTestCase
 from datetime import datetime
 
 
@@ -67,5 +67,5 @@ class TestIssueModel(BaseTestCase):
         # then
         the_exception = save_model_exc.exception
         expected_error_msg = u'Year or Volume or Year must exists to form URL Issue Segment'
-        self.assertEqual(the_exception.message, expected_error_msg)
+        self.assertEqual(expected_error_msg, str(the_exception))
         self.assertEqual(0, Issue.objects.all().count())
