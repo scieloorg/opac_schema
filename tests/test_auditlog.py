@@ -90,8 +90,14 @@ class AuditLogEntryModel(BaseTestCase):
             entry_doc.save()
 
         the_exception = save_model_exc.exception
-        expected_error_msg = "Value must be one of ['ADD', 'DEL', 'UPD']: ['action']"
-        self.assertIn(expected_error_msg, str(the_exception))
+        # check error message in two parts because it's different in py2 and py3
+        # py2: Value must be one of ['ADD', 'DEL', 'UPD']: ['action']
+        # py3: Value must be one of dict_keys(['ADD', 'UPD', 'DEL']): ['action'])
+        # py3 has an extra word: "dict_keys(...)"
+        expected_error_msg_part_1 = "Value must be one of "
+        self.assertIn(expected_error_msg_part_1, str(the_exception))
+        expected_error_msg_part_2 = "['ADD', 'DEL', 'UPD']: ['action']"
+        self.assertIn(expected_error_msg_part_2, str(the_exception))
         self.assertEqual(0, AuditLogEntry.objects.all().count())
 
     def test_create_entry_with_an_email_as_user_info(self):
