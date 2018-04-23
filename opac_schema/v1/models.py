@@ -14,6 +14,7 @@ from mongoengine import (
     BooleanField,
     URLField,
     DictField,
+    EmailField,
     # reverse_delete_rule:
     PULL,
     CASCADE,
@@ -327,6 +328,7 @@ class Journal(Document):
     publisher_address = StringField()
     publisher_telephone = StringField()
     current_status = StringField()
+    editor_email = EmailField()
 
     mission = EmbeddedDocumentListField(Mission)
     index_at = ListField(field=StringField())

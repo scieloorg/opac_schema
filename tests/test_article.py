@@ -19,7 +19,6 @@ class TestIssueModel(BaseTestCase):
         }
 
         journal_doc = Journal(**journal_data)
-        journal_doc.save()
         return journal_doc
 
     def _create_dummy_issue(self, journal=None):
@@ -39,7 +38,6 @@ class TestIssueModel(BaseTestCase):
         }
 
         issue_doc = Issue(**issue_data)
-        issue_doc.save()
         return issue_doc
 
     def test_create_only_required_fields_with_valid_journal_success(self):
@@ -47,7 +45,6 @@ class TestIssueModel(BaseTestCase):
         # create a journal
         journal_doc = self._create_dummy_journal()
         issue_doc = self._create_dummy_issue(journal_doc)
-        issue_doc.save()
 
         _id = self.generate_uuid_32_string()
         aid = self.generate_uuid_32_string()
