@@ -329,6 +329,7 @@ class Journal(Document):
     publisher_telephone = StringField()
     current_status = StringField()
     editor_email = EmailField()
+    enable_contact = BooleanField(default=False)
 
     mission = EmbeddedDocumentListField(Mission)
     index_at = ListField(field=StringField())
