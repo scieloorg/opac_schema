@@ -552,6 +552,7 @@ class Article(Document):
     order = IntField()
     doi = StringField()
     pid = StringField()
+    aop_pid = StringField()
     languages = ListField(field=StringField())
     abstract_languages = ListField(field=StringField())
     original_language = StringField()
@@ -581,6 +582,8 @@ class Article(Document):
     meta = {
         'collection': 'article',
         'indexes': [
+            'pid',
+            'aop_pid',
             'aid',
             'journal',
             'issue',
