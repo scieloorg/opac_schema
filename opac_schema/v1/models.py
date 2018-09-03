@@ -576,6 +576,7 @@ class Article(Document):
 
     elocation = StringField()
     fpage = StringField()
+    fpage_sequence = StringField()
     lpage = StringField()
     url_segment = StringField()
 
@@ -593,6 +594,7 @@ class Article(Document):
             'doi',
             'is_public',
             'fpage',
+            'fpage_sequence',
             'lpage',
             'url_segment',
             'elocation',
@@ -670,6 +672,7 @@ class Article(Document):
             'number': document.issue.number,
             'suppl_number': document.issue.suppl_text,
             'fpage': document.fpage,
+            'fpage_sequence': document.fpage_sequence,
             'lpage': document.lpage,
             'article_id': document.elocation,
             'doi': document.doi,
