@@ -4,7 +4,7 @@ from .base import BaseTestCase
 
 
 class TestArticleModel(BaseTestCase):
-    model_class_to_delete = [Article, Journal]
+    model_class_to_delete = [Article, Issue, Journal]
 
     def _create_dummy_journal(self):
         journal_id = self.generate_uuid_32_string()
