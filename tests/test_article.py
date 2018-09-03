@@ -3,7 +3,7 @@ from opac_schema.v1.models import Article, Journal, Issue
 from .base import BaseTestCase
 
 
-class TestIssueModel(BaseTestCase):
+class TestArticleModel(BaseTestCase):
     model_class_to_delete = [Article, Journal]
 
     def _create_dummy_journal(self):
@@ -93,3 +93,142 @@ class TestIssueModel(BaseTestCase):
             journal_doc.short_title, issue_doc.year,
             issue_doc.volume, issue_doc.number)
         self.assertEqual(expected_legend, article_doc.legend)
+
+    def test_check_article_url_with_elocation(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'fpage_sequence': 'FPAGE_SEQ',
+            'fpage': 'FPAGE',
+            'lpage': 'LPAGE',
+            'elocation': 'ELOCATION',
+            'doi': 'DOI',
+            'order': 1111,
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual('ELOCATION', article_doc.url)
+
+    def test_check_article_url_with_fpage(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'fpage': 'FPAGE',
+            'lpage': 'LPAGE',
+            'doi': 'DOI',
+            'order': 1111,
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual('FPAGE-LPAGE', article_doc.url)
+
+    def test_check_article_url_with_fpage_sequence(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'fpage_sequence': 'FPAGE_SEQ',
+            'fpage': 'FPAGE',
+            'lpage': 'LPAGE',
+            'doi': 'DOI',
+            'order': 1111,
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual('FPAGE_FPAGE_SEQ-LPAGE', article_doc.url)
+
+    def test_check_article_url_with_DOI(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'doi': 'DOI',
+            'order': 1111,
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual('DOI', article_doc.url)
+
+    def test_check_article_url_with_order(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual('o1111', article_doc.url)
+
