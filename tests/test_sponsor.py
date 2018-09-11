@@ -13,6 +13,7 @@ class TestSponsorModel(BaseTestCase):
         sponsor_data = {
             '_id': _id,
             'name': 'foo sponsor',
+            'order': 3
         }
         # when
         sponsor_doc = Sponsor(**sponsor_data)
@@ -20,4 +21,6 @@ class TestSponsorModel(BaseTestCase):
 
         # then
         self.assertEqual(_id, sponsor_doc._id)
+        self.assertEqual('foo sponsor', sponsor_doc.name)
+        self.assertEqual(3, sponsor_doc.order)
         self.assertEqual(1, Sponsor.objects.all().count())
