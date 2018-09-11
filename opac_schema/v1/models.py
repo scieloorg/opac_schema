@@ -232,6 +232,7 @@ class JounalMetrics(EmbeddedDocument):
 
 class Sponsor(Document):
     _id = StringField(max_length=32, primary_key=True, required=True)
+    order = IntField(default=0, required=True, unique=True)
     name = StringField(max_length=256, required=True, unique=True)
     url = URLField()
     logo_url = URLField()
