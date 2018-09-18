@@ -343,6 +343,7 @@ class Journal(Document):
     url_segment = StringField()
 
     metrics = EmbeddedDocumentField(JounalMetrics)
+    scimago_id = StringField()
 
     meta = {
         'collection': 'journal',
@@ -355,6 +356,7 @@ class Journal(Document):
             'url_segment',
             'issue_count',
             'current_status',
+            'scimago_id',
         ]
     }
 

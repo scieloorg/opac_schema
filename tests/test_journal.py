@@ -15,7 +15,8 @@ class TestJournalModel(BaseTestCase):
             'jid': jid,
             'title': 'The Dummy Journal',
             'acronym': 'dj',
-            'is_public': True
+            'is_public': True,
+            'scimago_id': '4500151524',
         }
 
         # when
@@ -23,6 +24,7 @@ class TestJournalModel(BaseTestCase):
         journal_doc.save()
 
         # then
+        self.assertEqual('4500151524', journal_doc.scimago_id)
         self.assertEqual(_id, journal_doc._id)
         self.assertEqual(jid, journal_doc.jid)
         self.assertEqual(1, Journal.objects.all().count())
