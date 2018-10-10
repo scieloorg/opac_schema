@@ -59,6 +59,7 @@ class Pages(Document):
     # campos de controle:
     created_at = DateTimeField()
     updated_at = DateTimeField()
+    slug_name = StringField()
 
     meta = {
         'collection': 'pages',
@@ -75,6 +76,7 @@ class Pages(Document):
         if not self.created_at:
             self.created_at = datetime.now()
         self.updated_at = datetime.now()
+        self.slug_name = slugify(self.name)
         return super(Pages, self).save(*args, **kwargs)
 
 
