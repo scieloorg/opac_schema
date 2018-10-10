@@ -65,7 +65,8 @@ class Pages(Document):
         'collection': 'pages',
         'indexes': [
             'name',
-            'journal'
+            'journal',
+            'slug_name',
         ]
     }
 
