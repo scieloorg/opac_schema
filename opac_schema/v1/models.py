@@ -311,6 +311,7 @@ class Journal(Document):
     social_networks = EmbeddedDocumentListField(SocialNetwork)
     title = StringField()
     title_iso = StringField()
+    next_title = StringField()
     short_title = StringField()
     title_slug = StringField()
     created = DateTimeField()
