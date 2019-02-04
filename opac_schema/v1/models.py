@@ -446,6 +446,33 @@ class Journal(Document):
         return URLegendarium(**leg_dict).url_journal
 
 
+    @property
+    def url_new_journal(self):
+        if self.next_title:
+            new_journal = self.__class__.objects(
+                title_slug=slugify(self.next_title)
+            ).first()
+            if new_journal:
+                url_new_journal = '/journal/%s' % new_journal.url_segment
+        else:
+            url_new_journal = ""
+
+        return url_new_journal
+
+    @property
+    def url_previous_journal(self):
+        if self.previous_journal_ref:
+            previous_journal = self.__class__.objects(
+                title_slug=slugify(self.previous_journal_ref)
+            ).first()
+            if previous_journal:
+                url_previous_journal = '/journal/%s' % previous_journal.url_segment
+        else:
+            url_previous_journal = ""
+
+        return url_previous_journal
+
+
 signals.pre_save.connect(Journal.pre_save, sender=Journal)
 
 
