@@ -447,17 +447,17 @@ class Journal(Document):
 
 
     @property
-    def url_new_journal(self):
+    def url_next_journal(self):
         if self.next_title:
-            new_journal = self.__class__.objects(
+            next_journal = self.__class__.objects(
                 title_slug=slugify(self.next_title)
             ).first()
-            if new_journal:
-                url_new_journal = '/journal/%s' % new_journal.url_segment
+            if next_journal:
+                url_next_journal = '/journal/%s' % next_journal.url_segment
         else:
-            url_new_journal = ""
+            url_next_journal = ""
 
-        return url_new_journal
+        return url_next_journal
 
     @property
     def url_previous_journal(self):
