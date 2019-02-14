@@ -77,7 +77,8 @@ class Pages(Document):
         if not self.created_at:
             self.created_at = datetime.now()
         self.updated_at = datetime.now()
-        self.slug_name = slugify(self.name)
+        if not self.slug_name:
+            self.slug_name = slugify(self.name)
         return super(Pages, self).save(*args, **kwargs)
 
 
