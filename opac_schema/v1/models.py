@@ -254,6 +254,14 @@ class Sponsor(Document):
         return self.name
 
 
+class AOPUrlSegments(EmbeddedDocument):
+    url_seg_article = StringField()
+    url_seg_issue = StringField()
+
+    def __unicode__(self):
+        return "%s/%s" % (self.url_seg_issue, self.url_seg_article)
+
+
 class Collection(Document):
     _id = StringField(max_length=32, primary_key=True, required=True)
     acronym = StringField(max_length=50, required=True, unique=True)
@@ -612,6 +620,7 @@ class Article(Document):
     fpage_sequence = StringField()
     lpage = StringField()
     url_segment = StringField()
+    aop_url_segs = EmbeddedDocumentField(AOPUrlSegments)
 
     meta = {
         'collection': 'article',
