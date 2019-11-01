@@ -47,15 +47,14 @@ class TestIssueModel(BaseTestCase):
         self.assertEqual(iid, issue_doc.iid)
         self.assertEqual(1, Issue.objects.all().count())
 
-    def test_create_only_required_fields_fail_when_volume_has_no_numbers(self):
+    def test_create_issue_without_year_volume_and_number(self):
         # given
         _id = self.generate_uuid_32_string()
         iid = self.generate_uuid_32_string()
         issue_data = {
             '_id': _id,
             'iid': iid,
-            'is_public': True,
-            'volume': 'xyz'
+            'is_public': True
         }
 
         # when
@@ -66,6 +65,6 @@ class TestIssueModel(BaseTestCase):
 
         # then
         the_exception = save_model_exc.exception
-        expected_error_msg = u'Year or Volume or Year must exists to form URL Issue Segment'
+        expected_error_msg = u'Year or Volume or Number or Supplement must exist to form URL Issue Segment'
         self.assertEqual(expected_error_msg, str(the_exception))
         self.assertEqual(0, Issue.objects.all().count())
