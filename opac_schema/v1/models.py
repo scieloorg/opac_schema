@@ -621,6 +621,7 @@ class Article(Document):
     lpage = StringField()
     url_segment = StringField()
     aop_url_segs = EmbeddedDocumentField(AOPUrlSegments)
+    scielo_pids = DictField()
 
     meta = {
         'collection': 'article',
@@ -640,6 +641,7 @@ class Article(Document):
             'lpage',
             'url_segment',
             'elocation',
+            'scielo_pids',
         ]
     }
 
@@ -722,6 +724,8 @@ class Article(Document):
         }
 
         document.url_segment = URLegendarium(**leg_dict).get_article_seg()
+        if document.pid is None or len(document.pid) == 0:
+            document.pid = document.scielo_pids.get("v2")
 
     @property
     def legend(self):

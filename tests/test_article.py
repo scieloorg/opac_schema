@@ -232,3 +232,101 @@ class TestArticleModel(BaseTestCase):
         # then
         self.assertEqual('o1111', article_doc.url)
 
+    def test_check_article_scielo_pids(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'scielo_pids': {
+                "v1": "S0101-0202(98)01100123",
+                "v2": "S0101-02022019000300001",
+                "v3": "azEglOE290cWcmloijsd",
+            },
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual(
+            article_doc.scielo_pids,
+            {
+                "v1": "S0101-0202(98)01100123",
+                "v2": "S0101-02022019000300001",
+                "v3": "azEglOE290cWcmloijsd",
+            }
+        )
+
+    def test_check_article_pid(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'scielo_pids': {
+                "v1": "S0101-0202(98)01100123",
+                "v2": "S0101-02022019000300001",
+                "v3": "azEglOE290cWcmloijsd",
+            },
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual(article_doc.pid, "S0101-02022019000300001")
+
+    def test_check_article_pid_already_set(self):
+        # given
+        # create a journal
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        _id = self.generate_uuid_32_string()
+        aid = self.generate_uuid_32_string()
+        article_data = {
+            '_id': _id,
+            'aid': aid,
+            'is_public': True,
+            # requerido pelo Legendarium:
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'scielo_pids': {
+                "v1": "S0101-0202(98)01100123",
+                "v2": "S0101-02022019000300001",
+                "v3": "azEglOE290cWcmloijsd",
+            },
+        }
+
+        # when
+        article_doc = Article(**article_data)
+        article_doc.save()
+
+        # then
+        self.assertEqual(article_doc.pid, "S0101-02022019000300123")
+
