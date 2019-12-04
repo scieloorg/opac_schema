@@ -20,7 +20,7 @@ setup(
     classifiers=[],
     install_requires=[
         "blinker",
-        "mongoengine<=0.15.3",
+        "mongoengine",
         "python-slugify",
         "legendarium",
     ],
