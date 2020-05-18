@@ -330,3 +330,35 @@ class TestArticleModel(BaseTestCase):
         # then
         self.assertEqual(article_doc.pid, "S0101-02022019000300123")
 
+    def test_if_display_full_text_is_true_by_default(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123"
+        }
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertTrue(article_doc.display_full_text)
+
+    def test_if_display_full_text_could_be_setted_as_false(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'display_full_text': False
+        }
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertFalse(article_doc.display_full_text)

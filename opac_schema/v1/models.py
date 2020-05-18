@@ -621,6 +621,7 @@ class Article(Document):
     url_segment = StringField()
     aop_url_segs = EmbeddedDocumentField(AOPUrlSegments)
     scielo_pids = DictField()
+    display_full_text = BooleanField(required=True, default=True)
 
     meta = {
         'collection': 'article',
