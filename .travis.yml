@@ -4,4 +4,5 @@ python:
   - "3.5"
   - "3.6"
 script:
+  - pip install -r requirements.txt
   - python setup.py test -q --verbose
