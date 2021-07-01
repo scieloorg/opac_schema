@@ -641,7 +641,10 @@ class Article(Document):
             'lpage',
             'url_segment',
             'elocation',
-            'scielo_pids',
+            'scielo_pids.v1',
+            'scielo_pids.v2',
+            'scielo_pids.v3',
+            'scielo_pids.other',
         ]
     }
 
