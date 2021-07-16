@@ -143,6 +143,39 @@ class Mission(EmbeddedDocument):
         return '%s: %s' % (self.language, self.description)
 
 
+class AuthorMeta(EmbeddedDocument):
+    """
+    Model responsable for author metadata.
+
+    Example of this model:
+
+        "author_meta" : [
+            {
+                "name" : "Thales Silva Coutinho",
+                "affiliation" : "Universidade Federal de Pernambuco",
+                "orcid" : "0000-0002-2173-4340",
+            },
+            {
+                "name" : "Matheus Colli-Silva",
+                "affiliation" : "Universidade de São Paulo",
+                "orcid" : "0000-0001-7130-3920",
+            },
+
+        ],
+
+    """
+    name = StringField()
+    affiliation = StringField()
+    orcid = StringField()
+
+    meta = {
+        'collection': 'author_meta'
+    }
+
+    def __unicode__(self):
+        return '%s - %s - %s' % (self.name, self.affiliation, self.orcid)
+
+
 class Abstract(EmbeddedDocument):
     language = StringField()
     text = StringField()
@@ -586,6 +619,7 @@ class Article(Document):
     section = StringField()
     sections = EmbeddedDocumentListField(TranslatedSection)
     authors = ListField(field=StringField())
+    authors_meta = EmbeddedDocumentListField(AuthorMeta)
     abstract = StringField()
     abstracts = EmbeddedDocumentListField(Abstract)
     is_aop = BooleanField()
