@@ -362,3 +362,36 @@ class TestArticleModel(BaseTestCase):
         article_doc = Article(**article_data)
         article_doc.save()
         self.assertFalse(article_doc.display_full_text)
+
+    def test_if_possible_set_author_meta_attribute(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        author_meta = [
+           {
+                "name": "Thales Silva Coutinho",
+                "affiliation": "Universidade Federal de Pernambuco",
+                "orcid": "0000-0002-2173-4340",
+            },
+           {
+                "name": "Matheus Colli-Silva",
+                "affiliation": "Universidade de São Paulo",
+                "orcid": "0000-0001-7130-3920",
+            },
+        ]
+
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'display_full_text': False,
+            'authors_meta': author_meta,
+        }
+
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertTrue(article_doc.authors_meta)
