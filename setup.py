@@ -7,15 +7,15 @@ except ImportError:
 
 setup(
     name="Opac Schema",
-    version='2.55',
+    version='2.59',
     description="Schema of SciELO OPAC",
     author="SciELO",
-    author_email="scielo@scielo.org",
+    author_email="dev@scielo.org",
     license="BSD",
     url="https://github.com/scieloorg/opac_schema",
     packages=find_packages(),
     keywords='opac schema',
-    maintainer_email='scielo@scielo.org',
+    maintainer_email='dev@scielo.org',
     download_url='',
     classifiers=[],
     install_requires=[
