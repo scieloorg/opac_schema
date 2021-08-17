@@ -42,6 +42,7 @@ class ReceivedPackage(Document):
         if not self.created:
             self.created = datetime.now()
         self.updated = datetime.now()
+        return super(ReceivedPackage, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return '%s' % self.file and self.file.name
@@ -73,6 +74,7 @@ class ArticleFiles(Document):
         if not self.created:
             self.created = datetime.now()
         self.updated = datetime.now()
+        return super(ArticleFiles, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return '%s %s' % (self._id, self.xml and self.xml.name)
