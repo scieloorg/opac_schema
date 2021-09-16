@@ -145,7 +145,7 @@ class Mission(EmbeddedDocument):
 
 class AuthorMeta(EmbeddedDocument):
     """
-    Model responsable for author metadata.
+    Model responsible for author metadata.
 
     Example of this model:
 
@@ -175,6 +175,48 @@ class AuthorMeta(EmbeddedDocument):
     def __unicode__(self):
         return '%s - %s - %s' % (self.name, self.affiliation, self.orcid)
 
+
+class RelatedArticle(EmbeddedDocument):
+    """
+    Model responsible for relationship between articles.
+
+    Attributes:
+
+    ref_id: String content any reference Id to the article pid_v1, pid_v2 or pid_v3
+    doi: String content the Crossref Id, if the article dont have DOI use the
+    ``ref_id``
+    related_type: String with a category of relation.
+
+    Example of this model:
+
+        "related_articles" : [
+            {
+                "ref_id": "9LzVjQrYQF7BvkYWnJw9sDy",
+                "doi" : "10.1590/S0103-50532006000200015",
+                "related_type" : "corrected-article"
+            },
+            {
+                "ref_id": "3LzVjQrOIEJYUSvkYWnJwsDy",
+                "doi" : "10.1590/S0103-5053200600020098983",
+                "related_type" : "addendum"
+            },
+            {
+                "ref_id": "6LzVjQrKOIJAKSJUIOAKKODy",
+                "doi" : "10.1590/S0103-50532006000200015",
+                "related_type" : "retraction"
+            },
+        ]
+    """
+    ref_id = StringField()
+    doi = StringField()
+    related_type = StringField()
+
+    meta = {
+        'collection': 'related_articles'
+    }
+
+    def __unicode__(self):
+        return '%s - %s - %s' % (self.ref_id, self.doi, self.related_type)
 
 class Abstract(EmbeddedDocument):
     language = StringField()
@@ -656,6 +698,8 @@ class Article(Document):
     aop_url_segs = EmbeddedDocumentField(AOPUrlSegments)
     scielo_pids = DictField()
     display_full_text = BooleanField(required=True, default=True)
+
+    related_articles = EmbeddedDocumentListField(RelatedArticle)
 
     meta = {
         'collection': 'article',

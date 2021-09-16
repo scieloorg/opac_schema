@@ -395,3 +395,41 @@ class TestArticleModel(BaseTestCase):
         article_doc = Article(**article_data)
         article_doc.save()
         self.assertTrue(article_doc.authors_meta)
+
+    def test_if_possible_set_related_articles_attribute(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        related_articles = [
+            {
+                "ref_id": "9LzVjQrYQF7BvkYWnJw9sDy",
+                "doi": "10.1590/S0103-50532006000200015",
+                "related_type": "corrected-article"
+            },
+            {
+                "ref_id": "3LzVjQrOIEJYUSvkYWnJwsDy",
+                "doi": "10.1590/S0103-5053200600020098983",
+                "related_type": "addendum"
+            },
+            {
+                "ref_id": "6LzVjQrKOIJAKSJUIOAKKODy",
+                "doi": "10.1590/S0103-50532006000200015",
+                "related_type": "retraction"
+            },
+        ]
+
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'display_full_text': False,
+            'related_articles': related_articles,
+        }
+
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertTrue(article_doc.related_articles)
