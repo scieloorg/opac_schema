@@ -391,7 +391,6 @@ class TestArticleModel(BaseTestCase):
             'display_full_text': False,
             'authors_meta': author_meta,
         }
-        import pdb; pdb.set_trace()
 
         article_doc = Article(**article_data)
         article_doc.save()
