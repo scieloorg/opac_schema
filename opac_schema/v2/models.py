@@ -57,6 +57,7 @@ class ArticleFiles(Document):
     - zip para download com respectivos URI, nome do arquivo e anotações
     """
     aid = StringField(max_length=32, required=True)
+    scielo_pids = DictField()
     file = EmbeddedDocumentField(RemoteAndLocalFile)
     created = DateTimeField()
     updated = DateTimeField()
