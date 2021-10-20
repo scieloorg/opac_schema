@@ -56,7 +56,7 @@ class ArticleFiles(Document):
     - assets com respectivos URI e nome
     - zip para download com respectivos URI, nome do arquivo e anotações
     """
-    _id = StringField(max_length=32, primary_key=True, required=True)
+    aid = StringField(max_length=32, required=True)
     file = EmbeddedDocumentField(RemoteAndLocalFile)
     created = DateTimeField()
     updated = DateTimeField()
