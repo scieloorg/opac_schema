@@ -57,3 +57,23 @@ class TestArticleFilesModel(BaseTestCase):
         self.assertEqual(1, article_files_1.version)
         self.assertEqual(2, article_files_2.version)
         self.assertEqual(1, article_files_3.version)
+
+    def test_create_invalid_article_files_version(self):
+        # cria primeiro pacote com versão 1
+        aid1 = self.generate_uuid_32_string()
+        aid_doc_pkgs_count = ArticleFiles.objects(aid=aid1).count()
+
+        data = {
+            'aid': aid1,
+            'version': 1
+        }
+
+        article_files_1 = ArticleFiles(**data)
+        article_files_1.save()
+
+        # cria segundo pacote com versão 1
+        article_files_2 = ArticleFiles(**data)
+
+        # tenta salvar segundo pacote com um número de versão que já existe
+        with self.assertRaises(NotUniqueError) as context:
+            article_files_2.save()
