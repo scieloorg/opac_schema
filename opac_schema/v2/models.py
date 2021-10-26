@@ -70,7 +70,9 @@ class ArticleFiles(Document):
 
     meta = {
         'collection': 'article_files',
-        'indexes': ['updated', 'xml'],
+        'indexes': [{
+            'fields': ('aid', 'version'), 'unique': True},
+            'updated', 'xml'],
     }
 
     def save(self, *args, **kwargs):
