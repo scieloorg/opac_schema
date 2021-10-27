@@ -4,6 +4,7 @@ from mongoengine import (
     Document,
     EmbeddedDocument,
     # campos:
+    IntField,
     StringField,
     DateTimeField,
     EmbeddedDocumentField,
@@ -57,6 +58,7 @@ class ArticleFiles(Document):
     - zip para download com respectivos URI, nome do arquivo e anotações
     """
     aid = StringField(max_length=32, required=True)
+    version = IntField(required=True)
     scielo_pids = DictField()
     file = EmbeddedDocumentField(RemoteAndLocalFile)
     created = DateTimeField()
@@ -68,7 +70,9 @@ class ArticleFiles(Document):
 
     meta = {
         'collection': 'article_files',
-        'indexes': ['updated', 'xml'],
+        'indexes': [{
+            'fields': ('aid', 'version'), 'unique': True},
+            'updated', 'xml'],
     }
 
     def save(self, *args, **kwargs):
