@@ -277,6 +277,18 @@ class TranslatedSection(EmbeddedDocument):
         return self.name
 
 
+class DOIWithLang(EmbeddedDocument):
+    doi = StringField()
+    language = StringField()
+
+    meta = {
+        'collection': 'doi_with_lang'
+    }
+
+    def __unicode__(self):
+        return self.doi
+
+
 class TranslatedTitle(EmbeddedDocument):
     name = StringField()
     language = StringField()
@@ -668,6 +680,7 @@ class Article(Document):
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
+    doi_with_lang = EmbeddedDocumentListField(DOIWithLang)
     pid = StringField()
     aop_pid = StringField()
     languages = ListField(field=StringField())
@@ -788,6 +801,19 @@ class Article(Document):
             return dict_abstract[lang]
         except KeyError:
             return None
+
+    def get_doi_by_lang(self, lang):
+        """
+        Retorna o DOI por idioma, caso não encontre retorna o atributo:
+        ``article.doi``, caso o artigo não tenha o atributo ``doi``,
+        retorna ``None``.
+        """
+
+        for doi in self.doi_with_lang:
+            if doi.language == lang:
+                return doi.doi
+
+        return self.doi
 
     @classmethod
     def pre_save(cls, sender, document, **kwargs):

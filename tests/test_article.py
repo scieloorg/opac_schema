@@ -433,3 +433,88 @@ class TestArticleModel(BaseTestCase):
         article_doc = Article(**article_data)
         article_doc.save()
         self.assertTrue(article_doc.related_articles)
+
+    def test_if_possible_set_translated_doi_attribute(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        translated_doi = [
+            {
+                "doi": "10.1590/S0103-50532006000200015",
+                "language": "en"
+            },
+            {
+                "doi": "10.1590/S0103-5053200600020098983",
+                "language": "es"
+            },
+            {
+                "doi": "10.1590/S0103-50532006000200015",
+                "language": "pt"
+            },
+            {
+                "doi": "10.1590/S0103-60532706000706012",
+                "language": "uk"
+            },
+        ]
+
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'display_full_text': False,
+            'translated_doi': translated_doi,
+        }
+
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertTrue(article_doc.translated_doi)
+
+    def test_use_of_get_doi_by_lang_on_article(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        translated_doi = [
+            {
+                "doi": "10.1590/S0103-50532006000200015",
+                "language": "en"
+            },
+            {
+                "doi": "10.1590/S0103-5053200600020098983",
+                "language": "es"
+            },
+            {
+                "doi": "10.1590/S0103-50532006000200015",
+                "language": "pt"
+            },
+            {
+                "doi": "10.1590/S0103-60532706000706012",
+                "language": "uk"
+            },
+        ]
+
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'display_full_text': False,
+            'translated_doi': translated_doi,
+        }
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertEqual(article_doc.get_doi_by_lang(
+            'en'), "10.1590/S0103-50532006000200015")
+        self.assertEqual(article_doc.get_doi_by_lang(
+            'uk'), "10.1590/S0103-60532706000706012")
+        self.assertEqual(article_doc.get_doi_by_lang(
+            'pt'), "10.1590/S0103-50532006000200015")
+        self.assertEqual(article_doc.get_doi_by_lang(
+            'bla'), None)
+
