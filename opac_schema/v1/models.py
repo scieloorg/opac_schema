@@ -276,12 +276,12 @@ class TranslatedSection(EmbeddedDocument):
         return self.name
 
 
-class TranslatedDOI(EmbeddedDocument):
+class DOIWithLang(EmbeddedDocument):
     doi = StringField()
     language = StringField()
 
     meta = {
-        'collection': 'translated_doi'
+        'collection': 'doi_with_lang'
     }
 
     def __unicode__(self):
@@ -679,7 +679,7 @@ class Article(Document):
     is_aop = BooleanField()
     order = IntField()
     doi = StringField()
-    translated_doi = EmbeddedDocumentListField(TranslatedDOI)
+    doi_with_lang = EmbeddedDocumentListField(DOIWithLang)
     pid = StringField()
     aop_pid = StringField()
     languages = ListField(field=StringField())
@@ -808,7 +808,7 @@ class Article(Document):
         retorna ``None``.
         """
 
-        for doi in self.translated_doi:
+        for doi in self.doi_with_lang:
             if doi.language == lang:
                 return doi.doi
 
