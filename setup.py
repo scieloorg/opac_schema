@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name="Opac Schema",
-    version='2.62',
+    version='2.65',
     description="Schema of SciELO OPAC",
     author="SciELO",
     author_email="dev@scielo.org",
@@ -20,7 +20,7 @@ setup(
     classifiers=[],
     install_requires=[
         "blinker",
-        "mongoengine<0.20",
+        "mongoengine",
         "python-slugify",
         "legendarium",
     ],

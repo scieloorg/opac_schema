@@ -434,11 +434,11 @@ class TestArticleModel(BaseTestCase):
         article_doc.save()
         self.assertTrue(article_doc.related_articles)
 
-    def test_if_possible_set_translated_doi_attribute(self):
+    def test_if_possible_set_doi_with_lang_attribute(self):
         journal_doc = self._create_dummy_journal()
         issue_doc = self._create_dummy_issue(journal_doc)
 
-        translated_doi = [
+        doi_with_lang = [
             {
                 "doi": "10.1590/S0103-50532006000200015",
                 "language": "en"
@@ -466,18 +466,18 @@ class TestArticleModel(BaseTestCase):
             'order': 1111,
             'pid': "S0101-02022019000300123",
             'display_full_text': False,
-            'translated_doi': translated_doi,
+            'doi_with_lang': doi_with_lang,
         }
 
         article_doc = Article(**article_data)
         article_doc.save()
-        self.assertTrue(article_doc.translated_doi)
+        self.assertTrue(article_doc.doi_with_lang)
 
     def test_use_of_get_doi_by_lang_on_article(self):
         journal_doc = self._create_dummy_journal()
         issue_doc = self._create_dummy_issue(journal_doc)
 
-        translated_doi = [
+        doi_with_lang = [
             {
                 "doi": "10.1590/S0103-50532006000200015",
                 "language": "en"
@@ -505,7 +505,7 @@ class TestArticleModel(BaseTestCase):
             'order': 1111,
             'pid': "S0101-02022019000300123",
             'display_full_text': False,
-            'translated_doi': translated_doi,
+            'doi_with_lang': doi_with_lang,
         }
         article_doc = Article(**article_data)
         article_doc.save()
@@ -518,3 +518,40 @@ class TestArticleModel(BaseTestCase):
         self.assertEqual(article_doc.get_doi_by_lang(
             'bla'), None)
 
+    def test_if_possible_set_mat_suppl_lang_attribute(self):
+        journal_doc = self._create_dummy_journal()
+        issue_doc = self._create_dummy_issue(journal_doc)
+
+        mat_suppl = [
+            {
+                "ref_id": "suppl01",
+                "language": "10.1590/S0103-50532006000200001",
+                "url": "https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d1.pdf",
+            },
+            {
+                "ref_id": "suppl02",
+                "language": "10.1590/S0103-505320060002000002",
+                "url": "https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d2.pdf",
+            },
+            {
+                "ref_id": "suppl03",
+                "language": "10.1590/S0103-50532006000200003",
+                "url": "https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d3.pdf",
+            },
+        ]
+
+        article_data = {
+            '_id': self.generate_uuid_32_string(),
+            'aid': self.generate_uuid_32_string(),
+            'is_public': True,
+            'journal': journal_doc,
+            'issue': issue_doc,
+            'order': 1111,
+            'pid': "S0101-02022019000300123",
+            'display_full_text': False,
+            'mat_suppl': mat_suppl,
+        }
+
+        article_doc = Article(**article_data)
+        article_doc.save()
+        self.assertTrue(article_doc.mat_suppl)
