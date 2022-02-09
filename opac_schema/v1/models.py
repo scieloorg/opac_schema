@@ -59,6 +59,7 @@ class Pages(Document):
     created_at = DateTimeField()
     updated_at = DateTimeField()
     slug_name = StringField()
+    is_draft = BooleanField(default=False)
 
     meta = {
         'collection': 'pages',
