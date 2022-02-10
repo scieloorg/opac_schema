@@ -219,6 +219,60 @@ class RelatedArticle(EmbeddedDocument):
     def __unicode__(self):
         return '%s - %s - %s' % (self.ref_id, self.doi, self.related_type)
 
+
+class MatSuppl(EmbeddedDocument):
+    """
+    Model responsible for store the suplementary material.
+
+    Attributes:
+
+    ref_id: String content the reference atribute on XML
+        See SPS doc: https://scielo.readthedocs.io/projects/scielo-publishing-schema/pt_BR/latest/tagset/elemento-supplementary-material.html
+    lang: String content the Crossref Id, if the article dont have DOI use the
+    ``ref_id``
+    url: URL for the supplementary material on DSM
+    filename: Name of file to search by.
+
+    Example of this data in XML:
+
+    <supplementary-material id="suppl01" mimetype="application"mime-subtype="pdf" xlink:href="https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d3.pdf"/>
+
+    Example of this model:
+
+        "mat_suppl" : [
+            {
+                "ref_id": "suppl01",
+                "lang" : "10.1590/S0103-50532006000200001",
+                "url" : "https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d1.pdf"
+                "filename": "suppl01.pdf"
+            },
+            {
+                "ref_id": "suppl02",
+                "lang" : "10.1590/S0103-505320060002000002",
+                "url" : "https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d2.pdf"
+                "filename": "suppl02.pdf"
+            },
+            {
+                "ref_id": "suppl03",
+                "lang" : "10.1590/S0103-50532006000200003",
+                "url" : "https://minio.scielo.br/documentstore/2237-9622/d6DyD7CHXbpTJbLq7NQQNdq/5d88e2211c5357e2a9d8caeac2170f4f3d1305d3.pdf
+                "filename": "suppl03.pdf"
+            },
+        ]
+    """
+    ref_id = StringField()
+    url = StringField()
+    lang = StringField()
+    filename = StringField()
+
+    meta = {
+        'collection': 'mat_suppl'
+    }
+
+    def __unicode__(self):
+        return '%s - %s - %s' % (self.ref_id, self.url, self.filename, self.lang)
+
+
 class Abstract(EmbeddedDocument):
     language = StringField()
     text = StringField()
@@ -681,6 +735,7 @@ class Article(Document):
     order = IntField()
     doi = StringField()
     doi_with_lang = EmbeddedDocumentListField(DOIWithLang)
+    mat_suppl = EmbeddedDocumentListField(MatSuppl)
     pid = StringField()
     aop_pid = StringField()
     languages = ListField(field=StringField())
