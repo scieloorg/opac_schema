@@ -270,7 +270,7 @@ class MatSuppl(EmbeddedDocument):
     }
 
     def __unicode__(self):
-        return '%s - %s - %s' % (self.ref_id, self.url, self.filename, self.lang)
+        return '%s - %s - %s - %s' % (self.ref_id, self.url, self.filename, self.lang)
 
 
 class Abstract(EmbeddedDocument):
