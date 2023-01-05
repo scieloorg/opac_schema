@@ -915,18 +915,20 @@ class Article(Document):
 
         csl-data: https://github.com/citation-style-language/schema/blob/master/schemas/input/csl-data.json
         csl-citation: https://github.com/citation-style-language/schema/blob/master/schemas/input/csl-citation.json
+
+        Documentation about the model: https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings 
         """
         return [
             {
                 "id": self._id,
                 "DOI": self.doi,
-                "URL": "http://dx.doi.org/10.1371/%s" % self.doi,
+                "URL": "http://dx.doi.org/%s" % self.doi,
                 "ISSN": self.journal.scielo_issn,
                 "author": [
                     {"family": author.split(',')[0].strip(), "given": author.split(',')[1].strip()} for author in self.authors
                 ],
-                "container-title": "Scientific Electronic Library Online",
-                "container-title-short": "SciELO",
+                "container-title": self.journal.title,
+                "container-title-short": self.journal.short_title,
                 "issue": self.issue.legend,
                 "issued": {
                     "date-parts": [
@@ -939,7 +941,6 @@ class Article(Document):
                 "page": self.elocation,
                 "publisher": self.journal.publisher_name,
                 "title": self.title,
-                "title-short": self.title,
                 "type": self.type,
                 "volume": self.issue.volume
             }
