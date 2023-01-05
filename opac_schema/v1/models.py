@@ -917,6 +917,8 @@ class Article(Document):
         csl-citation: https://github.com/citation-style-language/schema/blob/master/schemas/input/csl-citation.json
 
         Documentation about the model: https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings 
+
+        IMPORTANT: When there are no authors, an empty list is maintained and when there is no comma, all terms from the auto's name are placed for ``family`` and ``given`` name.
         """
         return [
             {
@@ -925,7 +927,7 @@ class Article(Document):
                 "URL": "http://dx.doi.org/%s" % self.doi,
                 "ISSN": self.journal.scielo_issn,
                 "author": [
-                    {"family": author.split(',')[0].strip(), "given": author.split(',')[1].strip()} for author in self.authors
+                    {"family": author.split(',')[0].strip(), "given": author.split(',')[-1].strip()} for author in self.authors
                 ],
                 "container-title": self.journal.title,
                 "container-title-short": self.journal.short_title,
@@ -941,7 +943,7 @@ class Article(Document):
                 "page": self.elocation,
                 "publisher": self.journal.publisher_name,
                 "title": self.title,
-                "type": self.type,
+                # "type": self.type, This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
                 "volume": self.issue.volume
             }
         ]
