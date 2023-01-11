@@ -590,10 +590,8 @@ class TestArticleModel(BaseTestCase):
 
         article_doc = Article(**article_data)
         article_doc.save()
-
-        self.assertEqual(article_doc.csl_json, [{"id": "2918f62938de499ba0af74932d0fbee5", "DOI": "10.1590/2175-8239-JBN-2020-0050", "URL": "http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050", "ISSN": "2179-975X", "author": [{"family": "Miola", "given": "Brígida"}, {"family": "Frota", "given": "Maria Myrian Melo"}, {"family": "Oliveira", "given": "André Gadelha de"}, {"family": "Uchôa", "given": "Kênio Monteles"}, {
-                         "family": "Leandro Filho", "given": "Francisco de Assis"}], "container-title": "Acta Amazonica", "container-title-short": "Acta Amaz.", "issue": "Acta Amaz., 2018 123(9999)", "issued": {"date-parts": [[2018, 9]]}, "page": "@location", "publisher": "Instituto Nacional de Pesquisas da Amazônia", "title": "Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome", "volume": "123"}])
-
+        
+        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [{'family': 'Miola', 'given': 'Brígida'}, {'family': 'Frota', 'given': 'Maria Myrian Melo'}, {'family': 'Oliveira', 'given': 'André Gadelha de'}, {'family': 'Uchôa', 'given': 'Kênio Monteles'}, {'family': 'Leandro Filho', 'given': 'Francisco de Assis'}], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'type': 'case-report', 'volume': '123'}])
 
     def test_if_csl_json_property_return_correct_without_common_on_authors(self):
         journal_doc = self._create_dummy_journal()
@@ -620,8 +618,8 @@ class TestArticleModel(BaseTestCase):
         }
         
         article_doc = Article(**article_data)
-
-        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [{'family': 'Miola Brígida', 'given': 'Miola Brígida'}, {'family': 'Frota Maria Myrian Melo', 'given': 'Frota Maria Myrian Melo'}, {'family': 'Oliveira André Gadelha de', 'given': 'Oliveira André Gadelha de'}, {'family': 'Uchôa Kênio Monteles', 'given': 'Uchôa Kênio Monteles'}, {'family': 'Leandro Filho Francisco de Assis', 'given': 'Leandro Filho Francisco de Assis'}], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'volume': '123'}])
+        
+        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [{'family': 'Miola Brígida', 'given': 'Miola Brígida'}, {'family': 'Frota Maria Myrian Melo', 'given': 'Frota Maria Myrian Melo'}, {'family': 'Oliveira André Gadelha de', 'given': 'Oliveira André Gadelha de'}, {'family': 'Uchôa Kênio Monteles', 'given': 'Uchôa Kênio Monteles'}, {'family': 'Leandro Filho Francisco de Assis', 'given': 'Leandro Filho Francisco de Assis'}], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'type': 'case-report', 'volume': '123'}])
 
     def test_if_csl_json_property_return_correct_without_authors(self):
         journal_doc = self._create_dummy_journal()
@@ -642,8 +640,8 @@ class TestArticleModel(BaseTestCase):
         }
         
         article_doc = Article(**article_data)
-
-        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'volume': '123'}])
+        
+        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'type': 'case-report', 'volume': '123'}])
 
     def test_if_csl_json_property_return_correct_with_empty_authors(self):
         journal_doc = self._create_dummy_journal()
@@ -664,5 +662,5 @@ class TestArticleModel(BaseTestCase):
         }
         
         article_doc = Article(**article_data)
-
-        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [{'family': '', 'given': ''}, {'family': '', 'given': ''}], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'volume': '123'}])
+        
+        self.assertEqual(article_doc.csl_json, [{'id': '2918f62938de499ba0af74932d0fbee5', 'DOI': '10.1590/2175-8239-JBN-2020-0050', 'URL': 'http://dx.doi.org/10.1590/2175-8239-JBN-2020-0050', 'ISSN': '2179-975X', 'author': [{'family': '', 'given': ''}, {'family': '', 'given': ''}], 'container-title': 'Acta Amazonica', 'container-title-short': 'Acta Amaz.', 'issue': 'Acta Amaz., 2018 123(9999)', 'issued': {'date-parts': [[2018, 9]]}, 'page': '@location', 'publisher': 'Instituto Nacional de Pesquisas da Amazônia', 'title': 'Nephrotic syndrome associated with primary atypical hemolytic uremic syndrome', 'type': 'case-report', 'volume': '123'}])
