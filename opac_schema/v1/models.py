@@ -920,6 +920,11 @@ class Article(Document):
 
         IMPORTANT: When there are no authors, an empty list is maintained and when there is no comma, all terms from the auto's name are placed for ``family`` and ``given`` name.
         """
+        month = self.issue.start_month if self.issue.start_month in [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] else None
+
+        data_parts = [self.issue.year, month] if month else [self.issue.year]
+
         return [
             {
                 "id": self._id,
@@ -934,16 +939,13 @@ class Article(Document):
                 "issue": self.issue.legend,
                 "issued": {
                     "date-parts": [
-                        [
-                            self.issue.year,
-                            self.issue.start_month
-                        ]
+                        data_parts
                     ]
                 },
                 "page": self.elocation,
                 "publisher": self.journal.publisher_name,
                 "title": self.title,
-                # "type": self.type, This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
+                "type": self.type,  # This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
                 "volume": self.issue.volume
             }
         ]
