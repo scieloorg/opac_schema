@@ -929,7 +929,7 @@ class Article(Document):
             {
                 "id": self._id,
                 "DOI": self.doi,
-                "URL": "http://dx.doi.org/%s" % self.doi,
+                "URL": "https://doi.org/%s" % self.doi,
                 "ISSN": self.journal.scielo_issn,
                 "author": [
                     {"family": author.split(',')[0].strip(), "given": author.split(',')[-1].strip()} for author in self.authors
@@ -945,7 +945,7 @@ class Article(Document):
                 "page": self.elocation,
                 "publisher": self.journal.publisher_name,
                 "title": self.title,
-                "type": self.type,  # This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
+                "type": "article-journal",  # This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
                 "volume": self.issue.volume
             }
         ]
