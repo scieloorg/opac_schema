@@ -907,8 +907,7 @@ class Article(Document):
     def url(self):
         return self.url_segment
 
-    @property
-    def csl_json(self):
+    def csl_json(self, site_domain="https://www.scielo.br"):
         """
         This method return a CSL-JSON, based on CSL(Citation Style Language) schema.
         Schema URL: https://github.com/citation-style-language/schema
@@ -929,7 +928,7 @@ class Article(Document):
             {
                 "id": self._id,
                 "DOI": self.doi,
-                "URL": "https://doi.org/%s" % self.doi,
+                "URL": "https://doi.org/%s" % self.doi if self.doi else "%s/j/%s/a/%s/" % (site_domain, self.journal.acronym, self.aid),
                 "ISSN": self.journal.scielo_issn,
                 "author": [
                     {"family": author.split(',')[0].strip(), "given": author.split(',')[-1].strip()} for author in self.authors
