@@ -595,7 +595,6 @@ class Journal(Document):
 
         return URLegendarium(**leg_dict).url_journal
 
-
     @property
     def url_next_journal(self):
         url_next_journal = ""
@@ -604,7 +603,8 @@ class Journal(Document):
                 title_slug=slugify(self.next_title)
             ).first()
             if next_journal:
-                url_next_journal = URLegendarium(**{'acron': next_journal.acronym}).get_journal_seg()
+                url_next_journal = URLegendarium(
+                    **{'acron': next_journal.acronym}).get_journal_seg()
 
         return url_next_journal
 
@@ -616,7 +616,8 @@ class Journal(Document):
                 title_slug=slugify(self.previous_journal_ref)
             ).first()
             if previous_journal:
-                url_previous_journal = URLegendarium(**{'acron': previous_journal.acronym}).get_journal_seg()
+                url_previous_journal = URLegendarium(
+                    **{'acron': previous_journal.acronym}).get_journal_seg()
 
         return url_previous_journal
 
@@ -905,6 +906,48 @@ class Article(Document):
     @property
     def url(self):
         return self.url_segment
+
+    def csl_json(self, site_domain="https://www.scielo.br"):
+        """
+        This method return a CSL-JSON, based on CSL(Citation Style Language) schema.
+        Schema URL: https://github.com/citation-style-language/schema
+
+        csl-data: https://github.com/citation-style-language/schema/blob/master/schemas/input/csl-data.json
+        csl-citation: https://github.com/citation-style-language/schema/blob/master/schemas/input/csl-citation.json
+
+        Documentation about the model: https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings 
+
+        IMPORTANT: When there are no authors, an empty list is maintained and when there is no comma, all terms from the auto's name are placed for ``family`` and ``given`` name.
+        """
+        month = self.issue.start_month if self.issue.start_month in [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] else None
+
+        data_parts = [self.issue.year, month] if month else [self.issue.year]
+
+        return [
+            {
+                "id": self._id,
+                "DOI": self.doi,
+                "URL": "https://doi.org/%s" % self.doi if self.doi else "%s/j/%s/a/%s/" % (site_domain, self.journal.acronym, self.aid),
+                "ISSN": self.journal.scielo_issn,
+                "author": [
+                    {"family": author.split(',')[0].strip(), "given": author.split(',')[-1].strip()} for author in self.authors
+                ],
+                "container-title": self.journal.title,
+                "container-title-short": self.journal.short_title,
+                "issue": self.issue.legend,
+                "issued": {
+                    "date-parts": [
+                        data_parts
+                    ]
+                },
+                "page": self.elocation,
+                "publisher": self.journal.publisher_name,
+                "title": self.title,
+                "type": "article-journal",  # This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
+                "volume": self.issue.volume
+            }
+        ]
 
 
 signals.pre_save.connect(Article.pre_save, sender=Article)
