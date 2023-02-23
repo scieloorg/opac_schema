@@ -924,6 +924,15 @@ class Article(Document):
 
         data_parts = [self.issue.year, month] if month else [self.issue.year]
 
+        fpage_lpage = [] 
+        if self.fpage != '' and self.fpage: 
+            fpage_lpage.append(self.fpage)
+
+        if self.lpage != '' and self.lpage:
+            fpage_lpage.append(self.lpage)
+        
+        page = self.elocation if self.elocation else "-".join(fpage_lpage)
+        
         return [
             {
                 "id": self._id,
@@ -941,7 +950,7 @@ class Article(Document):
                         data_parts
                     ]
                 },
-                "page": self.elocation,
+                "page": page,
                 "publisher": self.journal.publisher_name,
                 "title": self.title,
                 "type": "article-journal",  # This must in future equalize with https://github.com/scieloorg/scielo_publishing_schema/blob/master/docs/source/tagset/elemento-article.rst and https://github.com/citation-style-language/schema/wiki/Data-Model-and-Mappings
