@@ -65,6 +65,6 @@ class TestIssueModel(BaseTestCase):
 
         # then
         the_exception = save_model_exc.exception
-        expected_error_msg = u'Year or Volume or Year must exists to form URL Issue Segment'
+        expected_error_msg = u'Year or Volume or Number or Supplement must exist to form URL Issue Segment'
         self.assertEqual(expected_error_msg, str(the_exception))
         self.assertEqual(0, Issue.objects.all().count())

@@ -944,7 +944,7 @@ class Article(Document):
                 ],
                 "container-title": self.journal.title,
                 "container-title-short": self.journal.short_title,
-                "issue": self.issue.legend,
+                "issue": self.issue.number if self.issue.number else "",
                 "issued": {
                     "date-parts": [
                         data_parts
