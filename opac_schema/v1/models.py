@@ -974,7 +974,7 @@ class PressRelease(Document):
     content = StringField(required=True)
     doi = StringField(max_length=256)
     url = URLField(required=True)
-
+    image_url = URLField(required=False)
     publication_date = DateTimeField(required=True)
 
     created = DateTimeField()
