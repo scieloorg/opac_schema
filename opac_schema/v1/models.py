@@ -793,6 +793,8 @@ class Article(Document):
             'scielo_pids.v2',
             'scielo_pids.v3',
             'scielo_pids.other',
+            'publication_date',
+            'updated',
         ]
     }
 
