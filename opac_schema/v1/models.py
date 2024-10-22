@@ -495,6 +495,7 @@ class Journal(Document):
     is_public = BooleanField(required=True, default=True)
     unpublish_reason = StringField()
     url_segment = StringField()
+    old_information_page = BooleanField(default=True)
 
     metrics = EmbeddedDocumentField(JounalMetrics)
     scimago_id = StringField()
