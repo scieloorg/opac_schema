@@ -184,7 +184,13 @@ class Collab(EmbeddedDocument):
         "collab" : [
             {
                 "name" : "Institution",
-            }
+            },
+            {
+                "name" : "Institution 2",
+            },
+            {
+                "name" : "Institution 3",
+            },            
         ]
 
     """
