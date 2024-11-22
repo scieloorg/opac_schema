@@ -176,6 +176,33 @@ class AuthorMeta(EmbeddedDocument):
     def __unicode__(self):
         return '%s - %s - %s' % (self.name, self.affiliation, self.orcid)
 
+class Collab(EmbeddedDocument):
+    """
+    Model responsible for collab.
+
+    Example of this model:
+        "collab" : [
+            {
+                "name" : "Institution",
+            },
+            {
+                "name" : "Institution 2",
+            },
+            {
+                "name" : "Institution 3",
+            },            
+        ]
+
+    """
+    name = StringField()
+
+    meta = {
+        'collection': 'collab'
+    }
+
+    def __unicode__(self):
+        return '%s' % (self.name)
+
 
 class RelatedArticle(EmbeddedDocument):
     """
@@ -772,6 +799,7 @@ class Article(Document):
     display_full_text = BooleanField(required=True, default=True)
 
     related_articles = EmbeddedDocumentListField(RelatedArticle)
+    collabs = EmbeddedDocumentListField(Collab)
 
     meta = {
         'collection': 'article',
