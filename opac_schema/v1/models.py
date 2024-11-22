@@ -211,6 +211,7 @@ class RelatedArticle(EmbeddedDocument):
     ref_id = StringField()
     doi = StringField()
     related_type = StringField()
+    href = StringField()
 
     meta = {
         'collection': 'related_articles'
