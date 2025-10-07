@@ -55,6 +55,10 @@ class Pages(Document):
     content = StringField(required=True)
     journal = StringField()
     description = StringField()
+    page_type = StringField(choices=("main_about", "about", "journal", "free"))
+    order = IntField(default=0)
+    parent_page = ReferenceField("Pages", reverse_delete_rule=PULL, required=False)
+    child_pages = ListField(ReferenceField("Pages", reverse_delete_rule=PULL), default=list, required=False)
     # campos de controle:
     created_at = DateTimeField()
     updated_at = DateTimeField()
@@ -79,6 +83,15 @@ class Pages(Document):
         self.updated_at = datetime.now()
         if not self.slug_name:
             self.slug_name = slugify(self.name)
+
+        # garante que ela esteja em child_pages do pai
+        if self.parent_page:
+            parent = self.page_type
+            # evita referência a si mesmo e duplicação
+            if parent.id != self.id and self not in (parent.child_pages or []):
+                parent.child_pages  = (parent.child_pages or []) + [self]
+                super(Pages, self).save()
+
         return super(Pages, self).save(*args, **kwargs)
 
 
