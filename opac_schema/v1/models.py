@@ -55,10 +55,28 @@ class Pages(Document):
     content = StringField(required=True)
     journal = StringField()
     description = StringField()
-    page_type = StringField(choices=("main_about", "about", "journal", "free"))
-    order = IntField(default=0)
-    parent_page = ReferenceField("Pages", reverse_delete_rule=PULL, required=False)
-    child_pages = ListField(ReferenceField("Pages", reverse_delete_rule=PULL), default=list, required=False)
+    page_type = StringField(
+        choices=("main_about", "about", "journal", "free"), 
+        default='free', 
+        required=False,
+        help_text="Categoria da página para organização e navegação"
+    )
+    order = IntField(
+        default=0,
+        help_text="Posição para exibição na página; menor valor aparece antes."
+    )
+    parent_page = ReferenceField(
+        "Pages", 
+        reverse_delete_rule=PULL, 
+        required=False,
+        help_text="Página pai (opcional). Define hierarquia"
+    )
+    child_pages = ListField(
+        ReferenceField("Pages", reverse_delete_rule=PULL),
+        default=list, 
+        required=False,
+        help_text="Subpáginas (opcional). Mantida por conveniência ao definir parent_page."
+    )
     # campos de controle:
     created_at = DateTimeField()
     updated_at = DateTimeField()
