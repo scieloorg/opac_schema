@@ -101,16 +101,17 @@ class Pages(Document):
         self.updated_at = datetime.now()
         if not self.slug_name:
             self.slug_name = slugify(self.name)
+        
+        # salva primeiro para garantir que self tem _id
+        result = super(Pages, self).save(*args, **kwargs)
 
         # garante que ela esteja em child_pages do pai
         if self.parent_page:
-            parent = self.page_type
-            # evita referência a si mesmo e duplicação
+            parent = self.parent_page
             if parent.id != self.id and self not in (parent.child_pages or []):
-                parent.child_pages  = (parent.child_pages or []) + [self]
-                super(Pages, self).save()
+                parent.update(add_to_set__child_pages=self)
 
-        return super(Pages, self).save(*args, **kwargs)
+        return result
 
 
 class UseLicense(EmbeddedDocument):
