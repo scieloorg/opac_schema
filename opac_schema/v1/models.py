@@ -613,7 +613,7 @@ class Journal(Document):
                 return dict_mission['en']
             except KeyError:
                 if len(dict_mission) > 0:
-                    return next(dict_mission.values())
+                    return next(iter(dict_mission.values()), None)
 
     @property
     def url(self):
