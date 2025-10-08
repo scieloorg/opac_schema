@@ -57,7 +57,6 @@ class Pages(Document):
     description = StringField()
     page_type = StringField(
         choices=("about", "journal", "free"), 
-        default='free', 
         required=False,
         help_text="Categoria da página para organização e navegação"
     )
