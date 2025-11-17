@@ -17,6 +17,7 @@ from mongoengine import (
     # reverse_delete_rule:
     PULL,
     CASCADE,
+    NULLIFY,
     # signals
     signals,
 )
@@ -56,7 +57,7 @@ class Pages(Document):
     journal = StringField()
     description = StringField()
     page_type = StringField(
-        choices=("about", "journal", "free"), 
+        choices=("detail_about", "about", "journal", "free"), 
         required=False,
         help_text="Categoria da página para organização e navegação"
     )
@@ -66,7 +67,7 @@ class Pages(Document):
     )
     parent_page = ReferenceField(
         "Pages", 
-        reverse_delete_rule=PULL, 
+        reverse_delete_rule=NULLIFY, 
         required=False,
         help_text="Página pai (opcional). Define hierarquia"
     )
@@ -99,18 +100,62 @@ class Pages(Document):
             self.created_at = datetime.now()
         self.updated_at = datetime.now()
         if not self.slug_name:
-            self.slug_name = slugify(self.name)
+            self.set_slug()
+        
+        old_parent, old_children = self.get_pages_parent_and_children()
         
         # salva primeiro para garantir que self tem _id
         result = super(Pages, self).save(*args, **kwargs)
+        
+        self.remove_self_from_old_parent(old_parent)
+        self.add_self_to_new_parent()
+        current_children = set(self.child_pages or [])
+        self.remove_parent_from_removed_children(old_children, current_children)
+        self.set_parent_for_current_children(current_children)
+        
+        return result
 
-        # garante que ela esteja em child_pages do pai
+    def get_pages_parent_and_children(self):
+        """Retorna documento pai antigo e filhos antigos se existirem."""
+        old_parent = None
+        old_children = set()
+        
+        if self.pk:
+            try:
+                old_doc = Pages.objects.get(pk=self.pk)
+                old_parent = old_doc.parent_page
+                old_children = set(old_doc.child_pages or [])
+            except Pages.DoesNotExist:
+                pass
+        
+        return old_parent, old_children
+
+    def remove_self_from_old_parent(self, old_parent):
+        if old_parent and old_parent != self.parent_page:
+            old_parent.update(pull__child_pages=self)
+
+    def add_self_to_new_parent(self):
         if self.parent_page:
             parent = self.parent_page
             if parent.id != self.id and self not in (parent.child_pages or []):
                 parent.update(add_to_set__child_pages=self)
 
-        return result
+    def remove_parent_from_removed_children(self, old_children, current_children):
+        removed_children = old_children - current_children
+        for child in removed_children:
+            if child.parent_page == self:
+                child.update(unset__parent_page=True)
+
+    def set_parent_for_current_children(self, current_children):
+        for child in current_children:
+            if child.id != self.id and child.parent_page != self:
+                child.update(set__parent_page=self)
+
+    def set_slug(self):
+        if not self.parent_page:
+            self.slug_name = slugify(self.name)
+            return
+        self.slug_name = f"{self.parent_page.slug_name}/{slugify(self.name)}"
 
 
 class UseLicense(EmbeddedDocument):
