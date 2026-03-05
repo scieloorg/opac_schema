@@ -1,4 +1,5 @@
 # coding: utf-8
+import time
 from mongoengine import ValidationError
 from opac_schema.v1.models import CrossmarkPage, Journal
 from .base import BaseTestCase
@@ -181,7 +182,6 @@ class TestCrossmarkPageModel(BaseTestCase):
 
     def test_crossmarkpage_updated_at_changes_on_update(self):
         # given
-        import time
         journal = self._make_journal()
         crossmark_data = {
             'doi': '10.1590/crossmark-policy',
