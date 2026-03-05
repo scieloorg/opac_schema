@@ -1066,3 +1066,23 @@ class AuditLogEntry(Document):
         if not self.created_at:
             self.created_at = datetime.now()
         return super(AuditLogEntry, self).save(*args, **kwargs)
+
+
+class CrossrefDOI(Document):
+    doi = StringField(required=True)
+    is_doi_active = BooleanField(required=True, default=True)
+    language = StringField(max_length=5, required=True)
+    journal = ReferenceField(Journal, reverse_delete_rule=CASCADE, required=True)
+
+    meta = {
+        'collection': 'crossref_doi',
+        'indexes': [
+            'doi',
+            'is_doi_active',
+            'language',
+            'journal',
+        ]
+    }
+
+    def __unicode__(self):
+        return self.doi if self.doi else 'CrossrefDOI: %s' % self.id
