@@ -1072,6 +1072,8 @@ class CrossmarkPage(Document):
     doi = StringField(required=True)
     is_doi_active = BooleanField(required=True, default=True)
     language = StringField(max_length=5, required=True)
+    url = StringField()
+    text = StringField()
     journal = ReferenceField(Journal, reverse_delete_rule=CASCADE, required=True)
     created_at = DateTimeField()
     updated_at = DateTimeField()

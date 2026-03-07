@@ -199,3 +199,69 @@ class TestCrossmarkPageModel(BaseTestCase):
 
         # then
         self.assertGreater(crossmark_doc.updated_at, updated_at_first)
+
+    def test_create_crossmarkpage_with_url(self):
+        # given
+        journal = self._make_journal()
+        crossmark_data = {
+            'doi': '10.1590/crossmark-policy',
+            'language': 'en',
+            'journal': journal,
+            'url': 'https://www.crossref.org/crossmark-policy',
+        }
+
+        # when
+        crossmark_doc = CrossmarkPage(**crossmark_data)
+        crossmark_doc.save()
+
+        # then
+        self.assertEqual('https://www.crossref.org/crossmark-policy', crossmark_doc.url)
+
+    def test_create_crossmarkpage_without_url(self):
+        # given
+        journal = self._make_journal()
+        crossmark_data = {
+            'doi': '10.1590/crossmark-policy',
+            'language': 'en',
+            'journal': journal,
+        }
+
+        # when
+        crossmark_doc = CrossmarkPage(**crossmark_data)
+        crossmark_doc.save()
+
+        # then
+        self.assertIsNone(crossmark_doc.url)
+
+    def test_create_crossmarkpage_with_text(self):
+        # given
+        journal = self._make_journal()
+        crossmark_data = {
+            'doi': '10.1590/crossmark-policy',
+            'language': 'en',
+            'journal': journal,
+            'text': 'This is the crossmark policy page content.',
+        }
+
+        # when
+        crossmark_doc = CrossmarkPage(**crossmark_data)
+        crossmark_doc.save()
+
+        # then
+        self.assertEqual('This is the crossmark policy page content.', crossmark_doc.text)
+
+    def test_create_crossmarkpage_without_text(self):
+        # given
+        journal = self._make_journal()
+        crossmark_data = {
+            'doi': '10.1590/crossmark-policy',
+            'language': 'en',
+            'journal': journal,
+        }
+
+        # when
+        crossmark_doc = CrossmarkPage(**crossmark_data)
+        crossmark_doc.save()
+
+        # then
+        self.assertIsNone(crossmark_doc.text)
