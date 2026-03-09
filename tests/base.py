@@ -1,7 +1,7 @@
 # coding: utf-8
 import uuid
 import unittest
-from mongoengine import connect
+from mongoengine import connect, disconnect
 import mongomock
 
 
@@ -10,7 +10,10 @@ class BaseTestCase(unittest.TestCase):
     model_class_to_delete = []
 
     def setUp(self):
-        self.connection = connect(db='mongotest', mongo_client_class=mongomock.MongoClient)
+        # Disconnect any existing connection first
+        disconnect()
+        # Use mongomock for testing
+        self.connection = connect(db='mongotest', host='mongomock://localhost')
         # workaroud to fix "drop database" that run only once:
         # https://github.com/mongomock/mongomock/issues/371
         if self.model_class_to_delete:
