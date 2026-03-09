@@ -266,7 +266,7 @@ class TestCrossmarkPageModel(BaseTestCase):
         # then
         self.assertIsNone(crossmark_doc.text)
 
-    def test_create_crossmarkpage_enabled_default_true(self):
+    def test_create_crossmarkpage_enabled_default_false(self):
         # given
         journal = self._make_journal()
         crossmark_data = {
@@ -280,7 +280,7 @@ class TestCrossmarkPageModel(BaseTestCase):
         crossmark_doc.save()
 
         # then
-        self.assertTrue(crossmark_doc.enabled)
+        self.assertFalse(crossmark_doc.enabled)
 
     def test_create_crossmarkpage_enabled_false(self):
         # given

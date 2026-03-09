@@ -1071,7 +1071,7 @@ class AuditLogEntry(Document):
 class CrossmarkPage(Document):
     doi = StringField(required=True)
     is_doi_active = BooleanField(required=True, default=True)
-    enabled = BooleanField(required=True, default=True)
+    enabled = BooleanField(required=True, default=False)
     language = StringField(max_length=5, required=True)
     url = StringField()
     text = StringField()
