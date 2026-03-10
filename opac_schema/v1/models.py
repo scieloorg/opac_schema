@@ -70,7 +70,7 @@ class Pages(Document):
     # campos de controle:
     created_at = DateTimeField()
     updated_at = DateTimeField()
-    slug_name = StringField()
+    slug_name = StringField(required=True)
     is_draft = BooleanField(default=False)
 
     meta = {
@@ -124,16 +124,12 @@ class Pages(Document):
 
     def set_slug(self):
         """Gera o slug hierárquico baseado no nome e pai."""
-        if not self.parent_page:
+        parent_page = self.parent_page
+        if not parent_page:
             self.slug_name = slugify(self.name)
             return
-        
-        parent_slug = self.parent_page.slug_name
-        if not parent_slug:
-            self.parent_page.set_slug()
-            self.parent_page.save()
-            parent_slug = self.parent_page.slug_name
-        
+
+        parent_slug = parent_page.slug_name
         self.slug_name = f"{parent_slug}/{slugify(self.name)}"
     
     def get_children(self):
