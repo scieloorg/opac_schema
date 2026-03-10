@@ -1,30 +1,26 @@
 # coding: utf-8
 from datetime import datetime
-from mongoengine import (
-    Document,
-    EmbeddedDocument,
-    # campos:
-    StringField,
-    IntField,
-    DateTimeField,
-    ListField,
-    EmbeddedDocumentField,
-    EmbeddedDocumentListField,
-    ReferenceField,
-    BooleanField,
-    URLField,
-    DictField,
-    # reverse_delete_rule:
-    PULL,
-    CASCADE,
-    NULLIFY,
-    # signals
-    signals,
-)
 
 from legendarium.formatter import short_format
 from legendarium.urlegendarium import URLegendarium
-
+from mongoengine import (  # campos:; reverse_delete_rule:; signals
+    CASCADE,
+    NULLIFY,
+    PULL,
+    BooleanField,
+    DateTimeField,
+    DictField,
+    Document,
+    EmbeddedDocument,
+    EmbeddedDocumentField,
+    EmbeddedDocumentListField,
+    IntField,
+    ListField,
+    ReferenceField,
+    StringField,
+    URLField,
+    signals,
+)
 from slugify import slugify
 
 
@@ -71,12 +67,6 @@ class Pages(Document):
         required=False,
         help_text="Página pai (opcional). Define hierarquia"
     )
-    child_pages = ListField(
-        ReferenceField("Pages", reverse_delete_rule=PULL),
-        default=list, 
-        required=False,
-        help_text="Subpáginas (opcional). Mantida por conveniência ao definir parent_page."
-    )
     # campos de controle:
     created_at = DateTimeField()
     updated_at = DateTimeField()
@@ -99,63 +89,74 @@ class Pages(Document):
         if not self.created_at:
             self.created_at = datetime.now()
         self.updated_at = datetime.now()
+        self.validate_no_circular_reference()
+        
         if not self.slug_name:
             self.set_slug()
         
-        old_parent, old_children = self.get_pages_parent_and_children()
-        
-        # salva primeiro para garantir que self tem _id
-        result = super(Pages, self).save(*args, **kwargs)
-        
-        self.remove_self_from_old_parent(old_parent)
-        self.add_self_to_new_parent()
-        current_children = set(self.child_pages or [])
-        self.remove_parent_from_removed_children(old_children, current_children)
-        self.set_parent_for_current_children(current_children)
-        
-        return result
+        return super(Pages, self).save(*args, **kwargs)
 
-    def get_pages_parent_and_children(self):
-        """Retorna documento pai antigo e filhos antigos se existirem."""
-        old_parent = None
-        old_children = set()
+    def validate_no_circular_reference(self):
+        """Valida que não há referência circular na hierarquia."""
+        if not self.parent_page:
+            return
         
-        if self.pk:
-            try:
-                old_doc = Pages.objects.get(pk=self.pk)
-                old_parent = old_doc.parent_page
-                old_children = set(old_doc.child_pages or [])
-            except Pages.DoesNotExist:
-                pass
+        if self.parent_page.id == self.id:
+            raise ValueError("Uma página não pode ser pai de si mesma")
         
-        return old_parent, old_children
-
-    def remove_self_from_old_parent(self, old_parent):
-        if old_parent and old_parent != self.parent_page:
-            old_parent.update(pull__child_pages=self)
-
-    def add_self_to_new_parent(self):
-        if self.parent_page:
-            parent = self.parent_page
-            if parent.id != self.id and self not in (parent.child_pages or []):
-                parent.update(add_to_set__child_pages=self)
-
-    def remove_parent_from_removed_children(self, old_children, current_children):
-        removed_children = old_children - current_children
-        for child in removed_children:
-            if child.parent_page == self:
-                child.update(unset__parent_page=True)
-
-    def set_parent_for_current_children(self, current_children):
-        for child in current_children:
-            if child.id != self.id and child.parent_page != self:
-                child.update(set__parent_page=self)
+        visited = {self.id}
+        current = self.parent_page
+        max_depth = 100
+        depth = 0
+        
+        while current and depth < max_depth:
+            if current.id in visited:
+                raise ValueError(
+                    f"Referência circular detectada: a página '{self.name}' "
+                    f"não pode ter '{current.name}' como pai pois criaria um ciclo"
+                )
+            visited.add(current.id)
+            current = current.parent_page
+            depth += 1
+        
+        if depth >= max_depth:
+            raise ValueError("Hierarquia de páginas muito profunda (máximo 100 níveis)")
 
     def set_slug(self):
+        """Gera o slug hierárquico baseado no nome e pai."""
         if not self.parent_page:
             self.slug_name = slugify(self.name)
             return
-        self.slug_name = f"{self.parent_page.slug_name}/{slugify(self.name)}"
+        
+        parent_slug = self.parent_page.slug_name
+        if not parent_slug:
+            self.parent_page.set_slug()
+            self.parent_page.save()
+            parent_slug = self.parent_page.slug_name
+        
+        self.slug_name = f"{parent_slug}/{slugify(self.name)}"
+    
+    def get_children(self):
+        """Retorna todas as páginas filhas desta página."""
+        return Pages.objects.filter(parent_page=self)
+    
+    def get_ancestors(self):
+        """Retorna lista de ancestrais (pai, avô, bisavô, etc) em ordem."""
+        ancestors = []
+        current = self.parent_page
+        while current:
+            ancestors.append(current)
+            current = current.parent_page
+        return ancestors
+    
+    def get_descendants(self):
+        """Retorna todas as páginas descendentes (filhos, netos, etc)."""
+        descendants = []
+        children = self.get_children()
+        for child in children:
+            descendants.append(child)
+            descendants.extend(child.get_descendants())
+        return descendants
 
 
 class UseLicense(EmbeddedDocument):
