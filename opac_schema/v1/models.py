@@ -1,29 +1,26 @@
 # coding: utf-8
 from datetime import datetime
-from mongoengine import (
-    Document,
-    EmbeddedDocument,
-    # campos:
-    StringField,
-    IntField,
-    DateTimeField,
-    ListField,
-    EmbeddedDocumentField,
-    EmbeddedDocumentListField,
-    ReferenceField,
-    BooleanField,
-    URLField,
-    DictField,
-    # reverse_delete_rule:
-    PULL,
-    CASCADE,
-    # signals
-    signals,
-)
 
 from legendarium.formatter import short_format
 from legendarium.urlegendarium import URLegendarium
-
+from mongoengine import (  # campos:; reverse_delete_rule:; signals
+    CASCADE,
+    NULLIFY,
+    PULL,
+    BooleanField,
+    DateTimeField,
+    DictField,
+    Document,
+    EmbeddedDocument,
+    EmbeddedDocumentField,
+    EmbeddedDocumentListField,
+    IntField,
+    ListField,
+    ReferenceField,
+    StringField,
+    URLField,
+    signals,
+)
 from slugify import slugify
 
 
@@ -55,10 +52,25 @@ class Pages(Document):
     content = StringField(required=True)
     journal = StringField()
     description = StringField()
+    page_type = StringField(
+        choices=("detail_about", "about", "journal", "free"), 
+        required=False,
+        help_text="Categoria da página para organização e navegação"
+    )
+    order = IntField(
+        default=0,
+        help_text="Posição para exibição na página; menor valor aparece antes."
+    )
+    parent_page = ReferenceField(
+        "Pages", 
+        reverse_delete_rule=NULLIFY, 
+        required=False,
+        help_text="Página pai (opcional). Define hierarquia"
+    )
     # campos de controle:
     created_at = DateTimeField()
     updated_at = DateTimeField()
-    slug_name = StringField()
+    slug_name = StringField(required=True)
     is_draft = BooleanField(default=False)
 
     meta = {
@@ -77,9 +89,70 @@ class Pages(Document):
         if not self.created_at:
             self.created_at = datetime.now()
         self.updated_at = datetime.now()
+        self.validate_no_circular_reference()
+        
         if not self.slug_name:
-            self.slug_name = slugify(self.name)
+            self.set_slug()
+        
         return super(Pages, self).save(*args, **kwargs)
+
+    def validate_no_circular_reference(self):
+        """Valida que não há referência circular na hierarquia."""
+        if not self.parent_page:
+            return
+        
+        if self.parent_page.id == self.id:
+            raise ValueError("Uma página não pode ser pai de si mesma")
+        
+        visited = {self.id}
+        current = self.parent_page
+        max_depth = 100
+        depth = 0
+        
+        while current and depth < max_depth:
+            if current.id in visited:
+                raise ValueError(
+                    f"Referência circular detectada: a página '{self.name}' "
+                    f"não pode ter '{current.name}' como pai pois criaria um ciclo"
+                )
+            visited.add(current.id)
+            current = current.parent_page
+            depth += 1
+        
+        if depth >= max_depth:
+            raise ValueError("Hierarquia de páginas muito profunda (máximo 100 níveis)")
+
+    def set_slug(self):
+        """Gera o slug hierárquico baseado no nome e pai."""
+        parent_page = self.parent_page
+        if not parent_page:
+            self.slug_name = slugify(self.name)
+            return
+
+        parent_slug = parent_page.slug_name
+        self.slug_name = f"{parent_slug}/{slugify(self.name)}"
+    
+    def get_children(self):
+        """Retorna todas as páginas filhas desta página."""
+        return Pages.objects.filter(parent_page=self)
+    
+    def get_ancestors(self):
+        """Retorna lista de ancestrais (pai, avô, bisavô, etc) em ordem."""
+        ancestors = []
+        current = self.parent_page
+        while current:
+            ancestors.append(current)
+            current = current.parent_page
+        return ancestors
+    
+    def get_descendants(self):
+        """Retorna todas as páginas descendentes (filhos, netos, etc)."""
+        descendants = []
+        children = self.get_children()
+        for child in children:
+            descendants.append(child)
+            descendants.extend(child.get_descendants())
+        return descendants
 
 
 class UseLicense(EmbeddedDocument):
