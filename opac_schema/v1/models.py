@@ -478,7 +478,7 @@ class JounalMetrics(EmbeddedDocument):
 
 class Sponsor(Document):
     _id = StringField(max_length=32, primary_key=True, required=True)
-    order = IntField(default=0, required=True, unique=True)
+    order = IntField(default=0, required=True)
     name = StringField(max_length=256, required=True, unique=True)
     url = URLField()
     logo_url = URLField()
@@ -686,7 +686,7 @@ class Journal(Document):
                 return dict_mission['en']
             except KeyError:
                 if len(dict_mission) > 0:
-                    return next(dict_mission.values())
+                    return next(iter(dict_mission.values()))
 
     @property
     def url(self):
@@ -1139,3 +1139,33 @@ class AuditLogEntry(Document):
         if not self.created_at:
             self.created_at = datetime.now()
         return super(AuditLogEntry, self).save(*args, **kwargs)
+
+
+class CrossmarkPage(Document):
+    doi = StringField(required=True)
+    is_doi_active = BooleanField(required=True, default=True)
+    language = StringField(max_length=5, required=True)
+    url = StringField()
+    text = StringField()
+    journal = ReferenceField(Journal, reverse_delete_rule=CASCADE, required=True)
+    created_at = DateTimeField()
+    updated_at = DateTimeField()
+
+    meta = {
+        'collection': 'crossmark_page',
+        'indexes': [
+            'doi',
+            'is_doi_active',
+            'language',
+            'journal',
+        ]
+    }
+
+    def __unicode__(self):
+        return self.doi if self.doi else 'CrossmarkPage: %s' % self.id
+
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+        return super(CrossmarkPage, self).save(*args, **kwargs)
